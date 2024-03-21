@@ -1,0 +1,7 @@
+1;Client=Pau;Date=12-03-2024 13:46:53;
+1;Products=Manzana,20.0€;
+1;Amount=20.8;
+2;Client=Luca;Date=12-03-2024 13:47:02;
+2;Products=Pera,7.0€;
+2;Products=Manzana,20.0€;
+2;Amount=28.080000000000002;

@@ -1,0 +1,32 @@
+-------Datos de la compra-------
+[
+Client			Pau
+Date			07-03-2024 10:54:15
+]
+-------Datos producto/s---------
+[]
+-------Precio total-------
+[
+Amount			0.0
+
+]______________________________________________
+
+-------Datos de la compra-------
+[
+Client			Pau
+Date			07-03-2024 10:55:35
+]
+-------Datos producto/s---------
+[
+Product:
+Name			Sandía
+PublicPrice		25.5
+WholesalerPrice		12.75
+Stock			4
+]
+-------Precio total-------
+[
+Amount			26.52
+
+]______________________________________________
+
