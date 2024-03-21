@@ -385,7 +385,7 @@ public class Shop {
                 System.out.println("Creating the file...");
                 file.createNewFile();
             }
-
+            // example commit
 
             for (Sale sale : sales) {
                 if (sale != null && !sale.isSaved()) {
