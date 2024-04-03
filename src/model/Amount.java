@@ -1,23 +1,58 @@
 package model;
 
 public class Amount {
-	private double value;
-    final private String currency = "€";
-	
-    public Amount(double value) {
-		super();
-		this.value = value;
-	}
+    private double value;
+    private final String currency = "€";
+    
+    public Amount(double newValue) {
+        this.value = newValue;
+    }
 
-	public double getValue() {
-		return value;
-	}
+    public Amount(Amount totalAmount) {
+        if (totalAmount != null) {
+            this.value = totalAmount.getValue();
+        } else {
+            this.value = 0.0;
+        }
+    }
 
-	public void setValue(double value) {
-		this.value = value;
-	}
+    public double getValue() {
+        return value;
+    }
 
-	public String getCurrency() {
-		return currency;
-	}    
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+    
+ 
+    public int getAmount() {
+        return (int) value;
+    }
+
+    public Amount add(Amount amount) {
+        if (amount != null) {
+            double newValue = this.value + amount.getValue();
+            return new Amount(newValue);
+        } else {
+            return new Amount(this.value);
+        }
+    }
+
+    public Amount multiply(double taxRate) {
+        double newValue = this.value * taxRate;
+        return new Amount(newValue);
+    }
+    
+    @Override
+    public String toString() {
+        return value + currency;
+    }
+
+    public void subtract(Amount amount) {
+    }
+
 }

@@ -3,8 +3,8 @@ package model;
 public class Product {
 	private int id;
 	private String name;
-	private double publicPrice;
-	private double wholesalerPrice;
+	private Amount publicPrice;
+	private Amount wholesalerPrice;
 	private boolean available;
 	private int stock;
 	private static int totalProducts;
@@ -15,8 +15,8 @@ public class Product {
 		super();
 		this.id = totalProducts + 1;
 		this.name = name;
-		this.wholesalerPrice = wholesalerPrice;
-		this.publicPrice = wholesalerPrice * 2;
+		this.wholesalerPrice = new Amount(wholesalerPrice);
+		this.publicPrice = new Amount(wholesalerPrice * 2);
 		this.available = available;
 		this.stock = stock;
 		totalProducts++;
@@ -44,19 +44,19 @@ public class Product {
 		this.name = name;
 	}
 
-	public double getPublicPrice() {
+	public Amount getPublicPrice() {
 		return publicPrice;
 	}
 
-	public void setPublicPrice(double publicPrice) {
+	public void setPublicPrice(Amount publicPrice) {
 		this.publicPrice = publicPrice;
 	}
 
-	public double getWholesalerPrice() {
+	public Amount getWholesalerPrice() {
 		return wholesalerPrice;
 	}
 
-	public void setWholesalerPrice(double wholesalerPrice) {
+	public void setWholesalerPrice(Amount wholesalerPrice) {
 		this.wholesalerPrice = wholesalerPrice;
 	}
 
@@ -85,6 +85,7 @@ public class Product {
 	}
 
 	public void expire() {
-		this.publicPrice = this.getPublicPrice() * EXPIRATION_RATE;
+	    double increasedPrice = this.publicPrice.getValue() * (1 + EXPIRATION_RATE);
+	    this.publicPrice.setValue(increasedPrice);
 	}
 }

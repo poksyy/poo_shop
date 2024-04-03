@@ -11,26 +11,34 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import model.Amount;
+import model.Client;
+import model.Employee;
 import model.Product;
 import model.Sale;
 
 public class Shop {
-	private static final String BOLD_TEXT = "\u001B[1m";
-	private static final String RESET_TEXT = "\u001B[0m";
+    private static final String BOLD_TEXT = "\u001B[1m";
+    private static final String RESET_TEXT = "\u001B[0m";
 
-	private double cash = 100.00;
-	final static double TAX_RATE = 1.04;
-	private DateTimeFormatter myFormatObj;
-	private int saleIdCounter = 1;
+    private Amount cash;
+    final static double TAX_RATE = 1.04;
+    private DateTimeFormatter myFormatObj;
+    private int saleIdCounter = 1;
 
-	ArrayList<Product> inventory = new ArrayList<>();
-	ArrayList<Sale> sales = new ArrayList<>();
-	private static Scanner sc = new Scanner(System.in);
+    ArrayList<Product> inventory = new ArrayList<>();
+    ArrayList<Sale> sales = new ArrayList<>();
+    private static Scanner sc = new Scanner(System.in);
 
+    public Shop() {
+        cash = new Amount(100.00);
+    }
+    
 	public static void main(String[] args) {
 		Shop shop = new Shop();
 		shop.loadInventory();
-
+		shop.initSession();
+		
 		int opcion = 0;
 		boolean exit = false;
 
@@ -74,8 +82,10 @@ public class Shop {
 				break;
 
 			case 6:
-				shop.sale();
-				break;
+			    sc.nextLine();
+			    shop.sale();
+			    break;
+
 
 			case 7:
 				shop.showSales();
@@ -147,7 +157,7 @@ public class Shop {
 	 * 1st Option: Show current total cash
 	 */
 	private void showCash() {
-		System.out.println("Current cash: " + cash);
+	    System.out.println(cash.toString());
 	}
 
 	/**
@@ -224,52 +234,58 @@ public class Shop {
 		}
 	}
 
+
 	/**
 	 * 6th Option: Make a sale of products to a client
 	 */
 	public void sale() {
-		String date = getCurrentDateTimeFormatted();
-		ArrayList<Product> products = new ArrayList<>();
-		int saleId = saleIdCounter++;
+	    String date = getCurrentDateTimeFormatted();
+	    ArrayList<Product> products = new ArrayList<>();
+	    int saleId = saleIdCounter++;
 
-		// ask for client name
-		System.out.println("Enter the client's name:");
-		String client = sc.next();
+	    // ask for client name
+	    System.out.println("Enter the client's name:");
+	    String client = sc.next();
 
-		// sale product until input name is not 0
-		double totalAmount = 0.0;
-		String name = "";
-		while (!name.equals("0") && products.size() < 10) {
-			System.out.println("Enter the product name, write 0 to finish:");
-			name = sc.next();
+	    // sale product until input name is not 0
+	    Amount totalAmount = new Amount(0.0);
+	    String name = "";
+	    while (!name.equals("0") && products.size() < 10) {
+	        System.out.println("Enter the product name, write 0 to finish:");
+	        name = sc.next();
 
-			if (name.equals("0")) {
-				break;
-			}
-			Product product = findProduct(name);
+	        if (name.equals("0")) {
+	            break;
+	        }
+	        Product product = findProduct(name);
 
-			if (product != null && product.isAvailable()) {
-				totalAmount += product.getPublicPrice();
-				product.setStock(product.getStock() - 1);
+	        if (product != null && product.isAvailable()) {
+	            totalAmount = totalAmount.add(product.getPublicPrice());
+	            product.setStock(product.getStock() - 1);
 
-				// if no more stock, set as not available to sale
-				if (product.getStock() == 0) {
-					product.setAvailable(false);
-				}
-				System.out.println("Product added successfully");
-				products.add(product);
-			} else {
-				System.err.println("Product not found or out of stock");
-			}
-		}
+	            // if no more stock, set as not available to sale
+	            if (product.getStock() == 0) {
+	                product.setAvailable(false);
+	            }
+	            System.out.println("Product added successfully");
+	            products.add(product);
+	        } else {
+	            System.err.println("Product not found or out of stock");
+	        }
+	    }
 
-		// show total cost
-		totalAmount = totalAmount * TAX_RATE;
-		cash += totalAmount;
-		System.out.println("Sale made successfully, total: " + totalAmount);
-		Sale sale = new Sale(saleId, client, products, totalAmount, date);
-		sales.add(sale);
+	    // apply tax rate
+	    //TODO Arreglar -> convierte totalAmount a null
+	    totalAmount = totalAmount.multiply(TAX_RATE);
+
+	    cash = cash.add(totalAmount);
+
+	    System.out.println("Sale made successfully, total: " + totalAmount.toString());
+	    Sale sale = new Sale(saleId, client, products, totalAmount, date);
+	    sales.add(sale);
 	}
+
+
 
 	/**
 	 * 7th Option: Show all sales
@@ -319,14 +335,14 @@ public class Shop {
 	 * 9th Option: Show total sales
 	 */
 	private void showSalesTotal() {
-		for (Sale sale : sales) {
-			if (sale != null) {
-				double amount = +sale.getAmount();
-				System.out.println("Client: " + "\t\t " + sale.getClient());
-				System.out.println("Total purchase: " + "\t\t " + amount);
-				System.out.println();
-			}
-		}
+	    Amount totalAmount = new Amount(0.0);
+	    for (Sale sale : sales) {
+	        if (sale != null) {
+	            totalAmount = totalAmount.add(sale.getAmount());
+	            System.out.println(sale.toString());
+	        }
+	    }
+	    System.out.println("Total sales amount: " + totalAmount.getValue());
 	}
 
 	/**
@@ -385,6 +401,7 @@ public class Shop {
                 System.out.println("Creating the file...");
                 file.createNewFile();
             }
+            
             // example commit
 
             for (Sale sale : sales) {
@@ -409,5 +426,27 @@ public class Shop {
             e.printStackTrace();
             System.err.println("Error writing to the file.");
         }
+    }
+    
+    /**
+     * log-in
+     */
+    private void initSession() {
+        boolean logged = false;
+
+        while (!logged) {
+            System.out.print("Enter employee number: ");
+            int empNum = sc.nextInt();
+            System.out.print("Enter password: ");
+            String password = sc.next();
+
+            logged = Employee.login(empNum, password);
+
+            if (!logged) {
+                System.err.println("Employee number or password is incorrect. Please try again.");
+            }
+        }
+
+        System.out.println("Login successful. Welcome!");
     }
 }

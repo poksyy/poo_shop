@@ -5,21 +5,20 @@ import java.util.ArrayList;
 public class Sale {
     private static int saleIdCounter = 1;
     private int saleId;
-	String client;
-	ArrayList<Product> products;
-	double amount;
-	String date;
+	private String client;
+	private ArrayList<Product> products;
+	private Amount amount;
+	private String date;
 	private boolean saved;
 
-	public Sale(int saleId, String client, ArrayList<Product> products, double amount, String date) {
-		super();
-		this.saleId = saleIdCounter++;
-		this.client = client;
-		this.products = products;
-		this.amount = amount;
-		this.date = date;
-		this.saved = false;
-	}
+    public Sale(int saleId, String client, ArrayList<Product> products, Amount totalAmount, String date) {
+        this.saleId = saleId;
+        this.client = client;
+        this.products = products;
+        this.amount = new Amount(totalAmount);
+        this.date = date;
+        this.saved = false;
+    }
 
 	public String getClient() {
 		return client;
@@ -37,11 +36,11 @@ public class Sale {
 		this.products = products;
 	}
 
-	public double getAmount() {
+	public Amount getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(Amount amount) {
 		this.amount = amount;
 	}
 
@@ -64,7 +63,7 @@ public class Sale {
     public int getSaleId() {
         return saleId;
     }
-
+    
 	@Override
 	public String toString() {
 	    StringBuilder stringBuilder = new StringBuilder();
@@ -82,5 +81,6 @@ public class Sale {
 	    return stringBuilder.toString();
 	}
 
+	
 
 }
