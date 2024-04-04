@@ -245,8 +245,9 @@ public class Shop {
 
 	    // ask for client name
 	    System.out.println("Enter the client's name:");
-	    String client = sc.next();
-
+	    String clientName = sc.next();
+	    Client client = new Client(clientName);
+	    
 	    // sale product until input name is not 0
 	    Amount totalAmount = new Amount(0.0);
 	    String name = "";
@@ -275,14 +276,21 @@ public class Shop {
 	    }
 
 	    // apply tax rate
-	    //TODO Arreglar -> convierte totalAmount a null
 	    totalAmount = totalAmount.multiply(TAX_RATE);
 
-	    cash = cash.add(totalAmount);
+	    
+	    // pay
+	    boolean paymentStatus = client.pay(totalAmount.getValue());
 
-	    System.out.println("Sale made successfully, total: " + totalAmount.toString());
-	    Sale sale = new Sale(saleId, client, products, totalAmount, date);
-	    sales.add(sale);
+	    if (paymentStatus) {
+	        cash = cash.add(totalAmount);
+	        System.out.println("Sale made successfully, total: " + totalAmount.toString());
+	        Sale sale = new Sale(saleId, clientName, products, totalAmount, date);
+	        sales.add(sale);
+	    } else {
+	        System.out.println("Sale canceled. The client needs to pay an outstanding amount of: " + client.getAmountToPay());
+	    }
+
 	}
 
 
@@ -291,14 +299,14 @@ public class Shop {
 	 * 7th Option: Show all sales
 	 */
 	private void showSales() {
-		for (Sale sale : sales) {
-			if (sale != null) {
-				System.out.println("Sale #" + sale.getSaleId()); // Display the unique sale identifier
-				System.out.println(sale.toString());
-			}
-		}
-
-		saveSalesToFile();
+	    for (Sale sale : sales) {
+	        if (sale != null) {
+	            System.out.println("Sale #" + sale.getSaleId()); // Muestra el identificador único de la venta
+	            System.out.println("Client: " + sale.getClientName()); // Muestra el nombre del cliente
+	            System.out.println(sale.toString());
+	        }
+	    }
+	    saveSalesToFile();
 	}
 
 	/**
@@ -391,42 +399,40 @@ public class Shop {
 	/**
 	 * save sales to file
 	 */
-    private void saveSalesToFile() {
-        try {
-            String date = getCurrentDateFormatted();
-            File file = new File("./files/sales_" + date + ".txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            
-            if (!file.exists()) {
-                System.out.println("Creating the file...");
-                file.createNewFile();
-            }
-            
-            // example commit
+	private void saveSalesToFile() {
+	    try {
+	        String date = getCurrentDateFormatted();
+	        File file = new File("./files/sales_" + date + ".txt");
+	        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
-            for (Sale sale : sales) {
-                if (sale != null && !sale.isSaved()) {
-                    writer.append(sale.getSaleId() + ";Client=" + sale.getClient() + ";Date=" + sale.getDate() + ";\n");
+	        if (!file.exists()) {
+	            System.out.println("Creating the file...");
+	            file.createNewFile();
+	        }
 
-                    ArrayList<Product> products = sale.getProducts();
-                    for (Product product : products) {
-                        writer.append(sale.getSaleId() + ";Products=" + product.getName() + ","
-                                + product.getPublicPrice() + ";\n");
-                    }
+	        for (Sale sale : sales) {
+	            if (sale != null && !sale.isSaved()) {
+	                writer.append(sale.getSaleId() + ";Client=" + sale.getClientName() + ";Date=" + sale.getDate() + ";\n");
 
-                    writer.append(sale.getSaleId() + ";Amount=" + sale.getAmount() + ";\n");
+	                ArrayList<Product> products = sale.getProducts();
+	                for (Product product : products) {
+	                    writer.append(sale.getSaleId() + ";Products=" + product.getName() + ","
+	                            + product.getPublicPrice() + ";\n");
+	                }
 
-                    sale.setSaved(true);
-                }
-            }
+	                writer.append(sale.getSaleId() + ";Amount=" + sale.getAmount() + ";\n");
 
-            writer.close();
-            System.out.println("Sale saved in the file successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error writing to the file.");
-        }
-    }
+	                sale.setSaved(true);
+	            }
+	        }
+
+	        writer.close();
+	        System.out.println("Sale saved in the file successfully.");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        System.err.println("Error writing to the file.");
+	    }
+	}
     
     /**
      * log-in
