@@ -4,13 +4,14 @@ import main.Logable;
 
 public class Employee extends Person implements Logable {
 
-	public Employee(String clientName) {
-		super(clientName);
-	}
-
+	
 	private final static int EMPLOYEE_ID = 123;
     private final static String PASSWORD = "test";
 
+	public Employee() {
+		super();
+	}
+	
     public static boolean login(int user, String password) {
         return user == EMPLOYEE_ID && password.equals(PASSWORD);
     }
