@@ -282,12 +282,12 @@ public class Shop {
 	    // payment process
 	    boolean payment = client.pay(totalAmount.getValue());
 
-	    if (payment || totalAmount.getValue() > 50.0) {
+	    if (payment || totalAmount.getValue() > client.getBalance()) {
 	        if (payment) {
 	            cash = cash.add(totalAmount);
 	            System.out.println("Sale made successfully, total: " + totalAmount);
 	        } else {
-	            double differenceValue = (-1) * (totalAmount.getValue() - 50.0);
+	            double differenceValue = (-1) * (totalAmount.getValue() - client.getBalance());
 	            Amount difference = new Amount(differenceValue);
 	            System.out.println("Sale made successfully, total: " + totalAmount);
 	            System.out.println("The client owes: " + difference);
@@ -298,6 +298,7 @@ public class Shop {
 	    } else {
 	        System.err.println("Sale canceled.");
 	    }
+
 
 
 

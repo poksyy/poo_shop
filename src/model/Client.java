@@ -24,7 +24,10 @@ public class Client extends Person implements Payable {
         }
     }
 
-
+    public double getBalance() {
+        return BALANCE;
+    }
+    
     public String getName() {
         return name;
     }
