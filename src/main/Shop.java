@@ -20,15 +20,15 @@ import model.Sale;
 public class Shop {
     private static final String BOLD_TEXT = "\u001B[1m";
     private static final String RESET_TEXT = "\u001B[0m";
+    final static double TAX_RATE = 1.04;
+    private static Scanner sc = new Scanner(System.in);
 
     private Amount cash;
-    final static double TAX_RATE = 1.04;
     private DateTimeFormatter myFormatObj;
     private int saleIdCounter = 1;
 
     ArrayList<Product> inventory = new ArrayList<>();
     ArrayList<Sale> sales = new ArrayList<>();
-    private static Scanner sc = new Scanner(System.in);
 
     public Shop() {
         cash = new Amount(100.00);
@@ -166,7 +166,7 @@ public class Shop {
 	public void addProduct() {
 
 		System.out.print("Name: ");
-		String name = sc.nextLine();
+		String name = sc.next();
 
 		Product existingProduct = findProduct(name);
 		if (existingProduct != null) {
@@ -186,24 +186,25 @@ public class Shop {
 	 * 3rd Option: Add stock for a specific product
 	 */
 	public void addStock() {
-		System.out.print("Select a product name: ");
-		String name = sc.next();
-		Product product = findProduct(name);
+	    System.out.print("Select a product name: ");
+	    String name = sc.next();
+	    Product product = findProduct(name);
 
-		if (product != null) {
-			// ask for stock
-			System.out.print("Select the quantity to add: ");
-			int stock = sc.nextInt();
-			// update stock product
-			int updatedStock = product.getStock();
-			product.setStock(stock);
-			updatedStock += stock;
-			System.out.println("The stock of product " + name + " has been updated to " + updatedStock);
-
-		} else {
-			System.err.println("Product with name " + name + " not found.");
-		}
+	    if (product != null) {
+	        // ask for the quantity
+	        System.out.print("Enter the quantity to add: ");
+	        int additionalStock = sc.nextInt();
+	        
+	        // update the product's stock by adding the additional quantity
+	        int updatedStock = product.getStock() + additionalStock;
+	        product.setStock(updatedStock);
+	        
+	        System.out.println("The stock of product " + name + " has been updated to " + updatedStock);
+	    } else {
+	        System.err.println("Product with name " + name + " not found.");
+	    }
 	}
+
 
 	/**
 	 * 4th Option: Set a product as expired
@@ -278,18 +279,27 @@ public class Shop {
 	    // apply tax rate
 	    totalAmount = totalAmount.multiply(TAX_RATE);
 
-	    
-	    // pay
-	    boolean paymentStatus = client.pay(totalAmount.getValue());
+	    // payment process
+	    boolean payment = client.pay(totalAmount.getValue());
 
-	    if (paymentStatus) {
-	        cash = cash.add(totalAmount);
-	        System.out.println("Sale made successfully, total: " + totalAmount.toString());
+	    if (payment || totalAmount.getValue() > 50.0) {
+	        if (payment) {
+	            cash = cash.add(totalAmount);
+	            System.out.println("Sale made successfully, total: " + totalAmount);
+	        } else {
+	            double differenceValue = (-1) * (totalAmount.getValue() - 50.0);
+	            Amount difference = new Amount(differenceValue);
+	            System.out.println("Sale made successfully, total: " + totalAmount);
+	            System.out.println("The client owes: " + difference);
+	        }
+	        
 	        Sale sale = new Sale(saleId, clientName, products, totalAmount, date);
 	        sales.add(sale);
 	    } else {
-	        System.out.println("Sale canceled. The client needs to pay an outstanding amount of: " + client.getAmountToPay());
+	        System.err.println("Sale canceled.");
 	    }
+
+
 
 	}
 
@@ -301,8 +311,8 @@ public class Shop {
 	private void showSales() {
 	    for (Sale sale : sales) {
 	        if (sale != null) {
-	            System.out.println("Sale #" + sale.getSaleId()); // Muestra el identificador único de la venta
-	            System.out.println("Client: " + sale.getClientName()); // Muestra el nombre del cliente
+	            System.out.println("Sale #" + sale.getSaleId());
+	            System.out.println("Client: " + sale.getClientName());
 	            System.out.println(sale.toString());
 	        }
 	    }
@@ -350,8 +360,9 @@ public class Shop {
 	            System.out.println(sale.toString());
 	        }
 	    }
-	    System.out.println("Total sales amount: " + totalAmount.getValue());
+	    System.out.println("Total sales amount: " + totalAmount);
 	}
+
 
 	/**
 	 * add a product to inventory
@@ -434,9 +445,9 @@ public class Shop {
 	    }
 	}
     
-    /**
-     * log-in
-     */
+	/**
+	 * log in
+	 */
     private void initSession() {
         boolean logged = false;
 
@@ -453,6 +464,6 @@ public class Shop {
             }
         }
 
-        System.out.println("Login successful. Welcome!");
+        System.out.println("Login successful. Welcome");
     }
 }

@@ -29,14 +29,4 @@ public class Client extends Person implements Payable {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
-    
-    public Amount getAmountToPay() {
-        return balance;
-    }
-
-
 }

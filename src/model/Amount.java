@@ -52,7 +52,8 @@ public class Amount {
         return value + currency;
     }
 
-    public void subtract(Amount amount) {
+    public Amount subtract(Amount amount) {
+        return new Amount(this.value - amount.getValue());
     }
 
 }
