@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 import model.Amount;
 import model.Client;
+import model.ClientPremium;
 import model.Employee;
 import model.Product;
 import model.Sale;
@@ -244,10 +245,27 @@ public class Shop {
 	    ArrayList<Product> products = new ArrayList<>();
 	    int saleId = saleIdCounter++;
 
+	    // ask if client is premium or not
+	    System.out.println("Is the client a premium member? (Yes/No)");
+	    String membershipOption = sc.next();
+
+	    Client client;
+	    switch (membershipOption.toLowerCase()) {
+	        case "yes":
+	            client = new ClientPremium("Premium Client");
+	            break;
+	        case "no":
+	            client = new Client("Regular Client");
+	            break;
+	        default:
+	            System.err.println("Invalid option.");
+	            client = new Client("Regular Client");
+	    }
+		
 	    // ask for client name
 	    System.out.println("Enter the client's name:");
-	    String clientName = sc.next();
-	    Client client = new Client(clientName);
+	    String clientName = sc.next();	    
+	
 	    
 	    // sale product until input name is not 0
 	    Amount totalAmount = new Amount(0.0);
@@ -280,7 +298,7 @@ public class Shop {
 	    totalAmount = totalAmount.multiply(TAX_RATE);
 
 	    // payment process
-	    boolean payment = client.pay(totalAmount.getValue());
+	    boolean payment = client.pay(totalAmount);
 
 	    if (payment || totalAmount.getValue() > client.getBalance()) {
 	        if (payment) {
@@ -293,7 +311,7 @@ public class Shop {
 	            System.out.println("The client owes: " + difference);
 	        }
 	        
-	        Sale sale = new Sale(saleId, clientName, products, totalAmount, date);
+	        Sale sale = new Sale(saleId, name, products, totalAmount, date);
 	        sales.add(sale);
 	    } else {
 	        System.err.println("Sale canceled.");
@@ -335,14 +353,14 @@ public class Shop {
 			return;
 		}
 
-		System.out.println("Are you sure you want to delete the product " + name + "? (Y/N)");
+		System.out.println("Are you sure you want to delete the product " + name + "? (Yes / No)");
 		String removeOption = sc.next();
 		switch (removeOption.toLowerCase()) {
-		case "y":
+		case "yes":
 			inventory.remove(productRemove);
 			System.out.println("Product deleted successfully.");
 			break;
-		case "n":
+		case "no":
 			System.out.println("No changes have been made.");
 			break;
 		default:

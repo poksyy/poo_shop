@@ -1,6 +1,6 @@
 package model;
 
-public class Amount {
+public class Amount  {
     private double value;
     private final String currency = "€";
     

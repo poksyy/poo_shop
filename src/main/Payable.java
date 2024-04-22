@@ -1,5 +1,7 @@
 package main;
 
+import model.Amount;
+
 public interface Payable {
-    boolean pay(double amount);
+    public boolean pay(Amount totalAmount);
 }

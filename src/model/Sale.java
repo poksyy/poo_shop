@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 
 public class Sale {
-    private static int saleIdCounter = 1;
     private int saleId;
     private String clientName;
     private ArrayList<Product> products;

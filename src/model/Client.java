@@ -8,28 +8,29 @@ public class Client extends Person implements Payable {
     private int memberId;
     private Amount balance;
 
-    public Client(String clientName) {
-        super(clientName);
+    public Client(String name) {
+        super(name);
         this.memberId = MEMBER_ID;
         this.balance = new Amount(BALANCE);
     }
 
     @Override
-    public boolean pay(double amount) {
-        if (balance.getAmount() >= amount) {
-            balance.subtract(new Amount(amount));
-            return true;
+    public boolean pay(Amount totalAmount) {
+        double amountToPay = totalAmount.getValue();
+        if (balance.getAmount() >= amountToPay) {
+            balance.subtract(new Amount(amountToPay));
+            return true; 
         } else {
-            return false;
+            return false; 
         }
     }
 
+
     public double getBalance() {
-        return BALANCE;
+        return balance.getAmount();
     }
-    
+
     public String getName() {
         return name;
     }
-
 }
