@@ -265,7 +265,6 @@ public class Shop {
 	    // ask for client name
 	    System.out.println("Enter the client's name:");
 	    String clientName = sc.next();	    
-	
 	    
 	    // sale product until input name is not 0
 	    Amount totalAmount = new Amount(0.0);

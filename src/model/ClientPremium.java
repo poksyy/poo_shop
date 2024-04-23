@@ -1,7 +1,5 @@
 package model;
 
-import main.Payable;
-
 public class ClientPremium extends Client {
     private double points = 0;
 
@@ -20,7 +18,6 @@ public class ClientPremium extends Client {
 
     @Override
     public boolean pay(Amount totalAmount) {
-        double amountToPay = totalAmount.getValue();
         boolean paymentStatus = super.pay(totalAmount);
         
         int earnedPoints = (int) (totalAmount.getValue() / 10);
