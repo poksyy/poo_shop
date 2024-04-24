@@ -18,6 +18,9 @@ import model.Employee;
 import model.Product;
 import model.Sale;
 
+import views.LoginWindow;
+
+
 public class Shop {
     private static final String BOLD_TEXT = "\u001B[1m";
     private static final String RESET_TEXT = "\u001B[0m";
@@ -466,22 +469,20 @@ public class Shop {
 	/**
 	 * log in
 	 */
-    private void initSession() {
-        boolean logged = false;
+	private void initSession() {
+	    LoginWindow loginWindow = new LoginWindow();
 
-        while (!logged) {
-            System.out.print("Enter employee number: ");
-            int empNum = sc.nextInt();
-            System.out.print("Enter password: ");
-            String password = sc.next();
+	    loginWindow.setVisible(true);
 
-            logged = Employee.login(empNum, password);
+	    while (!loginWindow.isLoggedIn()) {
+	        try {
+	            Thread.sleep(100);
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	    }
 
-            if (!logged) {
-                System.err.println("Employee number or password is incorrect. Please try again.");
-            }
-        }
+	    System.out.println("Login successful. Welcome");
+	}
 
-        System.out.println("Login successful. Welcome");
-    }
 }
