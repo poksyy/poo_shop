@@ -14,11 +14,9 @@ import java.util.Scanner;
 import model.Amount;
 import model.Client;
 import model.ClientPremium;
-import model.Employee;
 import model.Product;
 import model.Sale;
-
-import views.LoginWindow;
+import view.LoginView;
 
 
 public class Shop {
@@ -470,7 +468,7 @@ public class Shop {
 	 * log in
 	 */
 	private void initSession() {
-	    LoginWindow loginWindow = new LoginWindow();
+	    LoginView loginWindow = new LoginView();
 
 	    loginWindow.setVisible(true);
 
@@ -484,5 +482,6 @@ public class Shop {
 
 	    System.out.println("Login successful. Welcome");
 	}
+	
 
 }

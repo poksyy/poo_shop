@@ -1,37 +1,47 @@
-package views;
+package view;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import model.Employee;
-import java.awt.Window.Type;
 
-public class LoginWindow extends JFrame {
+public class LoginView extends JFrame implements ActionListener {
     private JTextField empNumField;
     private JPasswordField passwordField;
     private JButton loginButton;
     private boolean isLoggedIn;
+    
+    public static void main(String[] args) {
+        // create LoginView and make it visible
+        LoginView loginView = new LoginView();
+        loginView.setVisible(true);
+    }
 
-    public LoginWindow() {
-    	setFont(new Font("Arial", Font.PLAIN, 12));
-    	setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\xpcar\\Downloads\\computer-icons-user-profile-material-design-profile-d6a8d1ffc84df96878c4b1f439c68f06.png"));
+    
+    public LoginView() {
+        setFont(new Font("Arial", Font.PLAIN, 12));
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\xpcar\\git\\repository3\\dam2_m03_uf2_poo_shop\\src\\resources\\user-icon.png"));
         setTitle("Login");
-        setSize(300, 100);
+        setSize(300, 160);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // text fields and login button
         empNumField = new JTextField(10);
         passwordField = new JPasswordField(10);
-        loginButton = new JButton("Login");
+        loginButton = new JButton("Sign in");
         loginButton.setFont(new Font("Arial", Font.BOLD, 10));
-
+        
         // panel with grid layout
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2));
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel.setLayout(new GridLayout(4,2));
         
         // labels and input fields
+        panel.add(new JLabel("POO Shop"));
+        panel.add(new JLabel());
         panel.add(new JLabel("Employee Number:"));
         panel.add(empNumField);
         panel.add(new JLabel("Password:"));
@@ -39,18 +49,11 @@ public class LoginWindow extends JFrame {
         panel.add(new JLabel());
         panel.add(loginButton);
 
-        // action listener to the login button
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	checkCredentials();
-            }
-        });
+        // set ActionListener for loginButton
+        loginButton.addActionListener(this);
 
         // adding the panel to the frame
         getContentPane().add(panel);
-
-        isLoggedIn = false;
     }
 
     // method to check the credentials
@@ -62,7 +65,8 @@ public class LoginWindow extends JFrame {
         // check credentials
         isLoggedIn = Employee.login(Integer.parseInt(empNum), password);
         if (!isLoggedIn) {
-            JOptionPane.showMessageDialog(LoginWindow.this, "Invalid credentials", "Authentication Error", JOptionPane.ERROR_MESSAGE);
+            // if login fails, show error message panel
+            JOptionPane.showMessageDialog(LoginView.this, "Invalid credentials", "Authentication Error", JOptionPane.ERROR_MESSAGE);
         } else {
             // if login succeeds, close window
             dispose();
@@ -72,6 +76,14 @@ public class LoginWindow extends JFrame {
     // method to check if user is logged in
     public boolean isLoggedIn() {
         return isLoggedIn;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // handle button click event
+        if (e.getSource() == loginButton) {
+            checkCredentials();
+        }
     }
     
 }
