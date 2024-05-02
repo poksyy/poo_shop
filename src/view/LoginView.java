@@ -21,16 +21,18 @@ public class LoginView extends JFrame implements ActionListener {
 
     
     public LoginView() {
+        setSize(300, 150);
+        setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.PLAIN, 12));
         setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\xpcar\\git\\repository3\\dam2_m03_uf2_poo_shop\\src\\resources\\user-icon.png"));
-        setTitle("Login");
-        setSize(300, 160);
-        setLocationRelativeTo(null);
+        setTitle("Admin login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        setLocationRelativeTo(null);
+
         // text fields and login button
         empNumField = new JTextField(10);
         passwordField = new JPasswordField(10);
+        passwordField.setEchoChar('*');
         loginButton = new JButton("Sign in");
         loginButton.setFont(new Font("Arial", Font.BOLD, 10));
         
@@ -68,8 +70,10 @@ public class LoginView extends JFrame implements ActionListener {
             // if login fails, show error message panel
             JOptionPane.showMessageDialog(LoginView.this, "Invalid credentials", "Authentication Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            // if login succeeds, close window
+            // if login succeeds, close this window and open ShopView
             dispose();
+            ShopView shopView = new ShopView();
+            shopView.setVisible(true);
         }
     }
     
@@ -80,7 +84,6 @@ public class LoginView extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // handle button click event
         if (e.getSource() == loginButton) {
             checkCredentials();
         }

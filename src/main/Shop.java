@@ -87,14 +87,12 @@ public class Shop {
 			    sc.nextLine();
 			    shop.sale();
 			    break;
-
-
 			case 7:
 				shop.showSales();
 				break;
 
 			case 8:
-				shop.eliminateProduct();
+				shop.deleteProduct();
 				break;
 
 			case 9:
@@ -157,9 +155,10 @@ public class Shop {
 
 	/**
 	 * 1st Option: Show current total cash
+	 * @return 
 	 */
-	private void showCash() {
-	    System.out.println(cash.toString());
+	public Amount showCash() {
+		return cash;
 	}
 
 	/**
@@ -341,7 +340,7 @@ public class Shop {
 	/**
 	 * 8th Option: Eliminate product
 	 */
-	public void eliminateProduct() {
+	public void deleteProduct() {
 		System.out.print("Name of the product you want to delete: ");
 		sc.nextLine();
 		String name = sc.nextLine();
