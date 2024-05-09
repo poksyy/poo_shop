@@ -26,11 +26,11 @@ public class CashView extends JDialog implements ActionListener {
                     Shop shop = new Shop();
                     ShopView shopView = new ShopView();
                     Amount cash = shop.showCash();
-
+                    CashView cashView = new CashView(shopView, cash);
+                    
                     shopView.setVisible(true);
 
                     // get the current cash amount
-                    CashView cashView = new CashView(shopView, cash);
                     cashView.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -45,7 +45,7 @@ public class CashView extends JDialog implements ActionListener {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        // text fields and login button
+        // text fields
         cashLabel = new JLabel("Current cash: " + cash.toString(), JLabel.LEFT);
 
         // panel with border layout
