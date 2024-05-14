@@ -26,6 +26,7 @@ public class ProductView extends JDialog implements ActionListener {
 	}
 
 	private void productMenu() {
+		UIManager.put("OptionPane.okButtonText", "OK");
 		setTitle("Product menu");
 		setSize(310, 172);
 		setLocationRelativeTo(null);
@@ -117,57 +118,74 @@ public class ProductView extends JDialog implements ActionListener {
 			int stock = Integer.parseInt(stockNumField.getText());
 			double price = Double.parseDouble(priceNumField.getText());
 
+			// check if the product exist
+			Product existingProduct = shop.findProduct(name);
+			if (existingProduct != null) {
+				JOptionPane.showMessageDialog(this, "Error: The product already exists in the inventory.", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+
 			// create a product object with the fields data
 			Product product = new Product(name, price, true, stock);
 
-			// send the product object to the addProduct method in Shop as a parameter
+			// send product object to the shop method with the parameter
 			shop.addProduct(product);
 
 			// print the updated inventory
 			shop.showInventory();
 		} catch (NumberFormatException e) {
-			System.err.println("Error: Invalid input format for stock or price.");
+			JOptionPane.showMessageDialog(this, "Invalid input format for stock or price.", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	private void addStock() {
 		try {
+			// input fields
 			String name = prodNameField.getText();
 			int additionalStock = Integer.parseInt(stockNumField.getText());
 
+			// send product to the shop method with the parameter
 			Product product = shop.findProduct(name);
 
+			// if the product exist add stock
 			if (product != null) {
 				int updatedStock = product.getStock() + additionalStock;
 				product.setStock(updatedStock);
 			} else {
-				System.err.println("Product not found.");
+				JOptionPane.showMessageDialog(this, "The product does not exist in the inventory.", "Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
 
 			// print the updated inventory
 			shop.showInventory();
 		} catch (Exception e) {
-			System.err.println("Error: Invalid input format for stock or price.");
+			JOptionPane.showMessageDialog(this, "Invalid input format for stock or price.", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
 
 	private void deleteProduct() {
 		try {
+			// input fields
 			String name = prodNameField.getText();
+			
+			// send product to the shop method with the parameter
 			Product product = shop.findProduct(name);
 
 			if (product != null) {
 				// language changes for the JOptionPane
-				UIManager.put("OptionPane.yesButtonText", "Yes"); 
-	            UIManager.put("OptionPane.noButtonText", "No");
-				
-	            // pane confirmation to delete product
-	            int result = JOptionPane.showConfirmDialog(this,
+				UIManager.put("OptionPane.yesButtonText", "Yes");
+				UIManager.put("OptionPane.noButtonText", "No");
+
+				// pane confirmation to delete product
+				int result = JOptionPane.showConfirmDialog(this,
 						"Are you sure you want to delete the product " + name + "?", "Confirm deletion",
 						JOptionPane.YES_NO_OPTION);
-	            
-	            // if the option is yes remove the product from inventory
+
+				// if the option is yes remove the product from inventory
 				if (result == JOptionPane.YES_OPTION) {
 					shop.inventory.remove(product);
 					shop.showInventory();
