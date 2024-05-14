@@ -29,7 +29,7 @@ public class Shop {
     private DateTimeFormatter myFormatObj;
     private int saleIdCounter = 1;
 
-    ArrayList<Product> inventory = new ArrayList<>();
+    public ArrayList<Product> inventory = new ArrayList<>();
     ArrayList<Sale> sales = new ArrayList<>();
 
     public Shop() {

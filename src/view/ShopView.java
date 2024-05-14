@@ -43,6 +43,8 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
     public ShopView() {
     	this.shop = new Shop();
     	shopMenu();
+    	shop.loadInventory();
+        shop.showInventory();
     }
 
 	@Override
