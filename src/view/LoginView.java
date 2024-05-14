@@ -13,7 +13,7 @@ public class LoginView extends JFrame implements ActionListener {
     private boolean isLoggedIn;
     
     public static void main(String[] args) {
-        // Create LoginView and make it visible
+        // create LoginView and make it visible
         LoginView loginView = new LoginView();
         loginView.setVisible(true);
     }
@@ -25,14 +25,14 @@ public class LoginView extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Text fields and login button
+        // text fields and login button
         empNumField = new JTextField();
         passwordField = new JPasswordField();
         passwordField.setEchoChar('*');
         loginButton = new JButton("Sign in");
         loginButton.setFont(new Font("Arial", Font.BOLD, 10));
         
-        // Panel with absolute layout
+        // panel with absolute layout
         JPanel panel = new JPanel();
         panel.setLayout(null);
         
@@ -54,33 +54,33 @@ public class LoginView extends JFrame implements ActionListener {
         panel.add(passwordField);
         panel.add(loginButton);
 
-        // Set ActionListener for loginButton
+        // set ActionListener for loginButton
         loginButton.addActionListener(this);
 
-        // Adding the panel to the frame
+        // adding the panel to the frame
         getContentPane().add(panel);
     }
 
-    // Method to check the credentials
+    // method to check the credentials
     private void checkCredentials() {
         // Retrieving input values
         String empNum = empNumField.getText();
         String password = new String(passwordField.getPassword());
         
-        // Check credentials
+        // check credentials
         isLoggedIn = Employee.login(Integer.parseInt(empNum), password);
         if (!isLoggedIn) {
-            // If login fails, show error message panel
+            // if login fails, show error message panel
             JOptionPane.showMessageDialog(LoginView.this, "Invalid credentials", "Authentication Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            // If login succeeds, close this window and open ShopView
+            // if login succeeds, close this window and open ShopView
             dispose();
             ShopView shopView = new ShopView();
             shopView.setVisible(true);
         }
     }
     
-    // Method to check if user is logged in
+    // method to check if user is logged in
     public boolean isLoggedIn() {
         return isLoggedIn;
     }
