@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import main.Shop;
-import model.Amount;
 import model.Product;
 
 public class ProductView extends JDialog implements ActionListener {
@@ -108,7 +107,6 @@ public class ProductView extends JDialog implements ActionListener {
 				deleteProduct();
 				break;
 			}
-			dispose();
 		}
 	}
 
@@ -118,10 +116,10 @@ public class ProductView extends JDialog implements ActionListener {
 			int stock = Integer.parseInt(stockNumField.getText());
 			double price = Double.parseDouble(priceNumField.getText());
 
-			// check if the product exist
+			// check if the product exists
 			Product existingProduct = shop.findProduct(name);
 			if (existingProduct != null) {
-				JOptionPane.showMessageDialog(this, "Error: The product already exists in the inventory.", "Error",
+				JOptionPane.showMessageDialog(this, "The product already exists in the inventory.", "Error",
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -129,12 +127,18 @@ public class ProductView extends JDialog implements ActionListener {
 			// create a product object with the fields data
 			Product product = new Product(name, price, true, stock);
 
-			// send product object to the shop method with the parameter
+			// add the product to shop's inventory
 			shop.addProduct(product);
+
+			// show an informational message
+			JOptionPane.showMessageDialog(this, "Product added successfully.", "Information",
+					JOptionPane.INFORMATION_MESSAGE);
 
 			// print the updated inventory
 			shop.showInventory();
+
 		} catch (NumberFormatException e) {
+			// Show an error message for invalid input format
 			JOptionPane.showMessageDialog(this, "Invalid input format for stock or price.", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
@@ -171,7 +175,7 @@ public class ProductView extends JDialog implements ActionListener {
 		try {
 			// input fields
 			String name = prodNameField.getText();
-			
+
 			// send product to the shop method with the parameter
 			Product product = shop.findProduct(name);
 
