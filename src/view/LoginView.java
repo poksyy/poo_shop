@@ -85,6 +85,7 @@ public class LoginView extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(LoginView.this,
 						"Invalid credentials. " + remainingAttempts + " attempts remaining.", "Authentication Error",
 						JOptionPane.ERROR_MESSAGE);
+				clearFields();
 			} else {
 				// if there is no attempts
 				try {
@@ -108,6 +109,12 @@ public class LoginView extends JFrame implements ActionListener {
 	public boolean isLoggedIn() {
 		return isLoggedIn;
 	}
+	
+    // method to clear input fields
+    private void clearFields() {
+        empNumField.setText("");
+        passwordField.setText("");
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
