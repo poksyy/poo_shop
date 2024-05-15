@@ -52,11 +52,11 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         if (e.getSource() == showCashButton) {
         	cashOption();
         } else if (e.getSource() == addProductButton) {            
-            productOption(2);
+            openProductView(2);
         } else if (e.getSource() == addStockButton) {
-            productOption(3);
+            openProductView(3);
         } else if (e.getSource() == deleteProductButton) {
-            productOption(9);
+            openProductView(9);
         }
     }
 
@@ -70,7 +70,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         cashView.setVisible(true);
 	}
 
-	private void productOption(int option) {
+	private void openProductView(int option) {
         int productViewX = getLocation().x + getWidth() + 10;
         int productViewY = getLocation().y;
         
@@ -149,13 +149,13 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 			cashOption();
 			break;
 		case KeyEvent.VK_2:
-            productOption(2);
+            openProductView(2);
             break;
 		case KeyEvent.VK_3:
-            productOption(3);
+            openProductView(3);
             break;
 		case KeyEvent.VK_9:
-            productOption(9);
+            openProductView(9);
             break;
 		}
 		}
