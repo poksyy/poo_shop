@@ -9,6 +9,10 @@ import main.Shop;
 import model.Product;
 
 public class InventoryView extends JDialog implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Shop shop;
 
 	public InventoryView(Shop shop) {
@@ -53,6 +57,5 @@ public class InventoryView extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
 	}
 }

@@ -16,6 +16,10 @@ import main.Shop;
 import model.Amount;
 
 public class CashView extends JDialog implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel cashLabel;
 
 	public static void main(String[] args) {

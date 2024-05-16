@@ -9,9 +9,13 @@ import model.Employee;
 import exception.LimitLoginException;
 
 public class LoginView extends JFrame implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField empNumField;
 	private JPasswordField passwordField;
-	private JButton loginButton;
+	private JButton btnLogin;
 	private boolean isLoggedIn;
 	private int loginAttempts;
 
@@ -41,8 +45,8 @@ public class LoginView extends JFrame implements ActionListener {
 		empNumField = new JTextField();
 		passwordField = new JPasswordField();
 		passwordField.setEchoChar('*');
-		loginButton = new JButton("Sign in");
-		loginButton.setFont(new Font("Arial", Font.BOLD, 10));
+		btnLogin = new JButton("Sign in");
+		btnLogin.setFont(new Font("Arial", Font.BOLD, 10));
 
 		// panel with absolute layout
 		JPanel panel = new JPanel();
@@ -57,17 +61,17 @@ public class LoginView extends JFrame implements ActionListener {
 		JLabel label3 = new JLabel("Password:");
 		label3.setBounds(10, 70, 120, 20);
 		passwordField.setBounds(154, 70, 172, 20);
-		loginButton.setBounds(154, 100, 172, 30);
+		btnLogin.setBounds(154, 100, 172, 30);
 
 		panel.add(label1);
 		panel.add(label2);
 		panel.add(empNumField);
 		panel.add(label3);
 		panel.add(passwordField);
-		panel.add(loginButton);
+		panel.add(btnLogin);
 
 		// set ActionListener for loginButton
-		loginButton.addActionListener(this);
+		btnLogin.addActionListener(this);
 
 		// adding the panel to the frame
 		getContentPane().add(panel);
@@ -175,7 +179,7 @@ public class LoginView extends JFrame implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == loginButton) {
+		if (e.getSource() == btnLogin) {
 			checkCredentials();
 		}
 	}

@@ -10,11 +10,15 @@ import main.Shop;
 import model.Product;
 
 public class ProductView extends JDialog implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField prodNameField;
 	private JTextField stockNumField;
 	private JTextField priceNumField;
-	private JButton acceptButton;
-	private JButton cancelButton;
+	private JButton btnAccept;
+	private JButton btnCancel;
 	private int option;
 	private Shop shop;
 
@@ -42,8 +46,8 @@ public class ProductView extends JDialog implements ActionListener {
 		stockNumField.setPreferredSize(new Dimension(100, 20));
 		priceNumField.setPreferredSize(new Dimension(100, 20));
 
-		acceptButton = new JButton("OK");
-		cancelButton = new JButton("Cancel");
+		btnAccept = new JButton("OK");
+		btnCancel = new JButton("Cancel");
 
 		// panel with border layout
 		JPanel panel = new JPanel();
@@ -63,8 +67,8 @@ public class ProductView extends JDialog implements ActionListener {
 		priceLabel.setBounds(10, 70, 100, 20);
 		priceNumField.setBounds(120, 71, 166, 20);
 
-		acceptButton.setBounds(120, 100, 83, 30);
-		cancelButton.setBounds(213, 100, 73, 30);
+		btnAccept.setBounds(120, 100, 83, 30);
+		btnCancel.setBounds(213, 100, 73, 30);
 
 		// adding components to the panel
 		panel.add(nameLabel);
@@ -73,12 +77,12 @@ public class ProductView extends JDialog implements ActionListener {
 		panel.add(stockNumField);
 		panel.add(priceLabel);
 		panel.add(priceNumField);
-		panel.add(acceptButton);
-		panel.add(cancelButton);
+		panel.add(btnAccept);
+		panel.add(btnCancel);
 
 		// adding ActionListener to accept or cancel
-		acceptButton.addActionListener(this);
-		cancelButton.addActionListener(this);
+		btnAccept.addActionListener(this);
+		btnCancel.addActionListener(this);
 
 		// adding the panel to the frame
 		getContentPane().add(panel);
@@ -100,9 +104,9 @@ public class ProductView extends JDialog implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == cancelButton) {
+		if (e.getSource() == btnCancel) {
 			dispose();
-		} else if (e.getSource() == acceptButton) {
+		} else if (e.getSource() == btnAccept) {
 			switch (option) {
 			case 2:
 				addProduct();
