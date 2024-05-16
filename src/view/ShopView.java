@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import util.Constants;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -52,18 +52,18 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         if (e.getSource() == showCashButton) {
         	cashOption();
         } else if (e.getSource() == addProductButton) {            
-            openProductView(2);
+            openProductView(Constants.ADD_PRODUCT);
         } else if (e.getSource() == addStockButton) {
-            openProductView(3);
+            openProductView(Constants.ADD_PRODUCT_STOCK);
         } else if (e.getSource() == showInventoryButton) {
         	showInventoryView();
         } else if (e.getSource() == deleteProductButton) {
-            openProductView(9);
+            openProductView(Constants.DELETE_PRODUCT);
         }
     }
 
 	private void cashOption() {
-        int cashViewX = getLocation().x + getWidth() + 10;
+        int cashViewX = getLocation().x + getWidth() + Constants.PIXELS_APPEARANCE_NEW_WINDOW;
         int cashViewY = getLocation().y;
         
         Amount cash = shop.showCash();
@@ -73,7 +73,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	}
 
 	private void openProductView(int option) {
-        int productViewX = getLocation().x + getWidth() + 10;
+        int productViewX = getLocation().x + getWidth() + Constants.PIXELS_APPEARANCE_NEW_WINDOW;
         int productViewY = getLocation().y;
         
         ProductView productView = new ProductView(option, shop);
@@ -82,7 +82,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	}
 
     private void showInventoryView() {
-        int showInventoryViewX = getLocation().x + getWidth() + 10;
+        int showInventoryViewX = getLocation().x + getWidth() + Constants.PIXELS_APPEARANCE_NEW_WINDOW;
         int showInventoryViewY = getLocation().y;
         
         InventoryView inventoryView = new InventoryView(shop);
@@ -165,16 +165,16 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 			cashOption();
 			break;
 		case KeyEvent.VK_2:
-            openProductView(2);
+            openProductView(Constants.ADD_PRODUCT);
             break;
 		case KeyEvent.VK_3:
-            openProductView(3);
+            openProductView(Constants.ADD_PRODUCT_STOCK);
             break;
 		case KeyEvent.VK_5:
 			showInventoryView();
 			break;
 		case KeyEvent.VK_9:
-            openProductView(9);
+            openProductView(Constants.DELETE_PRODUCT);
             break;
 		}
 		}

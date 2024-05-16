@@ -1,5 +1,6 @@
 package view;
 
+import util.Constants;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -81,7 +82,7 @@ public class LoginView extends JFrame implements ActionListener {
 	        isLoggedIn = Employee.login(empNumInt, password);
 	        if (!isLoggedIn) {
 	            incrementLoginAttempts();
-	            int remainingAttempts = 3 - loginAttempts;
+	            int remainingAttempts = Constants.MAX_LOGIN_ATTEMPTS - loginAttempts;
 	            if (remainingAttempts > 0) {
 	                showLoginAttempts(remainingAttempts);
 	                clearFields();
@@ -97,14 +98,14 @@ public class LoginView extends JFrame implements ActionListener {
 	    } catch (NumberFormatException e) {
 	        incrementLoginAttempts();
 	        clearFields();
-	        showLoginAttempts(3 - loginAttempts);
+	        showLoginAttempts(Constants.MAX_LOGIN_ATTEMPTS - loginAttempts);
 	    }
 	}
 
     // method to increment login attempts and handle maximum attempts
     private void incrementLoginAttempts() {
         loginAttempts++;
-        if (loginAttempts >= 3) {
+        if (loginAttempts >= Constants.MAX_LOGIN_ATTEMPTS) {
             handleExceededAttempts();
         }
     }
