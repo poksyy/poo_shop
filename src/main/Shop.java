@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import model.Amount;
@@ -480,6 +481,11 @@ public class Shop {
 	    }
 
 	    System.out.println("Login successful. Welcome");
+	}
+
+	public List<Product> getInventory() {
+		// TODO Auto-generated method stub
+		return inventory;
 	}
 	
 

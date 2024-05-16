@@ -22,6 +22,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
     private JButton showCashButton;
     private JButton addProductButton;
     private JButton addStockButton;
+    private JButton showInventoryButton;
     private JButton deleteProductButton;
     private Shop shop;
 
@@ -44,7 +45,6 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
     	this.shop = new Shop();
     	shopMenu();
     	shop.loadInventory();
-        shop.showInventory();
     }
 
 	@Override
@@ -55,12 +55,14 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
             openProductView(2);
         } else if (e.getSource() == addStockButton) {
             openProductView(3);
+        } else if (e.getSource() == showInventoryButton) {
+        	showInventoryView();
         } else if (e.getSource() == deleteProductButton) {
             openProductView(9);
         }
     }
 
-    private void cashOption() {
+	private void cashOption() {
         int cashViewX = getLocation().x + getWidth() + 10;
         int cashViewY = getLocation().y;
         
@@ -79,10 +81,19 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         productView.setVisible(true);
 	}
 
+    private void showInventoryView() {
+        int showInventoryViewX = getLocation().x + getWidth() + 10;
+        int showInventoryViewY = getLocation().y;
+        
+        InventoryView inventoryView = new InventoryView(shop);
+        inventoryView.setLocation(showInventoryViewX, showInventoryViewY);
+        inventoryView.setVisible(true);
+	}
+	
     private void shopMenu() {
         setTitle("Shop menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(310, 320);
+        setSize(310, 380);
         setLocation(500, calculateYPosition());
         shop = new Shop();
 
@@ -93,6 +104,8 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         addProductButton.setFont(new Font("Arial", Font.BOLD, 10));
         addStockButton = new JButton("3. Add stock");
         addStockButton.setFont(new Font("Arial", Font.BOLD, 10));
+        showInventoryButton = new JButton("5. Show inventory");
+        showInventoryButton.setFont(new Font("Arial", Font.BOLD, 10));
         deleteProductButton = new JButton("9. Delete product");
         deleteProductButton.setFont(new Font("Arial", Font.BOLD, 10));
         
@@ -107,12 +120,14 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         showCashButton.setBounds(10, 40, 275, 50);
         addProductButton.setBounds(10, 100, 275, 50);
         addStockButton.setBounds(10, 160, 275, 50);
-        deleteProductButton.setBounds(10, 220, 275, 50);
+        showInventoryButton.setBounds(10, 220, 275, 50);
+        deleteProductButton.setBounds(10, 280, 275, 50);
         
         // Add action listeners for buttons
         showCashButton.addActionListener(this);
         addProductButton.addActionListener(this);
         addStockButton.addActionListener(this);
+        showInventoryButton.addActionListener(this);
         deleteProductButton.addActionListener(this);
 
         // Adding components to the panel
@@ -120,6 +135,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         panel.add(showCashButton);
         panel.add(addProductButton);
         panel.add(addStockButton);
+        panel.add(showInventoryButton);
         panel.add(deleteProductButton);
         
         // Adding the panel to the frame
@@ -154,6 +170,9 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		case KeyEvent.VK_3:
             openProductView(3);
             break;
+		case KeyEvent.VK_5:
+			showInventoryView();
+			break;
 		case KeyEvent.VK_9:
             openProductView(9);
             break;
