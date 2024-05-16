@@ -1,4 +1,0 @@
-INDEX VERSION 1.134+D:\dam1\M03 - Programming (Java)\UF3 - APIs Java & ficheros\dam2_m03_uf3_poo_shop\.metadata\.plugins\org.eclipse.jdt.core
-3533045111.index
-1865797976.index
-1814544629.index
