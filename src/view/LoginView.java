@@ -25,6 +25,7 @@ public class LoginView extends JFrame implements ActionListener {
 	}
 
 	private void productMenu() {
+		UIManager.put("OptionPane.okButtonText", "OK");
 		loginAttempts = 0;
 		setTitle("Admin login");
 		setSize(350, 175);
@@ -69,42 +70,64 @@ public class LoginView extends JFrame implements ActionListener {
 
 	// method to check the credentials
 	private void checkCredentials() {
-		// input fields
-		String empNum = empNumField.getText(); // Get employee number from the text field
-		String password = new String(passwordField.getPassword()); // Get password from the password field
+	    // input fields
+	    String empNum = empNumField.getText(); // Get employee number from the text field
+	    String password = new String(passwordField.getPassword()); // Get password from the password field
 
-		// check credentials
-		isLoggedIn = Employee.login(Integer.parseInt(empNum), password);
-		if (!isLoggedIn) {
-			// if login fails increment the login attempts count
-			loginAttempts++;
-			// calculate the login attempts left
-			int remainingAttempts = 3 - loginAttempts;
-			// if there is any attempts
-			if (remainingAttempts > 0) {
-				JOptionPane.showMessageDialog(LoginView.this,
-						"Invalid credentials. " + remainingAttempts + " attempts remaining.", "Authentication Error",
-						JOptionPane.ERROR_MESSAGE);
-				clearFields();
-			} else {
-				// if there is no attempts
-				try {
-					throw new LimitLoginException("Maximum login attempts exceeded");
-				} catch (LimitLoginException e) {
-					JOptionPane.showMessageDialog(LoginView.this, e.getMessage(), "Login Error ",
-							JOptionPane.ERROR_MESSAGE);
-					// exit application
-					System.exit(0);
-				}
-			}
-		} else {
-			// if login succeeds
-			dispose();
-			ShopView shopView = new ShopView();
-			shopView.setVisible(true);
-		}
+	    // validate if employee number is an integer
+	    try {
+	        int empNumInt = Integer.parseInt(empNum);
+	        // check credentials
+	        isLoggedIn = Employee.login(empNumInt, password);
+	        if (!isLoggedIn) {
+	            incrementLoginAttempts();
+	            int remainingAttempts = 3 - loginAttempts;
+	            if (remainingAttempts > 0) {
+	                showLoginAttempts(remainingAttempts);
+	                clearFields();
+	            } else {
+	                handleExceededAttempts();
+	            }
+	        } else {
+	            // if login succeeds
+	            dispose();
+	            ShopView shopView = new ShopView();
+	            shopView.setVisible(true);
+	        }
+	    } catch (NumberFormatException e) {
+	        incrementLoginAttempts();
+	        clearFields();
+	        showLoginAttempts(3 - loginAttempts);
+	    }
 	}
 
+    // method to increment login attempts and handle maximum attempts
+    private void incrementLoginAttempts() {
+        loginAttempts++;
+        if (loginAttempts >= 3) {
+            handleExceededAttempts();
+        }
+    }
+
+    // method to show login attempts
+    private void showLoginAttempts(int remainingAttempts) {
+		JOptionPane.showMessageDialog(LoginView.this,
+				"Invalid credentials. " + remainingAttempts + " attempts remaining.", "Authentication Error",
+				JOptionPane.ERROR_MESSAGE);
+    }
+    
+    // method to handle exceeded login attempts
+    private void handleExceededAttempts() {
+        try {
+            throw new LimitLoginException("Maximum login attempts exceeded");
+        } catch (LimitLoginException e) {
+            JOptionPane.showMessageDialog(LoginView.this, e.getMessage(), "Login Error ",
+                    JOptionPane.ERROR_MESSAGE);
+            // exit application
+            System.exit(0);
+        }
+    }
+	
 	// method to check if user is logged in
 	public boolean isLoggedIn() {
 		return isLoggedIn;
