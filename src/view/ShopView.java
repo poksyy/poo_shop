@@ -24,6 +24,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
     private JButton addStockButton;
     private JButton showInventoryButton;
     private JButton deleteProductButton;
+    private JButton exitButton;
     private Shop shop;
 
     public static void main(String[] args) {
@@ -50,19 +51,21 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	@Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == showCashButton) {
-        	cashOption();
+        	openCashView();
         } else if (e.getSource() == addProductButton) {            
             openProductView(Constants.ADD_PRODUCT);
         } else if (e.getSource() == addStockButton) {
             openProductView(Constants.ADD_PRODUCT_STOCK);
         } else if (e.getSource() == showInventoryButton) {
-        	showInventoryView();
+        	openInventoryView();
         } else if (e.getSource() == deleteProductButton) {
             openProductView(Constants.DELETE_PRODUCT);
+        } else if (e.getSource() == exitButton) {
+            exitOption();
         }
     }
 
-	private void cashOption() {
+	private void openCashView() {
         int cashViewX = getLocation().x + getWidth() + Constants.PIXELS_APPEARANCE_NEW_WINDOW;
         int cashViewY = getLocation().y;
         
@@ -81,19 +84,23 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         productView.setVisible(true);
 	}
 
-    private void showInventoryView() {
-        int showInventoryViewX = getLocation().x + getWidth() + Constants.PIXELS_APPEARANCE_NEW_WINDOW;
-        int showInventoryViewY = getLocation().y;
+    private void openInventoryView() {
+        int inventoryViewX = getLocation().x + getWidth() + Constants.PIXELS_APPEARANCE_NEW_WINDOW;
+        int inventoryViewY = getLocation().y;
         
         InventoryView inventoryView = new InventoryView(shop);
-        inventoryView.setLocation(showInventoryViewX, showInventoryViewY);
+        inventoryView.setLocation(inventoryViewX, inventoryViewY);
         inventoryView.setVisible(true);
 	}
+    
+    private void exitOption() {
+        System.exit(0);
+    }
 	
     private void shopMenu() {
         setTitle("Shop menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(310, 380);
+        setSize(500, 380);
         setLocation(500, calculateYPosition());
         shop = new Shop();
 
@@ -108,6 +115,8 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         showInventoryButton.setFont(new Font("Arial", Font.BOLD, 10));
         deleteProductButton = new JButton("9. Delete product");
         deleteProductButton.setFont(new Font("Arial", Font.BOLD, 10));
+        exitButton = new JButton("10. Exit");
+        exitButton.setFont(new Font("Arial", Font.BOLD, 10));
         
         // Panel with absolute layout
         JPanel panel = new JPanel();
@@ -117,11 +126,15 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         // Labels and buttons
         JLabel label = new JLabel("Select or click on an option:");
         label.setBounds(10, 10, 200, 20);
-        showCashButton.setBounds(10, 40, 275, 50);
-        addProductButton.setBounds(10, 100, 275, 50);
-        addStockButton.setBounds(10, 160, 275, 50);
-        showInventoryButton.setBounds(10, 220, 275, 50);
-        deleteProductButton.setBounds(10, 280, 275, 50);
+
+        // First column
+        showCashButton.setBounds(10, 40, 220, 50);
+        addProductButton.setBounds(10, 100, 220, 50);
+        addStockButton.setBounds(10, 160, 220, 50);
+        // Second column
+        showInventoryButton.setBounds(255, 40, 220, 50);
+        deleteProductButton.setBounds(255, 100, 220, 50);
+        exitButton.setBounds(255, 160, 220, 50);
         
         // Add action listeners for buttons
         showCashButton.addActionListener(this);
@@ -129,6 +142,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         addStockButton.addActionListener(this);
         showInventoryButton.addActionListener(this);
         deleteProductButton.addActionListener(this);
+        exitButton.addActionListener(this);
 
         // Adding components to the panel
         panel.add(label);
@@ -137,6 +151,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
         panel.add(addStockButton);
         panel.add(showInventoryButton);
         panel.add(deleteProductButton);
+        panel.add(exitButton);
         
         // Adding the panel to the frame
         getContentPane().add(panel);
@@ -162,7 +177,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		
 		switch(productOption) {
 		case KeyEvent.VK_1: 
-			cashOption();
+			openCashView();
 			break;
 		case KeyEvent.VK_2:
             openProductView(Constants.ADD_PRODUCT);
@@ -171,11 +186,14 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
             openProductView(Constants.ADD_PRODUCT_STOCK);
             break;
 		case KeyEvent.VK_5:
-			showInventoryView();
+			openInventoryView();
 			break;
 		case KeyEvent.VK_9:
             openProductView(Constants.DELETE_PRODUCT);
             break;
+		case KeyEvent.VK_0:
+			exitOption();
+			break;
 		}
 		}
 
