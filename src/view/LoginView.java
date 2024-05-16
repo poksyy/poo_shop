@@ -22,10 +22,14 @@ public class LoginView extends JFrame implements ActionListener {
 	}
 
 	public LoginView() {
-		productMenu();
+		loginUI();
 	}
 
-	private void productMenu() {
+	/**
+	 * Sets up the user interface for the login screen, including labels, text
+	 * fields, and buttons, and handles the button click event for login.
+	 */
+	private void loginUI() {
 		UIManager.put("OptionPane.okButtonText", "OK");
 		loginAttempts = 0;
 		setTitle("Admin login");
@@ -69,77 +73,106 @@ public class LoginView extends JFrame implements ActionListener {
 		getContentPane().add(panel);
 	}
 
-	// method to check the credentials
+	/**
+	 * Validates the entered credentials by extracting the employee number and
+	 * password from the input fields, then checks if the employee number is an
+	 * integer. If the login fails, it handles the remaining login attempts and
+	 * clears the input fields. If the login succeeds, it disposes of the login
+	 * window and opens the ShopView.
+	 */
 	private void checkCredentials() {
-	    // input fields
-	    String empNum = empNumField.getText(); // Get employee number from the text field
-	    String password = new String(passwordField.getPassword()); // Get password from the password field
+		// input fields
+		String empNum = empNumField.getText(); // Get employee number from the text field
+		String password = new String(passwordField.getPassword()); // Get password from the password field
 
-	    // validate if employee number is an integer
-	    try {
-	        int empNumInt = Integer.parseInt(empNum);
-	        // check credentials
-	        isLoggedIn = Employee.login(empNumInt, password);
-	        if (!isLoggedIn) {
-	            incrementLoginAttempts();
-	            int remainingAttempts = Constants.MAX_LOGIN_ATTEMPTS - loginAttempts;
-	            if (remainingAttempts > 0) {
-	                showLoginAttempts(remainingAttempts);
-	                clearFields();
-	            } else {
-	                handleExceededAttempts();
-	            }
-	        } else {
-	            // if login succeeds
-	            dispose();
-	            ShopView shopView = new ShopView();
-	            shopView.setVisible(true);
-	        }
-	    } catch (NumberFormatException e) {
-	        incrementLoginAttempts();
-	        clearFields();
-	        showLoginAttempts(Constants.MAX_LOGIN_ATTEMPTS - loginAttempts);
-	    }
+		// validate if employee number is an integer
+		try {
+			int empNumInt = Integer.parseInt(empNum);
+			// check credentials
+			isLoggedIn = Employee.login(empNumInt, password);
+			if (!isLoggedIn) {
+				incrementLoginAttempts();
+				int remainingAttempts = Constants.MAX_LOGIN_ATTEMPTS - loginAttempts;
+				if (remainingAttempts > 0) {
+					showLoginAttempts(remainingAttempts);
+					clearFields();
+				} else {
+					handleExceededAttempts();
+				}
+			} else {
+				// if login succeeds
+				dispose();
+				ShopView shopView = new ShopView();
+				shopView.setVisible(true);
+			}
+		} catch (NumberFormatException e) {
+			incrementLoginAttempts();
+			clearFields();
+			showLoginAttempts(Constants.MAX_LOGIN_ATTEMPTS - loginAttempts);
+		}
 	}
 
-    // method to increment login attempts and handle maximum attempts
-    private void incrementLoginAttempts() {
-        loginAttempts++;
-        if (loginAttempts >= Constants.MAX_LOGIN_ATTEMPTS) {
-            handleExceededAttempts();
-        }
-    }
+	/**
+	 * Increments the login attempts count and checks if it exceeds the maximum
+	 * allowed attempts. If exceeded, it invokes the handleExceededAttempts method.
+	 */
+	private void incrementLoginAttempts() {
+		loginAttempts++;
+		if (loginAttempts >= Constants.MAX_LOGIN_ATTEMPTS) {
+			handleExceededAttempts();
+		}
+	}
 
-    // method to show login attempts
-    private void showLoginAttempts(int remainingAttempts) {
+	/**
+	 * Displays a message dialog indicating the number of remaining login attempts.
+	 * 
+	 * @param remainingAttempts the number of remaining login attempts
+	 */
+	private void showLoginAttempts(int remainingAttempts) {
 		JOptionPane.showMessageDialog(LoginView.this,
 				"Invalid credentials. " + remainingAttempts + " attempts remaining.", "Authentication Error",
 				JOptionPane.ERROR_MESSAGE);
-    }
-    
-    // method to handle exceeded login attempts
-    private void handleExceededAttempts() {
-        try {
-            throw new LimitLoginException("Maximum login attempts exceeded");
-        } catch (LimitLoginException e) {
-            JOptionPane.showMessageDialog(LoginView.this, e.getMessage(), "Login Error ",
-                    JOptionPane.ERROR_MESSAGE);
-            // exit application
-            System.exit(0);
-        }
-    }
-	
-	// method to check if user is logged in
+	}
+
+	/**
+	 * Handles the scenario when the maximum login attempts are exceeded by throwing
+	 * a LimitLoginException and displaying an error message. It then exits the
+	 * application.
+	 */
+	private void handleExceededAttempts() {
+		try {
+			throw new LimitLoginException("Maximum login attempts exceeded");
+		} catch (LimitLoginException e) {
+			JOptionPane.showMessageDialog(LoginView.this, e.getMessage(), "Login Error ", JOptionPane.ERROR_MESSAGE);
+			// exit application
+			System.exit(0);
+		}
+	}
+
+	/**
+	 * Checks if an employee is currently logged in.
+	 * 
+	 * @return true if an employee is logged in, false otherwise
+	 */
 	public boolean isLoggedIn() {
 		return isLoggedIn;
 	}
-	
-    // method to clear input fields
-    private void clearFields() {
-        empNumField.setText("");
-        passwordField.setText("");
-    }
 
+	/**
+	 * Clears the text fields for employee number and password.
+	 */
+	private void clearFields() {
+		empNumField.setText("");
+		passwordField.setText("");
+	}
+
+	/**
+	 * Handles the action events triggered by components in the login UI,
+	 * specifically checking if the login button is pressed and invoking the
+	 * checkCredentials method accordingly.
+	 * 
+	 * @param e the ActionEvent object representing the action performed
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == loginButton) {

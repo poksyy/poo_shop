@@ -45,10 +45,16 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 
 	public ShopView() {
 		this.shop = new Shop();
-		shopMenu();
+		shopUI();
 		shop.loadInventory();
 	}
 
+	/**
+	 * Handles action events triggered by button presses. Opens different views
+	 * based on the button pressed.
+	 * 
+	 * @param e the ActionEvent triggered by the button press
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == showCashButton) {
@@ -66,6 +72,9 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		}
 	}
 
+	/**
+	 * Opens the CashView window at a calculated position.
+	 */
 	private void openCashView() {
 		Point cashViewPosition = calculateWindowPosition();
 
@@ -75,6 +84,13 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		cashView.setVisible(true);
 	}
 
+	/**
+	 * Opens the ProductView window with a specified option at a calculated
+	 * position.
+	 * 
+	 * @param option the option specifying the action to be performed in the
+	 *               ProductView
+	 */
 	private void openProductView(int option) {
 		Point cashViewPosition = calculateWindowPosition();
 
@@ -83,6 +99,9 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		productView.setVisible(true);
 	}
 
+	/**
+	 * Opens the InventoryView window at a calculated position.
+	 */
 	private void openInventoryView() {
 		Point cashViewPosition = calculateWindowPosition();
 
@@ -91,11 +110,18 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		inventoryView.setVisible(true);
 	}
 
+	/**
+	 * Exits the application by terminating the Java Virtual Machine.
+	 */
 	private void exitOption() {
 		System.exit(0);
 	}
 
-	private void shopMenu() {
+	/**
+	 * Sets up the main shop menu UI, including buttons for various actions and
+	 * their event listeners.
+	 */
+	private void shopUI() {
 		setTitle("Shop menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(500, 380);
@@ -157,8 +183,10 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		this.addKeyListener(this);
 	}
 
-	/*
-	 * method to obtain the screen size
+	/**
+	 * Gets the screen size of the display.
+	 * 
+	 * @return Dimension representing the width and height of the screen.
 	 */
 	private Dimension getScreenSize() {
 		// class which provides a way to represent the size of a component or a graphic
@@ -166,24 +194,31 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		return Toolkit.getDefaultToolkit().getScreenSize();
 	}
 
-	/*
-	 * method for calculating where the second window appears
+	/**
+	 * Calculates the Y position to center the window vertically on the screen.
+	 * 
+	 * @return int representing the Y coordinate.
 	 */
 	private int calculateYPosition() {
 		int screenHeight = (int) getScreenSize().getHeight();
 		return (screenHeight - getHeight()) / 2;
 	}
 
-	/*
-	 * method for calculating where the second window appears
+	/**
+	 * Calculates the X position to center the window horizontally on the screen.
+	 * 
+	 * @return int representing the X coordinate.
 	 */
 	private int calculateXPosition() {
 		int screenWidth = (int) getScreenSize().getWidth();
 		return (screenWidth - getWidth()) / 3;
 	}
 
-	/*
-	 * method for calculating where the second window appears
+	/**
+	 * Calculates the position where a new window should appear relative to the
+	 * current window.
+	 * 
+	 * @return Point representing the new window's X and Y coordinates.
 	 */
 	private Point calculateWindowPosition() {
 		// class that represents a point in a two-dimensional space with x and y
@@ -202,6 +237,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 
 	/**
 	 * handles key press events to open views
+	 * 
 	 * @param e the KeyEvent triggered by the key press
 	 */
 	@Override
