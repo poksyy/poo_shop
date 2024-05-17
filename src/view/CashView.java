@@ -61,7 +61,7 @@ public class CashView extends JDialog implements ActionListener {
 
 		// panel settings
 		JPanel panel = new JPanel();
-        panel.setBackground(new Color(248, 249, 250));  
+		panel.setBackground(new Color(248, 249, 250));
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new BorderLayout());
 

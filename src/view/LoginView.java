@@ -46,25 +46,23 @@ public class LoginView extends JFrame implements ActionListener {
 		// text fields and login button
 		empNumField = new JTextField();
 		passwordField = new JPasswordField();
-		passwordField.setEchoChar('*');
 		btnLogin = new JButton("Sign in");
-		btnLogin.setFont(new Font("Arial", Font.BOLD, 10));
+		btnLogin.setFont(new Font("Arial", Font.BOLD, 12));
 
 		// panel settings
 		panel.setLayout(null);
 
-        // setting button fonts
-        Font buttonFont = new Font("Arial", Font.BOLD, 10);
-        setButtonFonts(new JButton[] { btnLogin }, buttonFont);
+		// setting button fonts
+		Font buttonFont = new Font("Arial", Font.BOLD, 12);
+		setButtonFonts(new JButton[] { btnLogin }, buttonFont);
 
-        // setting button backgrounds
-        Color buttonBackgroundColor = new Color(233, 236, 239);
-        setButtonBackgrounds(new JButton[] { btnLogin }, buttonBackgroundColor);
-        
-        // setting frame background
-        panel.setBackground(new Color(248, 249, 250));  
-        
-		
+		// setting button backgrounds
+		Color buttonBackgroundColor = new Color(233, 236, 239);
+		setButtonBackgrounds(new JButton[] { btnLogin }, buttonBackgroundColor);
+
+		// setting frame background
+		panel.setBackground(new Color(248, 249, 250));
+
 		// labels and input fields
 		JLabel label1 = new JLabel("POO Shop");
 		label1.setBounds(10, 10, 100, 20);
@@ -113,7 +111,7 @@ public class LoginView extends JFrame implements ActionListener {
 			button.setBackground(color);
 		}
 	}
-	
+
 	/**
 	 * Validates the entered credentials by extracting the employee number and
 	 * password from the input fields, then checks if the employee number is an

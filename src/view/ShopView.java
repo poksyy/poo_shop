@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -17,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import main.Shop;
@@ -173,22 +175,37 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		// text fields and buttons
 		panel.add(new JLabel("Select or click on an option:"));
 		panel.add(new JLabel());
-		btnShowCash = new JButton("1. Show cash");
-		btnAddProduct = new JButton("2. Add product");
-		btnAddStock = new JButton("3. Add stock");
-		btnSetExpired = new JButton("4. Set expired");
-		btnShowInventory = new JButton("5. Show inventory");
-		btnMakeSale = new JButton("6. Make sales");
-		btnShowSale = new JButton("7. Sales records");
-		btnDeleteProduct = new JButton("8. Delete product");
-		btnShowTotalSale = new JButton("9. Total sales");
-		btnExit = new JButton("10. Exit");
-
+		JButton[] buttons = {
+	        btnShowCash = new JButton("1. Show cash"),
+	        btnAddProduct = new JButton("2. Add product"),
+	        btnAddStock = new JButton("3. Add stock"),
+	        btnSetExpired = new JButton("4. Set expired"),
+	        btnShowInventory = new JButton("5. Show inventory"),
+	        btnMakeSale = new JButton("6. Make sales"),
+	        btnShowSale = new JButton("7. Sales records"),
+	        btnDeleteProduct = new JButton("8. Delete product"),
+	        btnShowTotalSale = new JButton("9. Total sales"),
+	        btnExit = new JButton("10. Exit")
+	    };
+		
 		// setting button fonts
-		Font buttonFont = new Font("Arial", Font.BOLD, 10);
+		Font buttonFont = new Font("Arial", Font.BOLD, 12);
 		setButtonFonts(new JButton[] { btnShowCash, btnAddProduct, btnAddStock, btnSetExpired, btnShowInventory,
 				btnMakeSale, btnShowSale, btnDeleteProduct, btnShowTotalSale, btnExit }, buttonFont);
 
+	    for (JButton button : buttons) {
+	        button.setHorizontalAlignment(SwingConstants.LEFT);
+	        button.setFont(buttonFont);
+
+	        // adjust the inner margin to center the text almost in the middle
+	        Insets margin = button.getMargin();
+	        margin.left = 40;
+	        button.setMargin(margin);
+
+	        panel.add(button);
+	        button.addActionListener(this);
+	    }
+	    
 		// setting button backgrounds
 		Color buttonBackgroundColor = new Color(233, 236, 239);
 		setButtonBackgrounds(new JButton[] { btnShowCash, btnAddProduct, btnAddStock, btnSetExpired, btnShowInventory,
