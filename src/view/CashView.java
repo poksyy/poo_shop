@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,8 +59,9 @@ public class CashView extends JDialog implements ActionListener {
 		// text fields
 		cashLabel = new JLabel("Current cash: " + cash.toString(), JLabel.LEFT);
 
-		// panel with border layout
+		// panel settings
 		JPanel panel = new JPanel();
+        panel.setBackground(new Color(248, 249, 250));  
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new BorderLayout());
 

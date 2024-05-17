@@ -3,6 +3,8 @@ package view;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -10,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import util.Constants;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -164,50 +167,35 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		setLocation(calculateXPosition(), calculateYPosition());
 		shop = new Shop();
 
-		// text fields and buttons
-		btnShowCash = new JButton("1. Show cash");
-		btnShowCash.setFont(new Font("Arial", Font.BOLD, 10));
-		btnAddProduct = new JButton("2. Add product");
-		btnAddProduct.setFont(new Font("Arial", Font.BOLD, 10));
-		btnAddStock = new JButton("3. Add stock");
-		btnAddStock.setFont(new Font("Arial", Font.BOLD, 10));
-		btnSetExpired = new JButton("4. Set expired");
-		btnSetExpired.setFont(new Font("Arial", Font.BOLD, 10));
-		btnShowInventory = new JButton("5. Show inventory");
-		btnShowInventory.setFont(new Font("Arial", Font.BOLD, 10));
-		btnMakeSale = new JButton("6. Make sales");
-		btnMakeSale.setFont(new Font("Arial", Font.BOLD, 10));
-		btnShowSale = new JButton("7. Sales records");
-		btnShowSale.setFont(new Font("Arial", Font.BOLD, 10));
-		btnDeleteProduct = new JButton("8. Delete product");
-		btnDeleteProduct.setFont(new Font("Arial", Font.BOLD, 10));
-		btnShowTotalSale = new JButton("9. Total sales");
-		btnShowTotalSale.setFont(new Font("Arial", Font.BOLD, 10));
-		btnExit = new JButton("10. Exit");
-		btnExit.setFont(new Font("Arial", Font.BOLD, 10));
-
-		// panel with absolute layout
-		JPanel panel = new JPanel();
+		JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		panel.setLayout(null);
 
-		// labels and buttons
-		JLabel label = new JLabel("Select or click on an option:");
-		label.setBounds(10, 10, 200, 20);
+		// text fields and buttons
+		panel.add(new JLabel("Select or click on an option:"));
+		panel.add(new JLabel());
+		btnShowCash = new JButton("1. Show cash");
+		btnAddProduct = new JButton("2. Add product");
+		btnAddStock = new JButton("3. Add stock");
+		btnSetExpired = new JButton("4. Set expired");
+		btnShowInventory = new JButton("5. Show inventory");
+		btnMakeSale = new JButton("6. Make sales");
+		btnShowSale = new JButton("7. Sales records");
+		btnDeleteProduct = new JButton("8. Delete product");
+		btnShowTotalSale = new JButton("9. Total sales");
+		btnExit = new JButton("10. Exit");
 
-		// first column
-		btnShowCash.setBounds(10, 40, 220, 50);
-		btnAddProduct.setBounds(10, 100, 220, 50);
-		btnAddStock.setBounds(10, 160, 220, 50);
-		btnSetExpired.setBounds(10, 220, 220, 50);
-		btnShowInventory.setBounds(10, 280, 220, 50);
+		// setting button fonts
+		Font buttonFont = new Font("Arial", Font.BOLD, 10);
+		setButtonFonts(new JButton[] { btnShowCash, btnAddProduct, btnAddStock, btnSetExpired, btnShowInventory,
+				btnMakeSale, btnShowSale, btnDeleteProduct, btnShowTotalSale, btnExit }, buttonFont);
 
-		// second column
-		btnMakeSale.setBounds(255, 40, 220, 50);
-		btnShowSale.setBounds(255, 100, 220, 50);
-		btnDeleteProduct.setBounds(255, 160, 220, 50);
-		btnShowTotalSale.setBounds(255, 220, 220, 50);
-		btnExit.setBounds(255, 280, 220, 50);
+		// setting button backgrounds
+		Color buttonBackgroundColor = new Color(233, 236, 239);
+		setButtonBackgrounds(new JButton[] { btnShowCash, btnAddProduct, btnAddStock, btnSetExpired, btnShowInventory,
+				btnMakeSale, btnShowSale, btnDeleteProduct, btnShowTotalSale, btnExit }, buttonBackgroundColor);
+
+		// setting frame background
+		panel.setBackground(new Color(248, 249, 250));
 
 		// add action listeners for buttons
 		btnShowCash.addActionListener(this);
@@ -218,7 +206,6 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		btnExit.addActionListener(this);
 
 		// adding components to the panel
-		panel.add(label);
 		panel.add(btnShowCash);
 		panel.add(btnAddProduct);
 		panel.add(btnAddStock);
@@ -234,6 +221,30 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		getContentPane().add(panel);
 
 		this.addKeyListener(this);
+	}
+	
+	/**
+	 * Sets the font for a group of buttons.
+	 *
+	 * @param buttons the array of JButtons to set the font for
+	 * @param font    the font to set
+	 */
+	private void setButtonFonts(JButton[] buttons, Font font) {
+		for (JButton button : buttons) {
+			button.setFont(font);
+		}
+	}
+
+	/**
+	 * Sets the background color for a group of buttons.
+	 *
+	 * @param buttons the array of JButtons to set the background color for
+	 * @param color   the color to set as the background
+	 */
+	private void setButtonBackgrounds(JButton[] buttons, Color color) {
+		for (JButton button : buttons) {
+			button.setBackground(color);
+		}
 	}
 
 	/**

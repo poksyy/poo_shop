@@ -1,6 +1,7 @@
 package view;
 
 import util.Constants;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -40,6 +41,7 @@ public class LoginView extends JFrame implements ActionListener {
 		setSize(350, 175);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		JPanel panel = new JPanel();
 
 		// text fields and login button
 		empNumField = new JTextField();
@@ -48,10 +50,21 @@ public class LoginView extends JFrame implements ActionListener {
 		btnLogin = new JButton("Sign in");
 		btnLogin.setFont(new Font("Arial", Font.BOLD, 10));
 
-		// panel with absolute layout
-		JPanel panel = new JPanel();
+		// panel settings
 		panel.setLayout(null);
 
+        // setting button fonts
+        Font buttonFont = new Font("Arial", Font.BOLD, 10);
+        setButtonFonts(new JButton[] { btnLogin }, buttonFont);
+
+        // setting button backgrounds
+        Color buttonBackgroundColor = new Color(233, 236, 239);
+        setButtonBackgrounds(new JButton[] { btnLogin }, buttonBackgroundColor);
+        
+        // setting frame background
+        panel.setBackground(new Color(248, 249, 250));  
+        
+		
 		// labels and input fields
 		JLabel label1 = new JLabel("POO Shop");
 		label1.setBounds(10, 10, 100, 20);
@@ -77,6 +90,30 @@ public class LoginView extends JFrame implements ActionListener {
 		getContentPane().add(panel);
 	}
 
+	/**
+	 * Sets the font for a group of buttons.
+	 *
+	 * @param buttons the array of JButtons to set the font for
+	 * @param font    the font to set
+	 */
+	private void setButtonFonts(JButton[] buttons, Font font) {
+		for (JButton button : buttons) {
+			button.setFont(font);
+		}
+	}
+
+	/**
+	 * Sets the background color for a group of buttons.
+	 *
+	 * @param buttons the array of JButtons to set the background color for
+	 * @param color   the color to set as the background
+	 */
+	private void setButtonBackgrounds(JButton[] buttons, Color color) {
+		for (JButton button : buttons) {
+			button.setBackground(color);
+		}
+	}
+	
 	/**
 	 * Validates the entered credentials by extracting the employee number and
 	 * password from the input fields, then checks if the employee number is an

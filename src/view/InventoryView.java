@@ -1,6 +1,8 @@
 package view;
 
 import javax.swing.*;
+
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -46,6 +48,7 @@ public class InventoryView extends JDialog implements ActionListener {
 		}
 
 		JTable table = new JTable(data, columnNames);
+        table.setBackground(new Color(248, 249, 250));  
 		// fills the full height available in the scroll container
 		table.setFillsViewportHeight(true);
 		// allow scrolling if the table has more rows than the dialog box space
