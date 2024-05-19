@@ -20,12 +20,6 @@ public class LoginView extends JFrame implements ActionListener {
 	private boolean isLoggedIn;
 	private int loginAttempts;
 
-	public static void main(String[] args) {
-		// create LoginView and make it visible
-		LoginView loginView = new LoginView();
-		loginView.setVisible(true);
-	}
-
 	public LoginView() {
 		loginUI();
 	}

@@ -184,7 +184,7 @@ public class ProductView extends JDialog implements ActionListener {
 			// show an informational message
 			JOptionPane.showMessageDialog(this, "Product added successfully.", "Information",
 					JOptionPane.INFORMATION_MESSAGE);
-
+			dispose();
 		} catch (NumberFormatException e) {
 			// Show an error message for invalid input format
 			JOptionPane.showMessageDialog(this, "Invalid input format for stock or price.", "Error",
@@ -208,6 +208,11 @@ public class ProductView extends JDialog implements ActionListener {
 			if (product != null) {
 				int updatedStock = product.getStock() + additionalStock;
 				product.setStock(updatedStock);
+
+				// show an informational message
+				JOptionPane.showMessageDialog(this, "Stock added successfully.", "Information",
+						JOptionPane.INFORMATION_MESSAGE);
+				dispose();
 			} else {
 				JOptionPane.showMessageDialog(this, "The product does not exist in the inventory.", "Error",
 						JOptionPane.ERROR_MESSAGE);
@@ -244,6 +249,10 @@ public class ProductView extends JDialog implements ActionListener {
 				// if the option is yes remove the product from inventory
 				if (result == JOptionPane.YES_OPTION) {
 					shop.inventory.remove(product);
+					// show an informational message
+					JOptionPane.showMessageDialog(this, "Product removed successfully.", "Information",
+							JOptionPane.INFORMATION_MESSAGE);
+					dispose();
 				} else {
 					System.out.println("No changes have been made.");
 				}

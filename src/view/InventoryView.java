@@ -27,7 +27,7 @@ public class InventoryView extends JDialog implements ActionListener {
 	 */
 	private void inventoryUI() {
 		setTitle("Product inventory");
-		setSize(500, 300);
+		setSize(500, 380);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 

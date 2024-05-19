@@ -23,27 +23,6 @@ public class CashView extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JLabel cashLabel;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					// create objects
-					Shop shop = new Shop();
-					ShopView shopView = new ShopView();
-					Amount cash = shop.showCash();
-					CashView cashView = new CashView(shopView, cash);
-
-					shopView.setVisible(true);
-
-					// get the current cash amount
-					cashView.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Initializes and displays the CashView user interface.
 	 * 

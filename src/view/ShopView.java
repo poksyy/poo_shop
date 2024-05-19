@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -41,24 +40,10 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	private JButton btnExit;
 	private Shop shop;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ShopView frame = new ShopView();
-					frame.setVisible(true);
-					// allow keyboard focus on frame
-					frame.setFocusable(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public ShopView() {
 		this.shop = new Shop();
 		shopUI();
+		setFocusable(true);
 		shop.loadInventory();
 	}
 
@@ -113,10 +98,10 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	 *               ProductView
 	 */
 	private void openProductView(int option) {
-		Point cashViewPosition = calculateWindowPosition();
+		Point ProductViewPosition = calculateWindowPosition();
 
 		ProductView productView = new ProductView(option, shop);
-		productView.setLocation(cashViewPosition);
+		productView.setLocation(ProductViewPosition);
 		productView.setVisible(true);
 	}
 
@@ -129,10 +114,10 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	 * Opens the InventoryView window at a calculated position.
 	 */
 	private void openInventoryView() {
-		Point cashViewPosition = calculateWindowPosition();
+		Point InventoryViewPosition = calculateWindowPosition();
 
 		InventoryView inventoryView = new InventoryView(shop);
-		inventoryView.setLocation(cashViewPosition);
+		inventoryView.setLocation(InventoryViewPosition);
 		inventoryView.setVisible(true);
 	}
 
@@ -175,37 +160,30 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		// text fields and buttons
 		panel.add(new JLabel("Select or click on an option:"));
 		panel.add(new JLabel());
-		JButton[] buttons = {
-	        btnShowCash = new JButton("1. Show cash"),
-	        btnAddProduct = new JButton("2. Add product"),
-	        btnAddStock = new JButton("3. Add stock"),
-	        btnSetExpired = new JButton("4. Set expired"),
-	        btnShowInventory = new JButton("5. Show inventory"),
-	        btnMakeSale = new JButton("6. Make sales"),
-	        btnShowSale = new JButton("7. Sales records"),
-	        btnDeleteProduct = new JButton("8. Delete product"),
-	        btnShowTotalSale = new JButton("9. Total sales"),
-	        btnExit = new JButton("10. Exit")
-	    };
-		
+		JButton[] buttons = { btnShowCash = new JButton("1. Show cash"), btnAddProduct = new JButton("2. Add product"),
+				btnAddStock = new JButton("3. Add stock"), btnSetExpired = new JButton("4. Set expired"),
+				btnShowInventory = new JButton("5. Show inventory"), btnMakeSale = new JButton("6. Make sales"),
+				btnShowSale = new JButton("7. Sales records"), btnDeleteProduct = new JButton("8. Delete product"),
+				btnShowTotalSale = new JButton("9. Total sales"), btnExit = new JButton("10. Exit") };
+
 		// setting button fonts
 		Font buttonFont = new Font("Arial", Font.BOLD, 12);
 		setButtonFonts(new JButton[] { btnShowCash, btnAddProduct, btnAddStock, btnSetExpired, btnShowInventory,
 				btnMakeSale, btnShowSale, btnDeleteProduct, btnShowTotalSale, btnExit }, buttonFont);
 
-	    for (JButton button : buttons) {
-	        button.setHorizontalAlignment(SwingConstants.LEFT);
-	        button.setFont(buttonFont);
+		for (JButton button : buttons) {
+			button.setHorizontalAlignment(SwingConstants.LEFT);
+			button.setFont(buttonFont);
 
-	        // adjust the inner margin to center the text almost in the middle
-	        Insets margin = button.getMargin();
-	        margin.left = 40;
-	        button.setMargin(margin);
+			// adjust the inner margin to center the text almost in the middle
+			Insets margin = button.getMargin();
+			margin.left = 40;
+			button.setMargin(margin);
 
-	        panel.add(button);
-	        button.addActionListener(this);
-	    }
-	    
+			panel.add(button);
+			button.addActionListener(this);
+		}
+
 		// setting button backgrounds
 		Color buttonBackgroundColor = new Color(233, 236, 239);
 		setButtonBackgrounds(new JButton[] { btnShowCash, btnAddProduct, btnAddStock, btnSetExpired, btnShowInventory,
@@ -213,14 +191,6 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 
 		// setting frame background
 		panel.setBackground(new Color(248, 249, 250));
-
-		// add action listeners for buttons
-		btnShowCash.addActionListener(this);
-		btnAddProduct.addActionListener(this);
-		btnAddStock.addActionListener(this);
-		btnShowInventory.addActionListener(this);
-		btnDeleteProduct.addActionListener(this);
-		btnExit.addActionListener(this);
 
 		// adding components to the panel
 		panel.add(btnShowCash);
@@ -239,7 +209,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 
 		this.addKeyListener(this);
 	}
-	
+
 	/**
 	 * Sets the font for a group of buttons.
 	 *
@@ -292,7 +262,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	 */
 	private int calculateXPosition() {
 		int screenWidth = (int) getScreenSize().getWidth();
-		return (screenWidth - getWidth()) / 3;
+		return (screenWidth - getWidth()) / 4;
 	}
 
 	/**
@@ -355,6 +325,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 			exitOption();
 			break;
 		}
+		this.requestFocus();
 	}
 
 	@Override
