@@ -17,13 +17,14 @@ import model.Client;
 import model.ClientPremium;
 import model.Product;
 import model.Sale;
+import view.CashView;
 import view.LoginView;
 
 
 public class Shop {
     private static final String BOLD_TEXT = "\u001B[1m";
     private static final String RESET_TEXT = "\u001B[0m";
-    final static double TAX_RATE = 1.04;
+    public final static double TAX_RATE = 1.04;
     private static Scanner sc = new Scanner(System.in);
 
     private Amount cash;
@@ -39,7 +40,7 @@ public class Shop {
     
 	public static void main(String[] args) {
 		Shop shop = new Shop();
-		shop.loadInventory();
+		// shop.loadInventory();
 		shop.initSession();
 		
 		int opcion = 0;
@@ -265,7 +266,8 @@ public class Shop {
 		
 	    // ask for client name
 	    System.out.println("Enter the client's name:");
-	    String clientName = sc.next();	    
+	    @SuppressWarnings("unused")
+		String clientName = sc.next();	    
 	    
 	    // sale product until input name is not 0
 	    Amount totalAmount = new Amount(0.0);
@@ -410,7 +412,7 @@ public class Shop {
 	 * formatted date & time 
 	 * @return
 	 */
-	private String getCurrentDateTimeFormatted() {
+	public String getCurrentDateTimeFormatted() {
 		myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 		LocalDateTime myDateObj = LocalDateTime.now();
 		return myDateObj.format(myFormatObj);
@@ -426,6 +428,14 @@ public class Shop {
 		return myDateObj.format(myFormatObj);
 	}
 	
+	/**
+	 * sales getter
+	 * @return sales
+	 */
+    public ArrayList<Sale> getSales() {
+        return this.sales;
+    }
+    
 	/**
 	 * save sales to file
 	 */
@@ -488,5 +498,12 @@ public class Shop {
 		return inventory;
 	}
 	
+    public Amount getCash() {
+        return cash;
+    }
+    
+    public void setCash(Amount cash) {
+        this.cash = cash;
+    }
 
 }

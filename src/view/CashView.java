@@ -1,65 +1,66 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import main.Shop;
 import model.Amount;
 
-public class CashView extends JDialog implements ActionListener {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JLabel cashLabel;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-	/**
-	 * Initializes and displays the CashView user interface.
-	 * 
-	 * @param shopView The parent ShopView.
-	 * @param cash     The amount of cash to display.
-	 */
-	public CashView(ShopView shopView, Amount cash) {
-		setTitle("Cash");
-		setSize(200, 80);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+public class CashView extends JDialog {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private Shop shop;
+    private JLabel cashLabel;
 
-		// text fields
-		cashLabel = new JLabel("Current cash: " + cash.toString(), JLabel.LEFT);
+    /**
+     * Initializes and displays the CashView user interface.
+     *
+     * @param shopView The parent ShopView.
+     * @param cash     The amount of cash to display.
+     */
+    public CashView(ShopView shopView, Amount cash, Shop shop) {
+        this.shop = shop;
+        setTitle("Cash");
+        setSize(200, 80);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-		// panel settings
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(248, 249, 250));
-		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		panel.setLayout(new BorderLayout());
+        // text fields
+        cashLabel = new JLabel("Current cash: " + shop.getCash().toString(), JLabel.LEFT);
 
-		// labels and input fields
-		panel.add(cashLabel, BorderLayout.CENTER);
+        // panel settings
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(248, 249, 250));
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel.setLayout(new BorderLayout());
 
-		// adding the panel to the frame
-		getContentPane().add(panel);
+        // labels and input fields
+        panel.add(cashLabel, BorderLayout.CENTER);
 
-		// add a window listener to set the ShopView visible when the CashView is closed
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent e) {
-				shopView.setVisible(true);
-			}
-		});
-	}
+        // adding the panel to the frame
+        getContentPane().add(panel);
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-	}
+        // add a window listener to set the ShopView visible when the CashView is closed
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                shopView.setVisible(true);
+            }
+        });
+    }
+
+    /**
+     * Updates the cash label with the new amount.
+     * 
+     * @param cash The new amount of cash to display.
+     */
+    public void updateCash(Amount cash) {
+        cashLabel.setText("Current cash: " + cash.toString());
+    }
 }
