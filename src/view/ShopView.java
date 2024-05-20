@@ -39,6 +39,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	private JButton btnShowTotalSale;
 	private JButton btnExit;
 	private Shop shop;
+	private CashView cashView;
 
 	public ShopView() {
 		this.shop = new Shop();
@@ -82,12 +83,12 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	 * Opens the CashView window at a calculated position.
 	 */
 	private void openCashView() {
-		Point cashViewPosition = calculateWindowPosition();
+	    Point cashViewPosition = calculateWindowPosition();
 
-		Amount cash = shop.showCash();
-		CashView cashView = new CashView(this, cash);
-		cashView.setLocation(cashViewPosition);
-		cashView.setVisible(true);
+	    Amount cash = shop.showCash();
+	    cashView = new CashView(this, cash, shop);
+	    cashView.setLocation(cashViewPosition);
+	    cashView.setVisible(true);
 	}
 
 	/**
@@ -121,9 +122,15 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		inventoryView.setVisible(true);
 	}
 
+	/**
+	 * Opens the SaleView window at a calculated position.
+	 */
 	private void openSaleView() {
-		// TODO Auto-generated method stub
+		Point SaleViewPosition = calculateWindowPosition();
 
+	    SaleView SaleView = new SaleView(shop, this);
+	    SaleView.setLocation(SaleViewPosition);
+		SaleView.setVisible(true);
 	}
 
 	private void openSaleRecords() {
@@ -331,5 +338,5 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 	}
-
+	
 }

@@ -58,20 +58,20 @@ public class LoginView extends JFrame implements ActionListener {
 		panel.setBackground(new Color(248, 249, 250));
 
 		// labels and input fields
-		JLabel label1 = new JLabel("POO Shop");
-		label1.setBounds(10, 10, 100, 20);
-		JLabel label2 = new JLabel("Employee Number:");
-		label2.setBounds(10, 40, 120, 20);
+		JLabel lblShop = new JLabel("POO Shop");
+		lblShop.setBounds(10, 10, 100, 20);
+		JLabel lblEmployee = new JLabel("Employee Number:");
+		lblEmployee.setBounds(10, 40, 120, 20);
 		empNumField.setBounds(154, 41, 172, 20);
-		JLabel label3 = new JLabel("Password:");
-		label3.setBounds(10, 70, 120, 20);
+		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setBounds(10, 70, 120, 20);
 		passwordField.setBounds(154, 70, 172, 20);
 		btnLogin.setBounds(154, 100, 172, 30);
 
-		panel.add(label1);
-		panel.add(label2);
+		panel.add(lblShop);
+		panel.add(lblEmployee);
 		panel.add(empNumField);
-		panel.add(label3);
+		panel.add(lblPassword);
 		panel.add(passwordField);
 		panel.add(btnLogin);
 
@@ -115,8 +115,8 @@ public class LoginView extends JFrame implements ActionListener {
 	 */
 	private void checkCredentials() {
 		// input fields
-		String empNum = empNumField.getText(); // Get employee number from the text field
-		String password = new String(passwordField.getPassword()); // Get password from the password field
+		String empNum = empNumField.getText(); 
+		String password = new String(passwordField.getPassword()); 
 
 		// validate if employee number is an integer
 		try {
