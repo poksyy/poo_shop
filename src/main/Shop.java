@@ -20,29 +20,28 @@ import model.Sale;
 import view.CashView;
 import view.LoginView;
 
-
 public class Shop {
-    private static final String BOLD_TEXT = "\u001B[1m";
-    private static final String RESET_TEXT = "\u001B[0m";
-    public final static double TAX_RATE = 1.04;
-    private static Scanner sc = new Scanner(System.in);
+	private static final String BOLD_TEXT = "\u001B[1m";
+	private static final String RESET_TEXT = "\u001B[0m";
+	public final static double TAX_RATE = 1.04;
+	private static Scanner sc = new Scanner(System.in);
 
-    private Amount cash;
-    private DateTimeFormatter myFormatObj;
-    private int saleIdCounter = 1;
+	private Amount cash;
+	private DateTimeFormatter myFormatObj;
+	private int saleIdCounter = 1;
 
-    public ArrayList<Product> inventory = new ArrayList<>();
-    ArrayList<Sale> sales = new ArrayList<>();
+	public ArrayList<Product> inventory = new ArrayList<>();
+	ArrayList<Sale> sales = new ArrayList<>();
 
-    public Shop() {
-        cash = new Amount(100.00);
-    }
-    
+	public Shop() {
+		cash = new Amount(100.00);
+	}
+
 	public static void main(String[] args) {
 		Shop shop = new Shop();
 		// shop.loadInventory();
 		shop.initSession();
-		
+
 		int opcion = 0;
 		boolean exit = false;
 
@@ -86,9 +85,9 @@ public class Shop {
 				break;
 
 			case 6:
-			    sc.nextLine();
-			    shop.sale();
-			    break;
+				sc.nextLine();
+				shop.sale();
+				break;
 			case 7:
 				shop.showSales();
 				break;
@@ -157,7 +156,8 @@ public class Shop {
 
 	/**
 	 * 1st Option: Show current total cash
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public Amount showCash() {
 		return cash;
@@ -189,25 +189,24 @@ public class Shop {
 	 * 3rd Option: Add stock for a specific product
 	 */
 	public void addStock() {
-	    System.out.print("Select a product name: ");
-	    String name = sc.next();
-	    Product product = findProduct(name);
+		System.out.print("Select a product name: ");
+		String name = sc.next();
+		Product product = findProduct(name);
 
-	    if (product != null) {
-	        // ask for the quantity
-	        System.out.print("Enter the quantity to add: ");
-	        int additionalStock = sc.nextInt();
-	        
-	        // update the product's stock by adding the additional quantity
-	        int updatedStock = product.getStock() + additionalStock;
-	        product.setStock(updatedStock);
-	        
-	        System.out.println("The stock of product " + name + " has been updated to " + updatedStock);
-	    } else {
-	        System.err.println("Product with name " + name + " not found.");
-	    }
+		if (product != null) {
+			// ask for the quantity
+			System.out.print("Enter the quantity to add: ");
+			int additionalStock = sc.nextInt();
+
+			// update the product's stock by adding the additional quantity
+			int updatedStock = product.getStock() + additionalStock;
+			product.setStock(updatedStock);
+
+			System.out.println("The stock of product " + name + " has been updated to " + updatedStock);
+		} else {
+			System.err.println("Product with name " + name + " not found.");
+		}
 	}
-
 
 	/**
 	 * 4th Option: Set a product as expired
@@ -238,106 +237,100 @@ public class Shop {
 		}
 	}
 
-
 	/**
 	 * 6th Option: Make a sale of products to a client
 	 */
 	public void sale() {
-	    String date = getCurrentDateTimeFormatted();
-	    ArrayList<Product> products = new ArrayList<>();
-	    int saleId = saleIdCounter++;
+		String date = getCurrentDateTimeFormatted();
+		ArrayList<Product> products = new ArrayList<>();
+		int saleId = saleIdCounter++;
 
-	    // ask if client is premium or not
-	    System.out.println("Is the client a premium member? (Yes/No)");
-	    String membershipOption = sc.next();
+		// ask if client is premium or not
+		System.out.println("Is the client a premium member? (Yes/No)");
+		String membershipOption = sc.next();
 
-	    Client client;
-	    switch (membershipOption.toLowerCase()) {
-	        case "yes":
-	            client = new ClientPremium("Premium Client");
-	            break;
-	        case "no":
-	            client = new Client("Regular Client");
-	            break;
-	        default:
-	            System.err.println("Invalid option.");
-	            client = new Client("Regular Client");
-	    }
-		
-	    // ask for client name
-	    System.out.println("Enter the client's name:");
-	    @SuppressWarnings("unused")
-		String clientName = sc.next();	    
-	    
-	    // sale product until input name is not 0
-	    Amount totalAmount = new Amount(0.0);
-	    String name = "";
-	    while (!name.equals("0") && products.size() < 10) {
-	        System.out.println("Enter the product name, write 0 to finish:");
-	        name = sc.next();
+		Client client;
+		switch (membershipOption.toLowerCase()) {
+		case "yes":
+			client = new ClientPremium("Premium Client");
+			break;
+		case "no":
+			client = new Client("Regular Client");
+			break;
+		default:
+			System.err.println("Invalid option.");
+			client = new Client("Regular Client");
+		}
 
-	        if (name.equals("0")) {
-	            break;
-	        }
-	        Product product = findProduct(name);
+		// ask for client name
+		System.out.println("Enter the client's name:");
+		@SuppressWarnings("unused")
+		String clientName = sc.next();
 
-	        if (product != null && product.isAvailable()) {
-	            totalAmount = totalAmount.add(product.getPublicPrice());
-	            product.setStock(product.getStock() - 1);
+		// sale product until input name is not 0
+		Amount totalAmount = new Amount(0.0);
+		String name = "";
+		while (!name.equals("0") && products.size() < 10) {
+			System.out.println("Enter the product name, write 0 to finish:");
+			name = sc.next();
 
-	            // if no more stock, set as not available to sale
-	            if (product.getStock() == 0) {
-	                product.setAvailable(false);
-	            }
-	            System.out.println("Product added successfully");
-	            products.add(product);
-	        } else {
-	            System.err.println("Product not found or out of stock");
-	        }
-	    }
+			if (name.equals("0")) {
+				break;
+			}
+			Product product = findProduct(name);
 
-	    // apply tax rate
-	    totalAmount = totalAmount.multiply(TAX_RATE);
+			if (product != null && product.isAvailable()) {
+				totalAmount = totalAmount.add(product.getPublicPrice());
+				product.setStock(product.getStock() - 1);
 
-	    // payment process
-	    boolean payment = client.pay(totalAmount);
+				// if no more stock, set as not available to sale
+				if (product.getStock() == 0) {
+					product.setAvailable(false);
+				}
+				System.out.println("Product added successfully");
+				products.add(product);
+			} else {
+				System.err.println("Product not found or out of stock");
+			}
+		}
 
-	    if (payment || totalAmount.getValue() > client.getBalance()) {
-	        if (payment) {
-	            cash = cash.add(totalAmount);
-	            System.out.println("Sale made successfully, total: " + totalAmount);
-	        } else {
-	            double differenceValue = (-1) * (totalAmount.getValue() - client.getBalance());
-	            Amount difference = new Amount(differenceValue);
-	            System.out.println("Sale made successfully, total: " + totalAmount);
-	            System.out.println("The client owes: " + difference);
-	        }
-	        
-	        Sale sale = new Sale(saleId, name, products, totalAmount, date);
-	        sales.add(sale);
-	    } else {
-	        System.err.println("Sale canceled.");
-	    }
+		// apply tax rate
+		totalAmount = totalAmount.multiply(TAX_RATE);
 
+		// payment process
+		boolean payment = client.pay(totalAmount);
 
+		if (payment || totalAmount.getValue() > client.getBalance()) {
+			if (payment) {
+				cash = cash.add(totalAmount);
+				System.out.println("Sale made successfully, total: " + totalAmount);
+			} else {
+				double differenceValue = (-1) * (totalAmount.getValue() - client.getBalance());
+				Amount difference = new Amount(differenceValue);
+				System.out.println("Sale made successfully, total: " + totalAmount);
+				System.out.println("The client owes: " + difference);
+			}
 
+			Sale sale = new Sale(saleId, name, products, totalAmount, date);
+			sales.add(sale);
+		} else {
+			System.err.println("Sale canceled.");
+		}
 
 	}
-
-
 
 	/**
 	 * 7th Option: Show all sales
 	 */
 	private void showSales() {
-	    for (Sale sale : sales) {
-	        if (sale != null) {
-	            System.out.println("Sale #" + sale.getSaleId());
-	            System.out.println("Client: " + sale.getClientName());
-	            System.out.println(sale.toString());
-	        }
-	    }
-	    saveSalesToFile();
+		for (Sale sale : sales) {
+			if (sale != null) {
+				System.out.println("Sale #" + sale.getSaleId());
+				System.out.println("Client: " + sale.getClientName());
+				System.out.println(sale.toString());
+			}
+		}
+		saveSalesToFile();
 	}
 
 	/**
@@ -374,16 +367,15 @@ public class Shop {
 	 * 9th Option: Show total sales
 	 */
 	private void showSalesTotal() {
-	    Amount totalAmount = new Amount(0.0);
-	    for (Sale sale : sales) {
-	        if (sale != null) {
-	            totalAmount = totalAmount.add(sale.getAmount());
-	            System.out.println(sale.toString());
-	        }
-	    }
-	    System.out.println("Total sales amount: " + totalAmount);
+		Amount totalAmount = new Amount(0.0);
+		for (Sale sale : sales) {
+			if (sale != null) {
+				totalAmount = totalAmount.add(sale.getAmount());
+				System.out.println(sale.toString());
+			}
+		}
+		System.out.println("Total sales amount: " + totalAmount);
 	}
-
 
 	/**
 	 * add a product to inventory
@@ -407,9 +399,10 @@ public class Shop {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * formatted date & time 
+	 * formatted date & time
+	 * 
 	 * @return
 	 */
 	public String getCurrentDateTimeFormatted() {
@@ -417,9 +410,10 @@ public class Shop {
 		LocalDateTime myDateObj = LocalDateTime.now();
 		return myDateObj.format(myFormatObj);
 	}
-	
+
 	/**
 	 * formatted date
+	 * 
 	 * @return
 	 */
 	private String getCurrentDateFormatted() {
@@ -427,83 +421,85 @@ public class Shop {
 		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		return myDateObj.format(myFormatObj);
 	}
-	
+
 	/**
 	 * sales getter
+	 * 
 	 * @return sales
 	 */
-    public ArrayList<Sale> getSales() {
-        return this.sales;
-    }
-    
+	public ArrayList<Sale> getSales() {
+		return this.sales;
+	}
+
 	/**
 	 * save sales to file
 	 */
 	private void saveSalesToFile() {
-	    try {
-	        String date = getCurrentDateFormatted();
-	        File file = new File("./files/sales_" + date + ".txt");
-	        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		try {
+			String date = getCurrentDateFormatted();
+			File file = new File("./files/sales_" + date + ".txt");
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
-	        if (!file.exists()) {
-	            System.out.println("Creating the file...");
-	            file.createNewFile();
-	        }
+			if (!file.exists()) {
+				System.out.println("Creating the file...");
+				file.createNewFile();
+			}
 
-	        for (Sale sale : sales) {
-	            if (sale != null && !sale.isSaved()) {
-	                writer.append(sale.getSaleId() + ";Client=" + sale.getClientName() + ";Date=" + sale.getDate() + ";\n");
+			for (Sale sale : sales) {
+				if (sale != null && !sale.isSaved()) {
+					writer.append(
+							sale.getSaleId() + ";Client=" + sale.getClientName() + ";Date=" + sale.getDate() + ";\n");
 
-	                ArrayList<Product> products = sale.getProducts();
-	                for (Product product : products) {
-	                    writer.append(sale.getSaleId() + ";Products=" + product.getName() + ","
-	                            + product.getPublicPrice() + ";\n");
-	                }
+					ArrayList<Product> products = sale.getProducts();
+					for (Product product : products) {
+						writer.append(sale.getSaleId() + ";Products=" + product.getName() + ","
+								+ product.getPublicPrice() + ";\n");
+					}
 
-	                writer.append(sale.getSaleId() + ";Amount=" + sale.getAmount() + ";\n");
+					writer.append(sale.getSaleId() + ";Amount=" + sale.getAmount() + ";\n");
 
-	                sale.setSaved(true);
-	            }
-	        }
+					sale.setSaved(true);
+				}
+			}
 
-	        writer.close();
-	        System.out.println("Sale saved in the file successfully.");
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        System.err.println("Error writing to the file.");
-	    }
+			writer.close();
+			System.out.println("Sale saved in the file successfully.");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("Error writing to the file.");
+		}
 	}
-    
+
 	/**
 	 * log in
 	 */
 	private void initSession() {
-	    LoginView loginWindow = new LoginView();
+		LoginView loginWindow = new LoginView();
 
-	    loginWindow.setVisible(true);
+		loginWindow.setVisible(true);
 
-	    while (!loginWindow.isLoggedIn()) {
-	        try {
-	            Thread.sleep(100);
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-	    }
+		while (!loginWindow.isLoggedIn()) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 
-	    System.out.println("Login successful. Welcome");
+		System.out.println("Login successful. Welcome");
 	}
 
 	public List<Product> getInventory() {
 		// TODO Auto-generated method stub
 		return inventory;
 	}
-	
-    public Amount getCash() {
-        return cash;
-    }
-    
-    public void setCash(Amount cash) {
-        this.cash = cash;
-    }
+
+	public Amount getCash() {
+		return cash;
+	}
+
+	public void setCash(Amount cash) {
+		this.cash = cash;
+	}
 
 }

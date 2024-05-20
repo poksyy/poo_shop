@@ -83,12 +83,12 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	 * Opens the CashView window at a calculated position.
 	 */
 	private void openCashView() {
-	    Point cashViewPosition = calculateWindowPosition();
+		Point cashViewPosition = calculateWindowPosition();
 
-	    Amount cash = shop.showCash();
-	    cashView = new CashView(this, cash, shop);
-	    cashView.setLocation(cashViewPosition);
-	    cashView.setVisible(true);
+		Amount cash = shop.showCash();
+		cashView = new CashView(this, cash, shop);
+		cashView.setLocation(cashViewPosition);
+		cashView.setVisible(true);
 	}
 
 	/**
@@ -128,8 +128,8 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	private void openSaleView() {
 		Point SaleViewPosition = calculateWindowPosition();
 
-	    SaleView SaleView = new SaleView(shop, this);
-	    SaleView.setLocation(SaleViewPosition);
+		SaleView SaleView = new SaleView(shop, this);
+		SaleView.setLocation(SaleViewPosition);
 		SaleView.setVisible(true);
 	}
 
@@ -338,5 +338,5 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 	}
-	
+
 }

@@ -115,8 +115,8 @@ public class LoginView extends JFrame implements ActionListener {
 	 */
 	private void checkCredentials() {
 		// input fields
-		String empNum = empNumField.getText(); 
-		String password = new String(passwordField.getPassword()); 
+		String empNum = empNumField.getText();
+		String password = new String(passwordField.getPassword());
 
 		// validate if employee number is an integer
 		try {
