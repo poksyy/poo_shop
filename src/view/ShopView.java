@@ -107,8 +107,11 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	}
 
 	private void openExpiredView() {
-		// TODO Auto-generated method stub
+		Point ExpiredProductViewPosition = calculateWindowPosition();
 
+		ExpiredProductView productExpiredView = new ExpiredProductView(shop);
+		productExpiredView.setLocation(ExpiredProductViewPosition);
+		productExpiredView.setVisible(true);
 	}
 
 	/**

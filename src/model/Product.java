@@ -9,7 +9,7 @@ public class Product {
 	private int stock;
 	private static int totalProducts;
 
-	static double EXPIRATION_RATE = 0.60;
+	public static double EXPIRATION_RATE = 0.60;
 
 	public Product(String name, double wholesalerPrice, boolean available, int stock) {
 		super();
@@ -85,7 +85,7 @@ public class Product {
 	}
 
 	public void expire() {
-	    double increasedPrice = this.publicPrice.getValue() * (1 + EXPIRATION_RATE);
+	    double increasedPrice = this.publicPrice.getValue() * (EXPIRATION_RATE);
 	    this.publicPrice.setValue(increasedPrice);
 	}
 }

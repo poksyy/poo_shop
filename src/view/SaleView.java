@@ -149,7 +149,7 @@ public class SaleView extends JDialog implements ActionListener {
 				return;
 			}
 			
-			// total products string to int
+			// total products string to integer
 			int totalProductNum;
 			try {
 				totalProductNum = Integer.parseInt(totalProduct);
