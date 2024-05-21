@@ -18,6 +18,7 @@ public class SaleView extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JTextField clientNameField;
 	private JTextField productNameField;
+	private JTextField numProductField;
 	private JRadioButton premiumYes;
 	private JRadioButton premiumNo;
 	private JButton btnAccept;
@@ -33,7 +34,7 @@ public class SaleView extends JDialog implements ActionListener {
 
 	private void saleUI() {
 		setTitle("Sale Menu");
-		setSize(370, 215);
+		setSize(410, 255);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -62,12 +63,17 @@ public class SaleView extends JDialog implements ActionListener {
 		lblProductName.setBounds(20, 100, 100, 25);
 		productNameField = new JTextField();
 		productNameField.setBounds(130, 100, 209, 25);
+		
+		JLabel lblNumProduct = new JLabel("Product Quantity:");
+		lblNumProduct.setBounds(20, 140, 100, 25);
+		numProductField = new JTextField();
+		numProductField.setBounds(130, 140, 209, 25);
 
 		// Accept and Cancel buttons
 		btnAccept = new JButton("OK");
-		btnAccept.setBounds(130, 135, 100, 30);
+		btnAccept.setBounds(130, 180, 100, 30);
 		btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(240, 135, 100, 30);
+		btnCancel.setBounds(240, 180, 100, 30);
 
 		// setting button fonts
 		Font buttonFont = new Font("Arial", Font.BOLD, 12);
@@ -88,6 +94,8 @@ public class SaleView extends JDialog implements ActionListener {
 		panel.add(clientNameField);
 		panel.add(lblProductName);
 		panel.add(productNameField);
+		panel.add(lblNumProduct);
+		panel.add(numProductField);
 		panel.add(btnAccept);
 		panel.add(btnCancel);
 
@@ -132,6 +140,7 @@ public class SaleView extends JDialog implements ActionListener {
 			boolean isPremium = premiumYes.isSelected();
 			String clientName = clientNameField.getText();
 			String productName = productNameField.getText();
+			String totalProduct = numProductField.getText();
 
 			// error message when leaving empty inputs
 			if (clientName.isEmpty() || productName.isEmpty()) {
@@ -139,9 +148,15 @@ public class SaleView extends JDialog implements ActionListener {
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-
-			// create the client based on whether true is premium or not premium
-			Client client = isPremium ? new ClientPremium(clientName) : new Client(clientName);
+			
+			// total products string to int
+			int totalProductNum;
+			try {
+				totalProductNum = Integer.parseInt(totalProduct);
+			} catch (NumberFormatException r) {
+				JOptionPane.showMessageDialog(this, "Please enter a valid number for product quantity", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 
 			// check if the product exists
 			Product product = shop.findProduct(productName);
@@ -153,15 +168,24 @@ public class SaleView extends JDialog implements ActionListener {
 
 			// create a new Amount object with the public price decreased by the tax rate
 			Amount existingPublicPrice = product.getPublicPrice();
-			Amount clientTotal = existingPublicPrice.multiply(Shop.TAX_RATE);
+			Amount clientTotal = (existingPublicPrice.multiply(Shop.TAX_RATE)).multiply(totalProductNum);
 
 			// perform the sale
 			ArrayList<Product> products = new ArrayList<>();
 			products.add(product);
-			boolean paymentSuccessful = client.pay(clientTotal);
+			
+			// temporarily create a non-premium client to check payment
+			Client tempClient = new Client(clientName);
+			boolean paymentSuccessful = tempClient.pay(clientTotal);
 			if (paymentSuccessful) {
+				// create the client based on whether true is premium or not premium
+				Client client = isPremium ? new ClientPremium(clientName) : new Client(clientName);
+				
+				// re-perform the payment with the actual client object
+				client.pay(clientTotal);
+				
 				// update the stock of the existing product in the shop
-				int newStock = product.getStock() - 1;
+				int newStock = product.getStock() - totalProductNum;
 				product.setStock(newStock);
 
 				addCashValue(clientTotal);
@@ -182,7 +206,6 @@ public class SaleView extends JDialog implements ActionListener {
 	}
 
 	public void addCashValue(Amount newPublicPrice) {
-
 		// storage the current cashValue on a variable.
 		Amount cashValue = shop.getCash();
 		Amount updatedCashValue = cashValue.add(newPublicPrice);

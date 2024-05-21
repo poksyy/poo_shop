@@ -42,9 +42,8 @@ public class Amount  {
         }
     }
 
-    public Amount multiply(double taxRate) {
-        double newValue = this.value * taxRate;
-        return new Amount(newValue);
+    public Amount multiply(double multiplier) {
+        return new Amount(this.value * multiplier);
     }
     
     @Override
