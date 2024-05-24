@@ -1,24 +1,59 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import model.Employee;
 
 public class DaoImplJDBC implements Dao {
 
+	public DaoImplJDBC() {
+	}
+
+	private Connection connection;
+
 	@Override
-	public void connect() {
-		// TODO Auto-generated method stub
+	public void connect() throws SQLException {
+		// db connection
+		String url = "jdbc:mysql://localhost:3306/pooshop";
+		String user = "root";
+		String pass = "";
+		this.connection = DriverManager.getConnection(url, user, pass);
 	}
 
 	@Override
-	public Employee login(int user, String password) {
-		// TODO Auto-generated method stub
-		return null;
+	public void disconnect() throws SQLException {
+		// db disconnection
+		if (connection != null) {
+			connection.close();
+		}
 	}
 
 	@Override
-	public void disconnect() {
-		// TODO Auto-generated method stub
+	public Employee getEmployee(int employeeId, String password) {
+		Employee employee = null;
 
+		// query to select employeeId and password from db
+		String query = "select * from employee where employeeId = ? AND password = ?";
+
+		// set in ps with the select values
+		try (PreparedStatement ps = connection.prepareStatement(query)) {
+			ps.setInt(1, employeeId);
+			ps.setString(2, password);
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					// create an object passing the values to the Employee constructor
+					employee = new Employee(rs.getInt(1), rs.getString(2));
+				}
+			}
+		} catch (SQLException e) {
+			// in case of SQL exception, print the stack trace
+			e.printStackTrace();
+		}
+		return employee;
 	}
 
 }

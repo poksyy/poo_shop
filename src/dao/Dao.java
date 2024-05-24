@@ -1,11 +1,13 @@
 package dao;
 
+import java.sql.SQLException;
+
 import model.Employee;
 
 public interface Dao {
-	public void connect();
+	public void connect() throws SQLException;
 
-	public Employee login(int user, String password);
-	 
-	public void disconnect();
+	public Employee getEmployee(int employeeId, String password);
+
+	public void disconnect() throws SQLException;
 }
