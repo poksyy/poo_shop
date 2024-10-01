@@ -10,3 +10,8 @@ Product: Cantaloupe; Wholesaler Price: 11.50; Stock: 7;
 Product: Orange; Wholesaler Price: 4.25; Stock: 22;
 Product: Tangerine; Wholesaler Price: 5.25; Stock: 22;
 Product: Peach; Wholesaler Price: 7.00; Stock: 15;
+Product: Kiwi; Wholesaler Price: 4.50; Stock: 10;
+Product: Cherry; Wholesaler Price: 6.00; Stock: 8;
+Product: Blueberry; Wholesaler Price: 8.00; Stock: 15;
+Product: Lemon; Wholesaler Price: 3.00; Stock: 25;
+Product: Fig; Wholesaler Price: 5.75; Stock: 12;

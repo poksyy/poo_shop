@@ -28,6 +28,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private JButton btnExportInventory;
 	private JButton btnShowCash;
 	private JButton btnAddProduct;
 	private JButton btnAddStock;
@@ -56,7 +57,9 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnShowCash) {
+		if (e.getSource() == btnExportInventory) {
+			openExportInventory();
+		} else if (e.getSource() == btnShowCash) {
 			openCashView();
 		} else if (e.getSource() == btnAddProduct) {
 			openProductView(Constants.ADD_PRODUCT);
@@ -78,6 +81,17 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 			exitOption();
 		}
 	}
+
+	private void openExportInventory() {
+	    shop.writeInventory();
+	    
+		Point exportInventoryViewPosition = calculateWindowPosition();
+
+		ExportInventoryView inventoryExportView = new ExportInventoryView(shop);
+		inventoryExportView.setLocation(exportInventoryViewPosition);
+		inventoryExportView.setVisible(true);
+	}
+
 
 	/**
 	 * Opens the CashView window at a calculated position.
@@ -169,8 +183,8 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 
 		// text fields and buttons
 		panel.add(new JLabel("Select or click on an option:"));
-		panel.add(new JLabel());
-		JButton[] buttons = { btnShowCash = new JButton("1. Show cash"), btnAddProduct = new JButton("2. Add product"),
+		
+		JButton[] buttons = { btnExportInventory = new JButton("0. Export inventory"), btnShowCash = new JButton("1. Show cash"), btnAddProduct = new JButton("2. Add product"),
 				btnAddStock = new JButton("3. Add stock"), btnSetExpired = new JButton("4. Set expired"),
 				btnShowInventory = new JButton("5. Show inventory"), btnMakeSale = new JButton("6. Make sales"),
 				btnShowSale = new JButton("7. Sales records"), btnDeleteProduct = new JButton("8. Delete product"),
@@ -178,7 +192,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 
 		// setting button fonts
 		Font buttonFont = new Font("Arial", Font.BOLD, 12);
-		setButtonFonts(new JButton[] { btnShowCash, btnAddProduct, btnAddStock, btnSetExpired, btnShowInventory,
+		setButtonFonts(new JButton[] { btnExportInventory, btnShowCash, btnAddProduct, btnAddStock, btnSetExpired, btnShowInventory,
 				btnMakeSale, btnShowSale, btnDeleteProduct, btnShowTotalSale, btnExit }, buttonFont);
 
 		for (JButton button : buttons) {
@@ -196,13 +210,14 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 
 		// setting button backgrounds
 		Color buttonBackgroundColor = new Color(233, 236, 239);
-		setButtonBackgrounds(new JButton[] { btnShowCash, btnAddProduct, btnAddStock, btnSetExpired, btnShowInventory,
+		setButtonBackgrounds(new JButton[] { btnExportInventory, btnShowCash, btnAddProduct, btnAddStock, btnSetExpired, btnShowInventory,
 				btnMakeSale, btnShowSale, btnDeleteProduct, btnShowTotalSale, btnExit }, buttonBackgroundColor);
 
 		// setting frame background
 		panel.setBackground(new Color(248, 249, 250));
 
 		// adding components to the panel
+		panel.add(btnExportInventory);
 		panel.add(btnShowCash);
 		panel.add(btnAddProduct);
 		panel.add(btnAddStock);
@@ -304,6 +319,9 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		int productOption = e.getKeyCode();
 
 		switch (productOption) {
+		case KeyEvent.VK_0:
+			openExportInventory();
+			break;
 		case KeyEvent.VK_1:
 			openCashView();
 			break;
@@ -330,9 +348,6 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 			break;
 		case KeyEvent.VK_9:
 			openTotalSale();
-			break;
-		case KeyEvent.VK_0:
-			exitOption();
 			break;
 		}
 		this.requestFocus();

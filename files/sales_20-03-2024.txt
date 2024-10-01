@@ -1,3 +1,0 @@
-1;Client=Pau;Date=20-03-2024 20:26:08;
-1;Products=Watermelon,25.5;
-1;Amount=26.52;

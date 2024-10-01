@@ -1,5 +1,0 @@
-1;Client=Pau;Date=08-04-2024 11:28:10;
-1;Products=Apple,20.0€;
-1;Products=Apple,20.0€;
-1;Products=Apple,20.0€;
-1;Amount=62.400000000000006€;

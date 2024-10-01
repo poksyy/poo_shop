@@ -7,12 +7,18 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import main.Shop;
 import model.Employee;
 import model.Product;
 
 public class DaoImplFile implements Dao{
+
+	public DaoImplFile() {
+	}
 
 	@Override
 	public void connect() throws SQLException {
@@ -59,16 +65,20 @@ public class DaoImplFile implements Dao{
 
 	    return inventory;
 	}
-
-	@Override
 	public boolean writeInventory(ArrayList<Product> inventory) {
 	    try {
-	        File file = new File("./files/outputInventory.txt");
-	        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-
+	        LocalDateTime now = LocalDateTime.now();
+	        
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm");
+	        String formattedDateTime = now.format(formatter);
+	        
+	        File file = new File("./files/outputInventory_" + formattedDateTime + ".txt");
+	        
 	        if (!file.exists()) {
 	            file.createNewFile();
 	        }
+
+	        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
 	        for (Product product : inventory) {
 	            writer.write("Product: " + product.getName() + "; Price: " + product.getPublicPrice() + "; Stock: " + product.getStock() + ";\n");

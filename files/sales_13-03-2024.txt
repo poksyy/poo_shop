@@ -1,6 +1,0 @@
-1;Client=pAU;Date=13-03-2024 11:17:59;
-1;Products=Manzana,20.0;
-1;Amount=20.8;
-2;Client=Luca;Date=13-03-2024 11:18:04;
-2;Products=Mango,14.5;
-2;Amount=15.08;

@@ -12,12 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import dao.Dao;
+import dao.DaoImplFile;
+import dao.DaoImplJDBC;
 import model.Amount;
 import model.Client;
 import model.ClientPremium;
 import model.Product;
 import model.Sale;
 import view.CashView;
+import view.ExportInventoryView;
 import view.LoginView;
 
 public class Shop {
@@ -25,7 +29,9 @@ public class Shop {
 	private static final String RESET_TEXT = "\u001B[0m";
 	public final static double TAX_RATE = 1.04;
 	private static Scanner sc = new Scanner(System.in);
+	public static Dao dao  = new DaoImplFile();
 
+	
 	private Amount cash;
 	private DateTimeFormatter myFormatObj;
 	private int saleIdCounter = 1;
@@ -39,7 +45,7 @@ public class Shop {
 
 	public static void main(String[] args) {
 		Shop shop = new Shop();
-		// shop.loadInventory();
+		//shop.loadInventory();
 		shop.initSession();
 
 		int opcion = 0;
@@ -116,42 +122,43 @@ public class Shop {
 	 * load initial inventory to shop
 	 */
 	public void loadInventory() {
-		try {
-			File file = new File("./files/inputInventory.txt");
-
-			if (!file.exists()) {
-				System.out.println("The file does not exist.");
-				System.out.println("Creating file...");
-				file.createNewFile();
-			}
-
-			if (file.canRead()) {
-				BufferedReader reader = new BufferedReader(new FileReader(file));
-
-				String line = reader.readLine();
-
-				while (line != null) {
-					try {
-						String[] parts = line.split(";");
-						String product = parts[0].split(":")[1].trim();
-						double price = Double.parseDouble(parts[1].split(":")[1].trim());
-						int stock = Integer.parseInt(parts[2].split(":")[1].trim());
-
-						addProduct(new Product(product, price, true, stock));
-					} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-						System.err.println("Error detected in line:" + line);
-					}
-
-					line = reader.readLine();
-				}
-
-				reader.close();
-			} else {
-				System.err.println("Cannot access file for reading.");
-			}
-		} catch (IOException | SecurityException e) {
-			System.err.println("There was a problem with the file:" + e.getMessage());
-		}
+		inventory = dao.getInventory();
+//		try {
+//			File file = new File("./files/inputInventory.txt");
+//
+//			if (!file.exists()) {
+//				System.out.println("The file does not exist.");
+//				System.out.println("Creating file...");
+//				file.createNewFile();
+//			}
+//
+//			if (file.canRead()) {
+//				BufferedReader reader = new BufferedReader(new FileReader(file));
+//
+//				String line = reader.readLine();
+//
+//				while (line != null) {
+//					try {
+//						String[] parts = line.split(";");
+//						String product = parts[0].split(":")[1].trim();
+//						double price = Double.parseDouble(parts[1].split(":")[1].trim());
+//						int stock = Integer.parseInt(parts[2].split(":")[1].trim());
+//
+//						addProduct(new Product(product, price, true, stock));
+//					} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+//						System.err.println("Error detected in line:" + line);
+//					}
+//
+//					line = reader.readLine();
+//				}
+//
+//				reader.close();
+//			} else {
+//				System.err.println("Cannot access file for reading.");
+//			}
+//		} catch (IOException | SecurityException e) {
+//			System.err.println("There was a problem with the file:" + e.getMessage());
+//		}
 	}
 
 	/**
@@ -485,7 +492,7 @@ public class Shop {
 				e.printStackTrace();
 			}
 		}
-
+		
 		System.out.println("Login successful. Welcome");
 	}
 
@@ -500,6 +507,10 @@ public class Shop {
 
 	public void setCash(Amount cash) {
 		this.cash = cash;
+	}
+	
+	public void writeInventory() {
+		dao.writeInventory(inventory);
 	}
 
 }
