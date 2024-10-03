@@ -16,6 +16,7 @@ import util.Constants;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -82,14 +83,17 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		}
 	}
 
+	/**
+	 * Opens the export inventory dialog
+	 */
 	private void openExportInventory() {
-	    shop.writeInventory();
-	    
-		Point exportInventoryViewPosition = calculateWindowPosition();
+		if (!shop.writeInventory()) {
+			JOptionPane.showMessageDialog(this, "test" , "test", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		JOptionPane.showMessageDialog(this, "test" , "test", JOptionPane.INFORMATION_MESSAGE);
 
-		ExportInventoryView inventoryExportView = new ExportInventoryView(shop);
-		inventoryExportView.setLocation(exportInventoryViewPosition);
-		inventoryExportView.setVisible(true);
 	}
 
 

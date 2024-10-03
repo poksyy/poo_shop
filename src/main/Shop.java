@@ -20,8 +20,6 @@ import model.Client;
 import model.ClientPremium;
 import model.Product;
 import model.Sale;
-import view.CashView;
-import view.ExportInventoryView;
 import view.LoginView;
 
 public class Shop {
@@ -29,7 +27,7 @@ public class Shop {
 	private static final String RESET_TEXT = "\u001B[0m";
 	public final static double TAX_RATE = 1.04;
 	private static Scanner sc = new Scanner(System.in);
-	public static Dao dao  = new DaoImplFile();
+	
 
 	
 	private Amount cash;
@@ -37,6 +35,7 @@ public class Shop {
 	private int saleIdCounter = 1;
 
 	public ArrayList<Product> inventory = new ArrayList<>();
+	public  Dao dao  = new DaoImplFile();
 	ArrayList<Sale> sales = new ArrayList<>();
 
 	public Shop() {
@@ -509,8 +508,8 @@ public class Shop {
 		this.cash = cash;
 	}
 	
-	public void writeInventory() {
-		dao.writeInventory(inventory);
+	public boolean writeInventory() {
+		return dao.writeInventory(inventory);
 	}
 
 }

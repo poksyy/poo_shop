@@ -16,6 +16,7 @@ import model.Employee;
 import model.Product;
 
 public class DaoImplFile implements Dao{
+    ArrayList<Product> inventory = new ArrayList<>();
 
 	public DaoImplFile() {
 	}
@@ -28,7 +29,6 @@ public class DaoImplFile implements Dao{
 
 	@Override
 	public ArrayList<Product> getInventory() {
-	    ArrayList<Product> inventory = new ArrayList<>();
 
 	    try {
 	        File file = new File("./files/inputInventory.txt");
@@ -65,14 +65,15 @@ public class DaoImplFile implements Dao{
 
 	    return inventory;
 	}
+	
 	public boolean writeInventory(ArrayList<Product> inventory) {
 	    try {
 	        LocalDateTime now = LocalDateTime.now();
 	        
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm");
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh-mm-dd-MM-yyyy");
 	        String formattedDateTime = now.format(formatter);
 	        
-	        File file = new File("./files/outputInventory_" + formattedDateTime + ".txt");
+	        File file = new File("./filess/outputInventory_" + formattedDateTime + ".txt");
 	        
 	        if (!file.exists()) {
 	            file.createNewFile();
@@ -81,14 +82,13 @@ public class DaoImplFile implements Dao{
 	        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
 	        for (Product product : inventory) {
-	            writer.write("Product: " + product.getName() + "; Price: " + product.getPublicPrice() + "; Stock: " + product.getStock() + ";\n");
+	            writer.write(product.getId() + "Product: " + product.getName() + "; Price: " + product.getPublicPrice() + "; Stock: " + product.getStock() + ";\n");
 	        }
 
 	        writer.close();
 	        return true;
 
 	    } catch (IOException e) {
-	        System.err.println("Error writing the inventory file: " + e.getMessage());
 	        return false; 
 	    }
 	}
