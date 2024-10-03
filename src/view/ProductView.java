@@ -35,7 +35,11 @@ public class ProductView extends JDialog implements ActionListener {
      * event listeners.
      */
     private void initializeUI() {
+        
+    	UIManager.put("OptionPane.yesButtonText", "Yes");
+        UIManager.put("OptionPane.noButtonText", "No");
         UIManager.put("OptionPane.okButtonText", "OK");
+        
         setTitle("Product Menu");
         setSize(310, 172);
         setLocationRelativeTo(null);
