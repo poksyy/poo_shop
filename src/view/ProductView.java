@@ -15,6 +15,9 @@ public class ProductView extends JDialog implements ActionListener {
     private JTextField prodNameField;
     private JTextField stockNumField;
     private JTextField priceNumField;
+    private JLabel nameLabel;
+    private JLabel stockLabel;
+    private JLabel priceLabel;
     private JButton btnAccept;
     private JButton btnCancel;
     private int option;
@@ -74,15 +77,15 @@ public class ProductView extends JDialog implements ActionListener {
      * @param panel the panel to which labels and fields will be added
      */
     private void setupLabelsAndFields(JPanel panel) {
-        JLabel nameLabel = new JLabel("Product name:");
+        nameLabel = new JLabel("Product name:");
         nameLabel.setBounds(10, 10, 100, 20);
         prodNameField.setBounds(120, 10, 166, 20);
 
-        JLabel stockLabel = new JLabel("Product stock:");
+        stockLabel = new JLabel("Product stock:");
         stockLabel.setBounds(10, 40, 100, 20);
         stockNumField.setBounds(120, 41, 166, 20);
 
-        JLabel priceLabel = new JLabel("Product price:");
+        priceLabel = new JLabel("Product price:");
         priceLabel.setBounds(10, 70, 100, 20);
         priceNumField.setBounds(120, 71, 166, 20);
 
@@ -124,9 +127,12 @@ public class ProductView extends JDialog implements ActionListener {
     private void configureViewForOption() {
         if (option == Constants.ADD_PRODUCT_STOCK) {
             priceNumField.setVisible(false);
+            priceLabel.setVisible(false);
         } else if (option == Constants.DELETE_PRODUCT) {
             stockNumField.setVisible(false);
+            stockLabel.setVisible(false);
             priceNumField.setVisible(false);
+            priceLabel.setVisible(false);
         }
     }
 
