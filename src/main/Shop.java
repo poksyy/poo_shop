@@ -495,11 +495,6 @@ public class Shop {
 		System.out.println("Login successful. Welcome");
 	}
 
-	public List<Product> getInventory() {
-		// TODO Auto-generated method stub
-		return inventory;
-	}
-
 	public Amount getCash() {
 		return cash;
 	}
@@ -508,6 +503,16 @@ public class Shop {
 		this.cash = cash;
 	}
 	
+	/**
+	 * Returns the current inventory list.
+	 */
+	public List<Product> getInventory() {
+		return inventory;
+	}
+	
+	/**
+	 * Exports the inventory using the DAO class.
+	 */
 	public boolean writeInventory() {
 		return dao.writeInventory(inventory);
 	}

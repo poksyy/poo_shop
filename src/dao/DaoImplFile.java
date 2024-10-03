@@ -27,6 +27,9 @@ public class DaoImplFile implements Dao{
 		
 	}
 
+	/**
+	 * Reads inventory from a file, creates products, and returns them in a list
+	 */
 	@Override
 	public ArrayList<Product> getInventory() {
 
@@ -34,8 +37,6 @@ public class DaoImplFile implements Dao{
 	        File file = new File("./files/inputInventory.txt");
 
 	        if (!file.exists()) {
-	            System.err.println("The file does not exist.");
-				System.out.println("Creating file...");
 				file.createNewFile();
 	        }
 
@@ -66,15 +67,18 @@ public class DaoImplFile implements Dao{
 	    return inventory;
 	}
 	
+	/**
+	 * Exports the current inventory to a file
+	 */
 	public boolean writeInventory(ArrayList<Product> inventory) {
 	    try {
 	        LocalDateTime now = LocalDateTime.now();
 	        
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh-mm-dd-MM-yyyy");
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
 	        String formattedDateTime = now.format(formatter);
 	        
-	        File file = new File("./filess/outputInventory_" + formattedDateTime + ".txt");
-	        
+	        File file = new File("./files/inventory_" + formattedDateTime + ".txt");
+	        	
 	        if (!file.exists()) {
 	            file.createNewFile();
 	        }
@@ -82,7 +86,7 @@ public class DaoImplFile implements Dao{
 	        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
 	        for (Product product : inventory) {
-	            writer.write(product.getId() + "Product: " + product.getName() + "; Price: " + product.getPublicPrice() + "; Stock: " + product.getStock() + ";\n");
+	            writer.write(product.getId() + ";Product: " + product.getName() + "; Price: " + product.getPublicPrice() + "; Stock: " + product.getStock() + ";\n");
 	        }
 
 	        writer.close();

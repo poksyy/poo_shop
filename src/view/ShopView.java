@@ -88,11 +88,11 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	 */
 	private void openExportInventory() {
 		if (!shop.writeInventory()) {
-			JOptionPane.showMessageDialog(this, "test" , "test", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Unable to export inventory to file" , "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
-		JOptionPane.showMessageDialog(this, "test" , "test", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Inventory exported successfully" , "Information", JOptionPane.INFORMATION_MESSAGE);
 
 	}
 

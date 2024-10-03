@@ -1,0 +1,17 @@
+1;Product: Apple; Price: 20.0€; Stock: 10;
+2;Product: Strawberry; Price: 10.0€; Stock: 20;
+3;Product: Pear; Price: 7.0€; Stock: 15;
+4;Product: Mango; Price: 14.5€; Stock: 8;
+5;Product: Watermelon; Price: 25.5€; Stock: 5;
+6;Product: Banana; Price: 13.0€; Stock: 12;
+7;Product: Grape; Price: 18.0€; Stock: 18;
+8;Product: Pineapple; Price: 17.5€; Stock: 10;
+9;Product: Cantaloupe; Price: 23.0€; Stock: 7;
+10;Product: Orange; Price: 8.5€; Stock: 22;
+11;Product: Tangerine; Price: 10.5€; Stock: 22;
+12;Product: Peach; Price: 14.0€; Stock: 15;
+13;Product: Kiwi; Price: 9.0€; Stock: 10;
+14;Product: Cherry; Price: 12.0€; Stock: 8;
+15;Product: Blueberry; Price: 16.0€; Stock: 15;
+16;Product: Lemon; Price: 6.0€; Stock: 25;
+17;Product: Fig; Price: 11.5€; Stock: 12;
