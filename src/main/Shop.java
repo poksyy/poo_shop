@@ -1,9 +1,7 @@
 package main;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -14,34 +12,33 @@ import java.util.Scanner;
 
 import dao.Dao;
 import dao.DaoImplFile;
-import dao.DaoImplJDBC;
+
 import model.Amount;
 import model.Client;
 import model.ClientPremium;
 import model.Product;
 import model.Sale;
+
 import view.LoginView;
 
+import util.Constants;
+
 public class Shop {
-	private static final String BOLD_TEXT = "\u001B[1m";
-	private static final String RESET_TEXT = "\u001B[0m";
-	public final static double TAX_RATE = 1.04;
-	private static Scanner sc = new Scanner(System.in);
-	
+    
+    private static Scanner sc = new Scanner(System.in);
+    
+    private Amount cash;
+    private DateTimeFormatter myFormatObj;
+    private int saleIdCounter = 1;
 
-	
-	private Amount cash;
-	private DateTimeFormatter myFormatObj;
-	private int saleIdCounter = 1;
+    public ArrayList<Product> inventory = new ArrayList<>();
+    private ArrayList<Sale> sales = new ArrayList<>();
+    private Dao dao = new DaoImplFile();
 
-	public ArrayList<Product> inventory = new ArrayList<>();
-	public  Dao dao  = new DaoImplFile();
-	ArrayList<Sale> sales = new ArrayList<>();
-
-	public Shop() {
-		cash = new Amount(100.00);
-	}
-
+    public Shop() {
+        this.cash = new Amount(100.00);
+    }
+    
 	public static void main(String[] args) {
 		Shop shop = new Shop();
 		//shop.loadInventory();
@@ -51,10 +48,7 @@ public class Shop {
 		boolean exit = false;
 
 		do {
-			System.out.println("\n");
-			System.out.println(BOLD_TEXT + "===========================" + RESET_TEXT);
-			System.out.println(BOLD_TEXT + "Main menu myStore.com" + RESET_TEXT);
-			System.out.println(BOLD_TEXT + "===========================" + RESET_TEXT);
+			System.out.println(Constants.BOLD_TEXT + "SHOP" + Constants.RESET_TEXT);
 			System.out.println("1)  Count cash");
 			System.out.println("2)  Add product");
 			System.out.println("3)  Add stock");
@@ -118,47 +112,21 @@ public class Shop {
 	}
 
 	/**
-	 * load initial inventory to shop
+	 * Load initial inventory to shop
 	 */
 	public void loadInventory() {
 		inventory = dao.getInventory();
-//		try {
-//			File file = new File("./files/inputInventory.txt");
-//
-//			if (!file.exists()) {
-//				System.out.println("The file does not exist.");
-//				System.out.println("Creating file...");
-//				file.createNewFile();
-//			}
-//
-//			if (file.canRead()) {
-//				BufferedReader reader = new BufferedReader(new FileReader(file));
-//
-//				String line = reader.readLine();
-//
-//				while (line != null) {
-//					try {
-//						String[] parts = line.split(";");
-//						String product = parts[0].split(":")[1].trim();
-//						double price = Double.parseDouble(parts[1].split(":")[1].trim());
-//						int stock = Integer.parseInt(parts[2].split(":")[1].trim());
-//
-//						addProduct(new Product(product, price, true, stock));
-//					} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-//						System.err.println("Error detected in line:" + line);
-//					}
-//
-//					line = reader.readLine();
-//				}
-//
-//				reader.close();
-//			} else {
-//				System.err.println("Cannot access file for reading.");
-//			}
-//		} catch (IOException | SecurityException e) {
-//			System.err.println("There was a problem with the file:" + e.getMessage());
-//		}
 	}
+	
+	/**
+	 * 0.º Option: Export inventory to a file
+	 * 
+	 * @return
+	 */
+	public boolean writeInventory() {
+		return dao.writeInventory(inventory);
+	}
+
 
 	/**
 	 * 1st Option: Show current total cash
@@ -301,7 +269,7 @@ public class Shop {
 		}
 
 		// apply tax rate
-		totalAmount = totalAmount.multiply(TAX_RATE);
+		totalAmount = totalAmount.multiply(Constants.TAX_RATE);
 
 		// payment process
 		boolean payment = client.pay(totalAmount);
@@ -382,20 +350,56 @@ public class Shop {
 		}
 		System.out.println("Total sales amount: " + totalAmount);
 	}
+	/**
+	 * Get the cash amount.
+	 * 
+	 * @return the cash amount
+	 */
+	public Amount getCash() {
+		return cash;
+	}
 
 	/**
-	 * add a product to inventory
+	 * Set the cash amount.
 	 * 
-	 * @param product
+	 * @param cash the cash amount to set
+	 */
+	public void setCash(Amount cash) {
+		this.cash = cash;
+	}
+
+	/**
+	 * Get the inventory list.
+	 * 
+	 * @return the inventory list
+	 */
+	public List<Product> getInventory() {
+		return inventory;
+	}
+
+	/**
+	 * Get the sales list.
+	 * 
+	 * @return the sales list
+	 */
+	public ArrayList<Sale> getSales() {
+		return this.sales;
+	}
+
+	/**
+	 * Add a product to inventory.
+	 * 
+	 * @param product the product to add
 	 */
 	public void addProduct(Product product) {
 		inventory.add(product);
 	}
 
 	/**
-	 * find product by name
+	 * Find product by name.
 	 * 
-	 * @param product name
+	 * @param name the name of the product
+	 * @return the found product, or null if not found
 	 */
 	public Product findProduct(String name) {
 		for (Product product : inventory) {
@@ -407,9 +411,9 @@ public class Shop {
 	}
 
 	/**
-	 * formatted date & time
+	 * Get the current date and time formatted as a string.
 	 * 
-	 * @return
+	 * @return the formatted date and time string
 	 */
 	public String getCurrentDateTimeFormatted() {
 		myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -418,9 +422,9 @@ public class Shop {
 	}
 
 	/**
-	 * formatted date
+	 * Get the current date formatted as a string.
 	 * 
-	 * @return
+	 * @return the formatted date string
 	 */
 	private String getCurrentDateFormatted() {
 		LocalDateTime myDateObj = LocalDateTime.now();
@@ -429,16 +433,7 @@ public class Shop {
 	}
 
 	/**
-	 * sales getter
-	 * 
-	 * @return sales
-	 */
-	public ArrayList<Sale> getSales() {
-		return this.sales;
-	}
-
-	/**
-	 * save sales to file
+	 * Save sales to a file.
 	 */
 	private void saveSalesToFile() {
 		try {
@@ -477,7 +472,7 @@ public class Shop {
 	}
 
 	/**
-	 * log in
+	 * Log in.
 	 */
 	private void initSession() {
 		LoginView loginWindow = new LoginView();
@@ -494,27 +489,4 @@ public class Shop {
 		
 		System.out.println("Login successful. Welcome");
 	}
-
-	public Amount getCash() {
-		return cash;
-	}
-
-	public void setCash(Amount cash) {
-		this.cash = cash;
-	}
-	
-	/**
-	 * Returns the current inventory list.
-	 */
-	public List<Product> getInventory() {
-		return inventory;
-	}
-	
-	/**
-	 * Exports the inventory using the DAO class.
-	 */
-	public boolean writeInventory() {
-		return dao.writeInventory(inventory);
-	}
-
 }

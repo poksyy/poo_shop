@@ -13,6 +13,7 @@ import model.Client;
 import model.ClientPremium;
 import model.Product;
 import model.Sale;
+import util.Constants;
 
 public class SaleView extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -168,7 +169,7 @@ public class SaleView extends JDialog implements ActionListener {
 
 			// create a new Amount object with the public price decreased by the tax rate
 			Amount existingPublicPrice = product.getPublicPrice();
-			Amount clientTotal = (existingPublicPrice.multiply(Shop.TAX_RATE)).multiply(totalProductNum);
+			Amount clientTotal = (existingPublicPrice.multiply(Constants.TAX_RATE)).multiply(totalProductNum);
 
 			// perform the sale
 			ArrayList<Product> products = new ArrayList<>();
