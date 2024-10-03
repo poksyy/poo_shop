@@ -3,10 +3,12 @@ package model;
 public class ClientPremium extends Client {
     private double points = 0;
 
+    // Constructor
     public ClientPremium(String name) {
         super(name);
     }
 
+    // Getters y Setters
     public double getPoints() {
         return points;
     }
@@ -14,7 +16,6 @@ public class ClientPremium extends Client {
     public void setPoints(double points) {
         this.points = points;
     }
-    
 
     @Override
     public boolean pay(Amount totalAmount) {
@@ -26,5 +27,4 @@ public class ClientPremium extends Client {
 
         return paymentStatus;
     }
-
 }

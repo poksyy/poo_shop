@@ -11,108 +11,103 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import main.Shop;
 import model.Employee;
 import model.Product;
 
-public class DaoImplFile implements Dao{
-    ArrayList<Product> inventory = new ArrayList<>();
+public class DaoImplFile implements Dao {
+    private ArrayList<Product> inventory = new ArrayList<>();
 
-	public DaoImplFile() {
-	}
+    public DaoImplFile() {
+    }
 
-	@Override
-	public void connect() throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void connect() throws SQLException {
+        // No connection needed for file-based DAO
+    }
 
-	/**
-	 * Reads inventory from a file, creates products, and returns them in a list
-	 */
-	@Override
-	public ArrayList<Product> getInventory() {
+    @Override
+    public void disconnect() throws SQLException {
+        // No disconnection needed for file-based DAO
+    }
 
-	    try {
-	        File file = new File("./files/inputInventory.txt");
+    // Inventory management
+    @Override
+    public ArrayList<Product> getInventory() {
+        try {
+            File file = new File("./files/inputInventory.txt");
 
-	        if (!file.exists()) {
-				file.createNewFile();
-	        }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
 
-	        BufferedReader reader = new BufferedReader(new FileReader(file));
-	        String line = reader.readLine();
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line = reader.readLine();
 
-	        while (line != null) {
-	            try {
-	                String[] parts = line.split(";");
-	                String name = parts[0].split(":")[1].trim();
-	                double price = Double.parseDouble(parts[1].split(":")[1].trim());
-	                int stock = Integer.parseInt(parts[2].split(":")[1].trim());
+            while (line != null) {
+                try {
+                    String[] parts = line.split(";");
+                    String name = parts[0].split(":")[1].trim();
+                    double price = Double.parseDouble(parts[1].split(":")[1].trim());
+                    int stock = Integer.parseInt(parts[2].split(":")[1].trim());
 
-	                Product product = new Product(name, price, true, stock);
-	                inventory.add(product);
-	            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-					System.err.println("Error detected in line:" + line);
-	            }
-	            
-	            line = reader.readLine();
-	        }
+                    Product product = new Product(name, price, true, stock);
+                    inventory.add(product);
+                } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                    System.err.println("Error detected in line: " + line);
+                }
 
-	        reader.close();
-	    } catch (IOException e) {
-			System.err.println("There was a problem with the file:" + e.getMessage());
-	    }
+                line = reader.readLine();
+            }
 
-	    return inventory;
-	}
-	
-	/**
-	 * Exports the current inventory to a file
-	 */
-	public boolean writeInventory(ArrayList<Product> inventory) {
-	    try {
-	        LocalDateTime now = LocalDateTime.now();
-	        
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
-	        String formattedDateTime = now.format(formatter);
-	        
-	        File file = new File("./files/inventory_" + formattedDateTime + ".txt");
-	        	
-	        if (!file.exists()) {
-	            file.createNewFile();
-	        }
+            reader.close();
+        } catch (IOException e) {
+            System.err.println("There was a problem with the file: " + e.getMessage());
+        }
 
-	        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        return inventory;
+    }
 
-	        for (Product product : inventory) {
-	            writer.write(product.getId() + ";Product: " + product.getName() + "; Price: " + product.getPublicPrice() + "; Stock: " + product.getStock() + ";\n");
-	        }
+    /**
+     * Exports the current inventory to a file
+     */
+    public boolean writeInventory(ArrayList<Product> inventory) {
+        try {
+            LocalDateTime now = LocalDateTime.now();
 
-	        writer.close();
-	        return true;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDateTime = now.format(formatter);
 
-	    } catch (IOException e) {
-	        return false; 
-	    }
-	}
+            File file = new File("./files/inventory_" + formattedDateTime + ".txt");
 
-	@Override
-	public Employee getEmployee(int id, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            if (!file.exists()) {
+                file.createNewFile();
+            }
 
-	@Override
-	public Product getProduct(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
-	@Override
-	public void disconnect() throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
+            for (Product product : inventory) {
+                writer.write(product.getId() + ";Product: " + product.getName() + "; Price: " + product.getPublicPrice() + "; Stock: " + product.getStock() + ";\n");
+            }
 
+            writer.close();
+            return true;
+
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    // Employee management
+    @Override
+    public Employee getEmployee(int id, String password) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    // Product management
+    @Override
+    public Product getProduct(int id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

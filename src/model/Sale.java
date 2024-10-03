@@ -10,6 +10,7 @@ public class Sale {
     private String date;
     private boolean saved;
 
+    // Constructor
     public Sale(int saleId, String clientName, ArrayList<Product> products, Amount totalAmount, String date) {
         this.saleId = saleId;
         this.clientName = clientName;
@@ -19,33 +20,38 @@ public class Sale {
         this.saved = false;
     }
 
+    // Getters and Setters
+    public int getSaleId() {
+        return saleId;
+    }
+
     public String getClientName() {
         return clientName;
     }
 
-	public ArrayList<Product> getProducts() {
-		return products;
-	}
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
 
-	public void setProducts(ArrayList<Product> products) {
-		this.products = products;
-	}
+    public void setProducts(ArrayList<Product> products) {
+        this.products = products;
+    }
 
-	public Amount getAmount() {
-		return amount;
-	}
+    public Amount getAmount() {
+        return amount;
+    }
 
-	public void setAmount(Amount amount) {
-		this.amount = amount;
-	}
+    public void setAmount(Amount amount) {
+        this.amount = amount;
+    }
 
-	public String getDate() {
-		return date;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public boolean isSaved() {
         return saved;
@@ -54,24 +60,21 @@ public class Sale {
     public void setSaved(boolean saved) {
         this.saved = saved;
     }
-    
-    public int getSaleId() {
-        return saleId;
-    }
-    
+
+    // Override toString method
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("\nSale:")
-          .append("\nClient\t\t\t").append(clientName)
-          .append("\nProducts\t\t");
+            .append("\nClient\t\t\t").append(clientName)
+            .append("\nProducts\t\t");
 
         for (Product product : products) {
             stringBuilder.append("\n").append(product.toString());
         }
 
         stringBuilder.append("\nAmount\t\t\t").append(amount)
-          .append("\nDate\t\t\t").append(date);
+            .append("\nDate\t\t\t").append(date);
 
         return stringBuilder.toString();
     }
