@@ -11,18 +11,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.util.ArrayList;
+
 import util.Constants;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import dao.xml.DaoImplXML;
 import main.Shop;
 import model.Amount;
+import model.Product;
 
 public class ShopView extends JFrame implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 1L;
@@ -73,7 +80,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 			exitOption();
 		}
 	}
-
+	
 	private void openExportInventory() {
 		if (!shop.writeInventory()) {
 			JOptionPane.showMessageDialog(this, "Unable to export inventory to file", "Error", JOptionPane.ERROR_MESSAGE);
@@ -81,6 +88,45 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		}
 		
 		JOptionPane.showMessageDialog(this, "Inventory exported successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public File nameFolder() {
+	    Point folderDialogPosition = calculateWindowPosition();
+
+	    JDialog dialog = new JDialog(this, "Folder Creation", true);
+	    dialog.setLocation(folderDialogPosition);
+	    dialog.setSize(400, 150);
+	    dialog.getContentPane().setLayout(new GridLayout(2, 1));
+
+	    JLabel label = new JLabel("The default folder 'files' does not exist. Please enter a folder name:");
+
+	    JTextField folderNameField = new JTextField();
+
+	    JButton confirmButton = new JButton("OK");
+	    confirmButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            dialog.dispose();
+	        }
+	    });
+
+	    dialog.getContentPane().add(label);
+	    dialog.getContentPane().add(folderNameField);
+	    dialog.getContentPane().add(confirmButton);
+
+	    dialog.setVisible(true);
+
+	    String folderNameInput = folderNameField.getText();
+	    File createdFolder = null;
+
+	    if (folderNameInput != null && !folderNameInput.trim().isEmpty()) {
+	        createdFolder = new File(folderNameInput);
+	        createdFolder.mkdirs();
+	    } else {
+	        System.err.println("No folder name provided. Export operation aborted.");
+	        return null;
+	    }
+
+	    return createdFolder;
 	}
 
 	private void openCashView() {
@@ -106,11 +152,21 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	}
 
 	private void openInventoryView() {
-		Point InventoryViewPosition = calculateWindowPosition();
-		InventoryView inventoryView = new InventoryView(shop);
+	    Point InventoryViewPosition = calculateWindowPosition();
+
+	    DaoImplXML dao = new DaoImplXML();
+	    ArrayList<Product> inventory = dao.getInventory();
+
+	    if (inventory.isEmpty()) {
+	        JOptionPane.showMessageDialog(this, "No products found in the inventory.", "Information", JOptionPane.INFORMATION_MESSAGE);
+	        return;
+	    }
+
+		InventoryView inventoryView = new InventoryView(shop, inventory);
 		inventoryView.setLocation(InventoryViewPosition);
 		inventoryView.setVisible(true);
 	}
+
 
 	private void openSaleView() {
 		Point SaleViewPosition = calculateWindowPosition();
@@ -150,6 +206,10 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 				btnMakeSale = new JButton("6. Make sales"), btnShowSale = new JButton("7. Sales records"), 
 				btnDeleteProduct = new JButton("8. Delete product"), btnShowTotalSale = new JButton("9. Total sales"), 
 				btnExit = new JButton("10. Exit") };
+		btnExportInventory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 
 		// Setting button font
 		Font buttonFont = new Font("Arial", Font.BOLD, 12);

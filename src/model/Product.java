@@ -22,6 +22,10 @@ public class Product {
         this.stock = stock;
         totalProducts++;
     }
+    
+    public Product(String name) {
+    	this.name = name;
+    }
 
     // Override toString method
     @Override
@@ -94,4 +98,9 @@ public class Product {
         double increasedPrice = this.publicPrice.getValue() * EXPIRATION_RATE;
         this.publicPrice.setValue(increasedPrice);
     }
+
+	public void setCurrency(String value) {
+		// TODO Auto-generated method stub
+		
+	}
 }

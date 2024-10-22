@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 import dao.Dao;
 import dao.DaoImplFile;
-
+import dao.xml.DaoImplXML;
 import model.Amount;
 import model.Client;
 import model.ClientPremium;
@@ -33,7 +33,7 @@ public class Shop {
 
     public ArrayList<Product> inventory = new ArrayList<>();
     private ArrayList<Sale> sales = new ArrayList<>();
-    private Dao dao = new DaoImplFile();
+    private Dao dao = new DaoImplXML();
 
     public Shop() {
         this.cash = new Amount(100.00);
