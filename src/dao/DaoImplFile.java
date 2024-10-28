@@ -71,6 +71,8 @@ public class DaoImplFile implements Dao {
      * Exports the current inventory to a file
      */
     public boolean writeInventory(ArrayList<Product> inventory) {
+        int totalProducts = 0;
+
         try {
             LocalDateTime now = LocalDateTime.now();
 
@@ -87,8 +89,11 @@ public class DaoImplFile implements Dao {
 
             for (Product product : inventory) {
                 writer.write(product.getId() + ";Product: " + product.getName() + "; Stock: " + product.getStock() + ";\n");
+				totalProducts++;
             }
-
+            
+            writer.write("Total number of products:" + totalProducts);
+            
             writer.close();
             return true;
 
