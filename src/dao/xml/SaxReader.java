@@ -20,11 +20,6 @@ public class SaxReader extends DefaultHandler {
         return products;
     }
 
-    // Method to set products (not necessary in this case)
-    public void setProducts(ArrayList<Product> products) {
-        this.products = new ArrayList<>();
-    }
-
     @Override
     public void startDocument() throws SAXException {
         this.products = new ArrayList<>();  // Initialize the list of products

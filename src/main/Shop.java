@@ -115,7 +115,13 @@ public class Shop {
 	 * Load initial inventory to shop
 	 */
 	public void loadInventory() {
-		inventory = dao.getInventory();
+	    ArrayList<Product> loadedInventory = dao.getInventory();
+	    
+	    if (loadedInventory != null && !loadedInventory.isEmpty()) {
+	        setInventory(loadedInventory);
+	    } else {
+	        System.out.println("Empty inventory.");
+	    }
 	}
 	
 	/**
@@ -376,6 +382,10 @@ public class Shop {
 	public List<Product> getInventory() {
 		return inventory;
 	}
+	
+    public void setInventory(ArrayList<Product> inventory) {
+        this.inventory = inventory;
+    }
 
 	/**
 	 * Get the sales list.

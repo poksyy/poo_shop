@@ -59,7 +59,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		if (e.getSource() == btnExportInventory) {
 			openExportInventory();
 		} else if (e.getSource() == btnShowCash) {
-			openCashView();
+			openCashView();	
 		} else if (e.getSource() == btnAddProduct) {
 			openProductView(Constants.ADD_PRODUCT);
 		} else if (e.getSource() == btnAddStock) {
@@ -153,20 +153,11 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 
 	private void openInventoryView() {
 	    Point InventoryViewPosition = calculateWindowPosition();
-
-	    DaoImplXML dao = new DaoImplXML();
-	    ArrayList<Product> inventory = dao.getInventory();
-
-	    if (inventory.isEmpty()) {
-	        JOptionPane.showMessageDialog(this, "No products found in the inventory.", "Information", JOptionPane.INFORMATION_MESSAGE);
-	        return;
-	    }
-
-		InventoryView inventoryView = new InventoryView(shop, inventory);
-		inventoryView.setLocation(InventoryViewPosition);
-		inventoryView.setVisible(true);
+	    
+	    InventoryView inventoryView = new InventoryView(shop);
+	    inventoryView.setLocation(InventoryViewPosition);
+	    inventoryView.setVisible(true);
 	}
-
 
 	private void openSaleView() {
 		Point SaleViewPosition = calculateWindowPosition();
