@@ -1,11 +1,9 @@
 package view;
 
 import javax.swing.*;
-import dao.xml.SaxReader;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import main.Shop;
 import model.Product;
@@ -13,17 +11,15 @@ import model.Product;
 public class InventoryView extends JDialog implements ActionListener {
 
     private static final long serialVersionUID = 1L;
-    private List<Product> products;
+    private Shop shop;
 
     /**
      * Constructor that initializes the inventory view.
      *
      * @param shop The shop that contains the product inventory.
-     * @param products The list of products to display.
      */
-    public InventoryView(Shop shop, ArrayList<Product> products) {
-        this.products = products;
-
+    public InventoryView(Shop shop) {
+        this.shop = shop;
         initializeUI();
     }
 
@@ -36,9 +32,11 @@ public class InventoryView extends JDialog implements ActionListener {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
+        List<Product> products = shop.getInventory();
+        
         // Use the provided product list directly
         if (products == null || products.isEmpty()) {
-            System.out.println("No products available.");
+            JOptionPane.showMessageDialog(this, "No products available.", "Information", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
