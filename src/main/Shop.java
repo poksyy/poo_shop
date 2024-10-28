@@ -33,7 +33,8 @@ public class Shop {
 
     public ArrayList<Product> inventory = new ArrayList<>();
     private ArrayList<Sale> sales = new ArrayList<>();
-    private Dao dao = new DaoImplXML();
+    private Dao daoFile = new DaoImplFile();
+    private Dao daoXML = new DaoImplXML();
 
     public Shop() {
         this.cash = new Amount(100.00);
@@ -115,7 +116,7 @@ public class Shop {
 	 * Load initial inventory to shop
 	 */
 	public void loadInventory() {
-	    ArrayList<Product> loadedInventory = dao.getInventory();
+	    ArrayList<Product> loadedInventory = daoXML.getInventory();
 	    
 	    if (loadedInventory != null && !loadedInventory.isEmpty()) {
 	        setInventory(loadedInventory);
@@ -130,7 +131,7 @@ public class Shop {
 	 * @return
 	 */
 	public boolean writeInventory() {
-		return dao.writeInventory(inventory);
+		return daoFile.writeInventory(inventory);
 	}
 
 

@@ -86,7 +86,7 @@ public class DaoImplFile implements Dao {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
             for (Product product : inventory) {
-                writer.write(product.getId() + ";Product: " + product.getName() + "; Price: " + product.getPublicPrice() + "; Stock: " + product.getStock() + ";\n");
+                writer.write(product.getId() + ";Product: " + product.getName() + "; Stock: " + product.getStock() + ";\n");
             }
 
             writer.close();

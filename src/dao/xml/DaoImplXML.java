@@ -68,43 +68,11 @@ public class DaoImplXML implements Dao {
     /**
      * Exports the current inventory to a file
      */
-    public boolean writeInventory(ArrayList<Product> inventory) {
-        try {
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String formattedDateTime = now.format(formatter);
-            
-            String fileFolder = "files"; 
-            File folder = new File(fileFolder);
-            
-            if (!folder.exists()) {
-            	ShopView shopView = new ShopView();
-                File newFolder = shopView.nameFolder();
-                if (newFolder == null) {
-                    return false;
-                }
-                folder = newFolder;
-            }
-
-            File file = new File(folder, "inventory_" + formattedDateTime + ".txt");
-
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                for (Product product : inventory) {
-                    writer.write(product.getId() + "; Product: " + product.getName() + "; Price: " + product.getPublicPrice() + "; Stock: " + product.getStock() + ";\n");
-                }
-            }
-
-            return true;
-
-        } catch (IOException e) {
-            System.err.println("Error writing inventory to file: " + e.getMessage());
-            return false;
-        }
-    }
+	@Override
+	public boolean writeInventory(ArrayList<Product> inventory) {
+	    //TODO DOM Writer
+		return false;
+	}
 
     // Employee management
     @Override
@@ -119,4 +87,6 @@ public class DaoImplXML implements Dao {
         // TODO Auto-generated method stub
         return null;
     }
+
+
 }
