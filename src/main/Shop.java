@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 import dao.Dao;
 import dao.DaoImplFile;
-import dao.xml.DaoImplXML;
+import dao.DaoImplXML;
 import model.Amount;
 import model.Client;
 import model.ClientPremium;

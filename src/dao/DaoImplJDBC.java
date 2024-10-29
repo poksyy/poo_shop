@@ -20,19 +20,29 @@ public class DaoImplJDBC implements Dao {
 
     // Connection management
     @Override
-    public void connect() throws SQLException {
+    public void connect() {
         // Database connection
         String url = "jdbc:mysql://localhost:3306/pooshop";
         String user = "root";
         String pass = "";
-        this.connection = DriverManager.getConnection(url, user, pass);
+        try {
+			this.connection = DriverManager.getConnection(url, user, pass);
+		} catch (SQLException e) {
+			System.err.println("Error connecting to the database.");
+			e.getMessage();
+		}
     }
 
     @Override
-    public void disconnect() throws SQLException {
+    public void disconnect() {
         // Database disconnection
         if (connection != null) {
-            connection.close();
+            try {
+				connection.close();
+			} catch (SQLException e) {
+				System.err.println("Error disconnecting to the database.");
+				e.getMessage();
+			}
         }
     }
 

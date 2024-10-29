@@ -20,16 +20,6 @@ public class DaoImplFile implements Dao {
     public DaoImplFile() {
     }
 
-    @Override
-    public void connect() throws SQLException {
-        // No connection needed for file-based DAO
-    }
-
-    @Override
-    public void disconnect() throws SQLException {
-        // No disconnection needed for file-based DAO
-    }
-
     // Inventory management
     @Override
     public ArrayList<Product> getInventory() {
@@ -115,4 +105,16 @@ public class DaoImplFile implements Dao {
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public void connect() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disconnect() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.Employee;
@@ -8,8 +7,8 @@ import model.Product;
 
 public interface Dao {
 	// Connection management
-	public void connect() throws SQLException;
-	public void disconnect() throws SQLException;
+	public void connect();
+	public void disconnect();
 
 	// Inventory management
 	public ArrayList<Product> getInventory();
