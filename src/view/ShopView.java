@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import dao.xml.DaoImplXML;
+import dao.DaoImplXML;
 import main.Shop;
 import model.Amount;
 import model.Product;

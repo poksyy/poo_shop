@@ -1,4 +1,4 @@
-package dao.xml;
+package dao;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -19,7 +19,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
-import dao.Dao;
 import main.Shop;
 import model.Employee;
 import model.Product;
@@ -27,17 +26,6 @@ import model.Product;
 import view.ShopView;
 
 public class DaoImplXML implements Dao {
-
-    @Override
-    public void connect() throws SQLException {
-        // No connection needed for file-based DAO
-    }
-
-    @Override
-    public void disconnect() throws SQLException {
-        // No disconnection needed for file-based DAO
-    }
-
     // Inventory management
     @Override
     public ArrayList<Product> getInventory() {
@@ -87,6 +75,18 @@ public class DaoImplXML implements Dao {
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public void connect() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disconnect() {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }
