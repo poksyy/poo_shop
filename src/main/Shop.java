@@ -131,7 +131,7 @@ public class Shop {
 	 * @return
 	 */
 	public boolean writeInventory() {
-		return daoFile.writeInventory(inventory);
+		return daoXML.writeInventory(inventory);
 	}
 
 
