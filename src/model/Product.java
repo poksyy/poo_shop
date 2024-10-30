@@ -7,23 +7,24 @@ public class Product {
     private Amount wholesalerPrice;
     private boolean available;
     private int stock;
-    private static int totalProducts;
     
+    private static int totalProducts = 0;
     public static double EXPIRATION_RATE = 0.60;
 
-    // Constructor
+    // Constructor currently in use when creating a product
     public Product(String name, double wholesalerPrice, boolean available, int stock) {
-        super();
-        this.id = totalProducts + 1;
+    	super();
+    	this.id = ++totalProducts;
         this.name = name;
         this.wholesalerPrice = new Amount(wholesalerPrice);
         this.publicPrice = new Amount(wholesalerPrice * 2);
         this.available = available;
         this.stock = stock;
-        totalProducts++;
     }
     
+    // Constructor currently in use for reading the product from XML
     public Product(String name) {
+    	this.id = ++totalProducts;
     	this.name = name;
     }
 
@@ -86,12 +87,12 @@ public class Product {
         this.stock = stock;
     }
 
-    public static int getTotalProducts() {
+    public int getTotalProducts() {
         return totalProducts;
     }
 
-    public static void setTotalProducts(int totalProducts) {
-        Product.totalProducts = totalProducts;
+    public void setTotalProducts(int totalProducts) {
+        this.totalProducts = totalProducts;
     }
 
     public void expire() {
