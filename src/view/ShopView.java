@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.util.ArrayList;
 
 import util.Constants;
 
@@ -26,10 +25,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import dao.DaoImplXML;
 import main.Shop;
 import model.Amount;
-import model.Product;
 
 public class ShopView extends JFrame implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 1L;

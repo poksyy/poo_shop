@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.Dao;
-import dao.DaoImplFile;
+//import dao.DaoImplFile;
 import dao.DaoImplXML;
 import model.Amount;
 import model.Client;
@@ -33,7 +33,7 @@ public class Shop {
 
     public ArrayList<Product> inventory = new ArrayList<>();
     private ArrayList<Sale> sales = new ArrayList<>();
-    private Dao daoFile = new DaoImplFile();
+    // private Dao daoFile = new DaoImplFile();
     private Dao daoXML = new DaoImplXML();
 
     public Shop() {
