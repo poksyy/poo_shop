@@ -1,33 +1,27 @@
 package dao;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 
-import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
-import main.Shop;
+import dao.xml.DomWriter;
 import model.Employee;
 import model.Product;
 
-import view.ShopView;
-
 public class DaoImplXML implements Dao {
-    // Inventory management
-    @Override
+	
+    /**
+     * Retrieves the product inventory from an XML file.
+     * Uses SAX parser to read XML and populate a list of Product objects.
+     * @return ArrayList of Product objects representing the inventory.
+     */    
+	@Override
     public ArrayList<Product> getInventory() {
         ArrayList<Product> inventory = new ArrayList<>();
         
@@ -36,10 +30,11 @@ public class DaoImplXML implements Dao {
         try {
             parser = factory.newSAXParser();
             File file = new File("XML/inputInventory.xml");
-
+            
+            // SAX reader for parsing XML
             dao.xml.SaxReader saxReader = new dao.xml.SaxReader();
             parser.parse(file, saxReader);
-            
+            // Get the parsed products
             inventory = saxReader.getProducts();
 
         } catch (ParserConfigurationException | SAXException e) {
@@ -54,22 +49,30 @@ public class DaoImplXML implements Dao {
     }
 
     /**
-     * Exports the current inventory to a file
+     * Exports the provided inventory to an XML file.
+     * Method is currently unimplemented.
+     * @param inventory ArrayList of Product objects to be written to XML.
+     * @return boolean indicating if the write was successful.
      */
 	@Override
 	public boolean writeInventory(ArrayList<Product> inventory) {
-	    //TODO DOM Writer
-		return false;
+	    try {
+	        DomWriter domWriter = new DomWriter();
+	        domWriter.generateDocument(inventory);
+	        return true;
+	    } catch (Exception e) {
+	        System.out.println("ERROR exporting inventory: " + e.getMessage());
+	        return false;
+	    }
 	}
 
-    // Employee management
+
     @Override
     public Employee getEmployee(int id, String password) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    // Product management
     @Override
     public Product getProduct(int id) {
         // TODO Auto-generated method stub
