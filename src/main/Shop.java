@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.Dao;
+import dao.DaoImplFile;
 import dao.DaoImplJaxb;
 //import dao.DaoImplFile;
 import dao.DaoImplXML;
@@ -63,7 +64,9 @@ public class Shop {
 			System.out.println("9)  View total sales");
 			System.out.println("10) Exit program");
 			System.out.print("Select an option: ");
+			
 			opcion = sc.nextInt();
+			sc.nextLine();
 
 			switch (opcion) {
 			case 1:
