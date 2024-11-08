@@ -1,61 +1,73 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlValue;
+
 public class Amount {
-    private double value;
-    private final String currency = "€";
+	private double value;
+	private String currency = "Euro";
 
-    // Constructors
-    public Amount(double newValue) {
-        this.value = newValue;
-    }
+	// Constructors
+	public Amount() {
+	}
 
-    public Amount(Amount totalAmount) {
-        if (totalAmount != null) {
-            this.value = totalAmount.getValue();
-        } else {
-            this.value = 0.0;
-        }
-    }
+	public Amount(double newValue) {
+		this.value = newValue;
+	}
 
-    // Getters
-    public double getValue() {
-        return value;
-    }
+	public Amount(Amount totalAmount) {
+		if (totalAmount != null) {
+			this.value = totalAmount.getValue();
+		} else {
+			this.value = 0.0;
+		}
+	}
 
-    public String getCurrency() {
-        return currency;
-    }
+	// Getters and Setters
+	// This annotation marks the getter method that provides the main value of the XML element.
+	@XmlValue
+	public double getValue() {
+		return value;
+	}
 
-    public int getAmount() {
-        return (int) value;
-    }
+	public void setValue(double value) {
+		this.value = value;
+	}
 
-    // Setters
-    public void setValue(double value) {
-        this.value = value;
-    }
+	// This annotation marks the 'currency' field as an attribute of the XML element.
+	@XmlAttribute(name = "currency")
+	public String getCurrency() {
+		return currency;
+	}
 
-    // Operations
-    public Amount add(Amount amount) {
-        if (amount != null) {
-            double newValue = this.value + amount.getValue();
-            return new Amount(newValue);
-        } else {
-            return new Amount(this.value);
-        }
-    }
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
 
-    public Amount subtract(Amount amount) {
-        return new Amount(this.value - amount.getValue());
-    }
+	// Additional methods
+	public int getAmount() {
+		return (int) value;
+	}
 
-    public Amount multiply(double multiplier) {
-        return new Amount(this.value * multiplier);
-    }
+	public Amount add(Amount amount) {
+		if (amount != null) {
+			double newValue = this.value + amount.getValue();
+			return new Amount(newValue);
+		} else {
+			return new Amount(this.value);
+		}
+	}
 
-    // Other methods
-    @Override
-    public String toString() {
-        return value + currency;
-    }
+	public Amount subtract(Amount amount) {
+		return new Amount(this.value - amount.getValue());
+	}
+
+	public Amount multiply(double multiplier) {
+		return new Amount(this.value * multiplier);
+	}
+
+	@Override
+	public String toString() {
+		return value + " " + currency;
+	}
 }

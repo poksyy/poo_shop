@@ -1,107 +1,134 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+//Annotates the class as a root element in XML serialization with the name "product"
+@XmlRootElement(name = "product")
+//Specifies the order in which the properties will appear in the XML document
+@XmlType(propOrder = { "id", "name", "wholesalerPrice", "publicPrice", "available", "stock", "totalProducts" })
 public class Product {
-    private int id;
-    private String name;
-    private Amount publicPrice;
-    private Amount wholesalerPrice;
-    private boolean available;
-    private int stock;
-    
-    private static int totalProducts = 0;
-    public static double EXPIRATION_RATE = 0.60;
+	private int id;
+	private String name;
+	private Amount publicPrice;
+	private Amount wholesalerPrice;
+	private boolean available;
+	private int stock;
 
-    // Constructor currently in use when creating a product
-    public Product(String name, double wholesalerPrice, boolean available, int stock) {
-    	super();
-    	this.id = ++totalProducts;
-        this.name = name;
-        this.wholesalerPrice = new Amount(wholesalerPrice);
-        this.publicPrice = new Amount(wholesalerPrice * 2);
-        this.available = available;
-        this.stock = stock;
-    }
-    
-    // Constructor currently in use for reading the product from XML
-    public Product(String name) {
-    	this.id = ++totalProducts;
-    	this.name = name;
-    }
+	private static int totalProducts = 0;
+	public static double EXPIRATION_RATE = 0.60;
 
-    // Override toString method
-    @Override
-    public String toString() {
-        return "\nProduct:" +
-               "\nName\t\t\t" + name +
-               "\nPublicPrice\t\t" + publicPrice +
-               "\nWholesalerPrice\t\t" + wholesalerPrice +
-               "\nStock\t\t\t" + stock + "\n";
-    }
+	// Constructor currently in use when creating a product
+	public Product(String name, double wholesalerPrice, boolean available, int stock) {
+		super();
+		this.id = ++totalProducts;
+		this.name = name;
+		this.wholesalerPrice = new Amount(wholesalerPrice);
+		this.publicPrice = new Amount(wholesalerPrice * 2);
+		this.available = available;
+		this.stock = stock;
+	}
 
-    // Getters and Setters
-    public int getId() {
-        return id;
-    }
+	// Constructor currently in use for reading the product from XML SAX
+	public Product(String name) {
+		this.id = ++totalProducts;
+		this.name = name;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	// Constructor currently in use for reading the product from XML JAXB
+	public Product() {
+		this.id = ++totalProducts;
+	}
 
-    public String getName() {
-        return name;
-    }
+	// Override toString method
+	@Override
+	public String toString() {
+		return "\nProduct:" + "\nName\t\t\t" + name + "\nPublicPrice\t\t" + publicPrice + "\nWholesalerPrice\t\t"
+				+ wholesalerPrice + "\nStock\t\t\t" + stock + "\n";
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	// Getters and Setters
+	public int getId() {
+		return id;
+	}
 
-    public Amount getPublicPrice() {
-        return publicPrice;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setPublicPrice(Amount publicPrice) {
-        this.publicPrice = publicPrice;
-    }
+	@XmlAttribute(name = "name")
+	public String getName() {
+		return name;
+	}
 
-    public Amount getWholesalerPrice() {
-        return wholesalerPrice;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setWholesalerPrice(Amount wholesalerPrice) {
-        this.wholesalerPrice = wholesalerPrice;
-    }
+	public Amount getPublicPrice() {
+		return publicPrice;
+	}
 
-    public boolean isAvailable() {
-        return available;
-    }
+	public void setPublicPrice(Amount publicPrice) {
+		this.publicPrice = publicPrice;
+	}
 
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
+	// Specifies that the stock property should be marshalled/unmarshalled as an XML
+	// element named "wholesalerPrice"
+	@XmlElement(name = "wholesalerPrice")
+	public Amount getWholesalerPrice() {
+		return wholesalerPrice;
+	}
 
-    public int getStock() {
-        return stock;
-    }
+	public void setWholesalerPrice(Amount wholesalerPrice) {
+		this.wholesalerPrice = wholesalerPrice;
+	}
 
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
+	public boolean isAvailable() {
+		return available;
+	}
 
-    public int getTotalProducts() {
-        return totalProducts;
-    }
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
 
-    public void setTotalProducts(int totalProducts) {
-        this.totalProducts = totalProducts;
-    }
+	// Specifies that the stock property should be marshalled/unmarshalled as an XML
+	// element named "stock"
+	@XmlElement(name = "stock")
+	public int getStock() {
+		return stock;
+	}
 
-    public void expire() {
-        double increasedPrice = this.publicPrice.getValue() * EXPIRATION_RATE;
-        this.publicPrice.setValue(increasedPrice);
-    }
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public int getTotalProducts() {
+		return totalProducts;
+	}
+
+	public void setTotalProducts(int totalProducts) {
+		this.totalProducts = totalProducts;
+	}
+
+	public void expire() {
+		double increasedPrice = this.publicPrice.getValue() * EXPIRATION_RATE;
+		this.publicPrice.setValue(increasedPrice);
+	}
+
+	public void calculatePublicPrice() {
+		// Check if wholesalerPrice is not null
+		if (this.wholesalerPrice != null) {
+			// Calculate the public price as double the wholesaler price
+			this.publicPrice = new Amount(this.wholesalerPrice.getValue() * 2); // Calcula como el doble del
+																				// wholesalerPrice
+		}
+	}
 
 	public void setCurrency(String value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

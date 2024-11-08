@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.Dao;
+import dao.DaoImplJaxb;
 //import dao.DaoImplFile;
 import dao.DaoImplXML;
 import model.Amount;
@@ -24,25 +25,26 @@ import view.LoginView;
 import util.Constants;
 
 public class Shop {
-    
-    private static Scanner sc = new Scanner(System.in);
-    
-    private Amount cash;
-    private DateTimeFormatter myFormatObj;
-    private int saleIdCounter = 1;
 
-    public ArrayList<Product> inventory = new ArrayList<>();
-    private ArrayList<Sale> sales = new ArrayList<>();
-    // private Dao daoFile = new DaoImplFile();
-    private Dao daoXML = new DaoImplXML();
+	private static Scanner sc = new Scanner(System.in);
 
-    public Shop() {
-        this.cash = new Amount(100.00);
-    }
-    
+	private Amount cash;
+	private DateTimeFormatter myFormatObj;
+	private int saleIdCounter = 1;
+
+	public ArrayList<Product> inventory = new ArrayList<>();
+	private ArrayList<Sale> sales = new ArrayList<>();
+	// private Dao daoFile = new DaoImplFile();
+	private Dao daoXML = new DaoImplXML();
+	private Dao daoJAXB = new DaoImplJaxb();
+
+	public Shop() {
+		this.cash = new Amount(100.00);
+	}
+
 	public static void main(String[] args) {
 		Shop shop = new Shop();
-		//shop.loadInventory();
+		// shop.loadInventory();
 		shop.initSession();
 
 		int opcion = 0;
@@ -116,15 +118,15 @@ public class Shop {
 	 * Load initial inventory to shop
 	 */
 	public void loadInventory() {
-	    ArrayList<Product> loadedInventory = daoXML.getInventory();
-	    
-	    if (loadedInventory != null && !loadedInventory.isEmpty()) {
-	        setInventory(loadedInventory);
-	    } else {
-	        System.out.println("Empty inventory.");
-	    }
+		ArrayList<Product> loadedInventory = daoJAXB.getInventory();
+
+		if (loadedInventory != null && !loadedInventory.isEmpty()) {
+			setInventory(loadedInventory);
+		} else {
+			System.out.println("Empty inventory.");
+		}
 	}
-	
+
 	/**
 	 * 0.º Option: Export inventory to a file
 	 * 
@@ -133,7 +135,6 @@ public class Shop {
 	public boolean writeInventory() {
 		return daoXML.writeInventory(inventory);
 	}
-
 
 	/**
 	 * 1st Option: Show current total cash
@@ -357,6 +358,7 @@ public class Shop {
 		}
 		System.out.println("Total sales amount: " + totalAmount);
 	}
+
 	/**
 	 * Get the cash amount.
 	 * 
@@ -383,10 +385,10 @@ public class Shop {
 	public List<Product> getInventory() {
 		return inventory;
 	}
-	
-    public void setInventory(ArrayList<Product> inventory) {
-        this.inventory = inventory;
-    }
+
+	public void setInventory(ArrayList<Product> inventory) {
+		this.inventory = inventory;
+	}
 
 	/**
 	 * Get the sales list.
@@ -497,7 +499,7 @@ public class Shop {
 				e.printStackTrace();
 			}
 		}
-		
+
 		System.out.println("Login successful. Welcome");
 	}
 }
