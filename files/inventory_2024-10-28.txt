@@ -1,0 +1,3 @@
+0;Product: Apple; Stock: 10;
+0;Product: Strawberry; Stock: 20;
+Total products amount:2

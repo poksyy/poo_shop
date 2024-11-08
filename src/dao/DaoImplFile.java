@@ -20,16 +20,6 @@ public class DaoImplFile implements Dao {
     public DaoImplFile() {
     }
 
-    @Override
-    public void connect() throws SQLException {
-        // No connection needed for file-based DAO
-    }
-
-    @Override
-    public void disconnect() throws SQLException {
-        // No disconnection needed for file-based DAO
-    }
-
     // Inventory management
     @Override
     public ArrayList<Product> getInventory() {
@@ -71,6 +61,8 @@ public class DaoImplFile implements Dao {
      * Exports the current inventory to a file
      */
     public boolean writeInventory(ArrayList<Product> inventory) {
+        int totalProducts = 0;
+
         try {
             LocalDateTime now = LocalDateTime.now();
 
@@ -86,9 +78,12 @@ public class DaoImplFile implements Dao {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
             for (Product product : inventory) {
-                writer.write(product.getId() + ";Product: " + product.getName() + "; Price: " + product.getPublicPrice() + "; Stock: " + product.getStock() + ";\n");
+                writer.write(product.getId() + ";Product: " + product.getName() + "; Stock: " + product.getStock() + ";\n");
+				totalProducts++;
             }
-
+            
+            writer.write("Total number of products:" + totalProducts);
+            
             writer.close();
             return true;
 
@@ -110,4 +105,16 @@ public class DaoImplFile implements Dao {
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public void connect() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disconnect() {
+		// TODO Auto-generated method stub
+		
+	}
 }

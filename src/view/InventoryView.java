@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
 import main.Shop;
 import model.Product;
 
@@ -17,7 +16,7 @@ public class InventoryView extends JDialog implements ActionListener {
     /**
      * Constructor that initializes the inventory view.
      *
-     * @param shop The shop containing the product inventory.
+     * @param shop The shop that contains the product inventory.
      */
     public InventoryView(Shop shop) {
         this.shop = shop;
@@ -33,8 +32,13 @@ public class InventoryView extends JDialog implements ActionListener {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        // Get the list of products from the shop
         List<Product> products = shop.getInventory();
+        
+        // Use the provided product list directly
+        if (products == null || products.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No products available.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
 
         // Create the table
         String[] columnNames = { "Id", "Name", "Public Price", "Wholesaler Price", "Stock" };
@@ -46,18 +50,15 @@ public class InventoryView extends JDialog implements ActionListener {
         // Configure the table
         JTable table = new JTable(data, columnNames);
         table.setBackground(new Color(248, 249, 250));
-        table.setFillsViewportHeight(true); // Fills the full height available
-        JScrollPane scrollPane = new JScrollPane(table); // Allows scrolling
+        table.setFillsViewportHeight(true);
+        JScrollPane scrollPane = new JScrollPane(table);
 
-        // Add the scroll pane to the window
+        // Add the scroll panel to the window
         getContentPane().add(scrollPane);
     }
 
     /**
-     * Populates the table data with product information.
-     *
-     * @param products The list of products.
-     * @param data     The data array where values will be stored.
+     * Populates the table with product data.
      */
     private void populateTableData(List<Product> products, Object[][] data) {
         for (int i = 0; i < products.size(); i++) {
@@ -72,5 +73,6 @@ public class InventoryView extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // Action handling logic can be implemented here
     }
 }
