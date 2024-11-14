@@ -40,10 +40,6 @@ public class Amount {
 		return currency;
 	}
 
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
 	// Additional methods
 	public int getAmount() {
 		return (int) value;
