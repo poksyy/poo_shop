@@ -124,4 +124,9 @@ public class Product {
 	public void setCurrency(String value) {
 		this.currency = value;
 	}
+	
+	public static int getTotalProducts() {
+	    return totalProducts;
+	}
+
 }

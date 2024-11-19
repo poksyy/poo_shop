@@ -53,7 +53,7 @@ public class DomWriter {
 	 */
 	public void generateDocument(ArrayList<Product> products) {
 		Element rootElement = document.createElement("products");
-		rootElement.setAttribute("total", Integer.toString(products.size()));
+		rootElement.setAttribute("total", Integer.toString(Product.getTotalProducts()));
 		document.appendChild(rootElement);
 
 		for (Product product : products) {
