@@ -2,6 +2,7 @@ package dao;
 
 import java.util.ArrayList;
 
+import dao.jaxb.JaxbMarshaller;
 import dao.jaxb.JaxbUnMarshaller;
 
 import model.Employee;
@@ -32,11 +33,18 @@ public class DaoImplJaxb implements Dao {
 		return productList != null ? productList.getProducts() : new ArrayList<>();
 	}
 
+	// Export the inventory of products by marshalling the inventory to XML data
 	@Override
 	public boolean writeInventory(ArrayList<Product> inventory) {
-		// TODO Auto-generated method stub
-		return false;
+	    ProductList productList = new ProductList();
+	    productList.setProducts(inventory);
+	    
+	    JaxbMarshaller marshaller = new JaxbMarshaller();
+	    
+	    marshaller.init(productList);
+		return true;
 	}
+
 
 	@Override
 	public Employee getEmployee(int id, String password) {

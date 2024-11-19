@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 //Annotates the class as a root element in XML serialization with the name "product"
 @XmlRootElement(name = "product")
 //Specifies the order in which the properties will appear in the XML document
-@XmlType(propOrder = { "id", "name", "wholesalerPrice", "publicPrice", "available", "stock", "totalProducts" })
+@XmlType(propOrder = {"available", "wholesalerPrice", "publicPrice", "stock"})
 public class Product {
 	private int id;
 	private String name;
@@ -16,6 +16,7 @@ public class Product {
 	private Amount wholesalerPrice;
 	private boolean available;
 	private int stock;
+	private String currency;
 
 	private static int totalProducts = 0;
 	public static double EXPIRATION_RATE = 0.60;
@@ -50,6 +51,7 @@ public class Product {
 	}
 
 	// Getters and Setters
+	@XmlAttribute(name = "id")
 	public int getId() {
 		return id;
 	}
@@ -105,14 +107,6 @@ public class Product {
 		this.stock = stock;
 	}
 
-	public int getTotalProducts() {
-		return totalProducts;
-	}
-
-	public void setTotalProducts(int totalProducts) {
-		this.totalProducts = totalProducts;
-	}
-
 	public void expire() {
 		double increasedPrice = this.publicPrice.getValue() * EXPIRATION_RATE;
 		this.publicPrice.setValue(increasedPrice);
@@ -128,7 +122,6 @@ public class Product {
 	}
 
 	public void setCurrency(String value) {
-		// TODO Auto-generated method stub
-
+		this.currency = value;
 	}
 }

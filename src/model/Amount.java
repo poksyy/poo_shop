@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlValue;
 
 public class Amount {
 	private double value;
-	private String currency = "Euro";
+	private String currency = "€";
 
 	// Constructors
 	public Amount() {
