@@ -86,7 +86,7 @@ public class Product {
     }
 
     public boolean isAvailable() {
-    	return this.stock <= 0 ? false : true;
+    	return this.stock > 0;
     }
 
     public void setAvailable(boolean available) {
