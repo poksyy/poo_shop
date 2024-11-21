@@ -44,14 +44,14 @@ public class Shop {
 		this.cash = new Amount(100.00);
 	}
 
-	// 
+	//
 	public static Shop getInstance() {
 		if (shop == null) {
 			shop = new Shop();
 		}
 		return shop;
 	}
-	
+
 	public static void main(String[] args) {
 		Shop shop = getInstance();
 		shop.loadInventory();
@@ -73,7 +73,7 @@ public class Shop {
 			System.out.println("9)  View total sales");
 			System.out.println("10) Exit program");
 			System.out.print("Select an option: ");
-			
+
 			opcion = sc.nextInt();
 			sc.nextLine();
 
@@ -392,7 +392,7 @@ public class Shop {
 	public void setInventory(ArrayList<Product> inventory) {
 		this.inventory = inventory;
 	}
-	
+
 	/**
 	 * Get the inventory list.
 	 * 

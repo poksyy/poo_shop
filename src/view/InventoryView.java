@@ -10,69 +10,70 @@ import model.Product;
 
 public class InventoryView extends JDialog implements ActionListener {
 
-    private static final long serialVersionUID = 1L;
-    private Shop shop;
+	private static final long serialVersionUID = 1L;
+	private Shop shop;
 
-    /**
-     * Constructor that initializes the inventory view.
-     *
-     * @param shop The shop that contains the product inventory.
-     */
-    public InventoryView(Shop shop) {
-        this.shop = shop;
-        initializeUI();
-    }
+	/**
+	 * Constructor that initializes the inventory view.
+	 *
+	 * @param shop The shop that contains the product inventory.
+	 */
+	public InventoryView(Shop shop) {
+		this.shop = shop;
+		initializeUI();
+	}
 
-    /**
-     * Initializes and displays the inventory user interface.
-     */
-    private void initializeUI() {
-        setTitle("Product Inventory");
-        setSize(500, 380);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	/**
+	 * Initializes and displays the inventory user interface.
+	 */
+	private void initializeUI() {
+		setTitle("Product Inventory");
+		setSize(500, 380);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        List<Product> products = shop.getInventory();
-        
-        // Use the provided product list directly
-        if (products == null || products.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No products available.", "Information", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
+		List<Product> products = shop.getInventory();
 
-        // Create the table
-        String[] columnNames = { "Id", "Name", "Public Price", "Wholesaler Price", "Stock" };
-        Object[][] data = new Object[products.size()][columnNames.length];
+		// Use the provided product list directly
+		if (products == null || products.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "No products available.", "Information",
+					JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
 
-        // Insert data into the table
-        populateTableData(products, data);
+		// Create the table
+		String[] columnNames = { "Id", "Name", "Public Price", "Wholesaler Price", "Stock" };
+		Object[][] data = new Object[products.size()][columnNames.length];
 
-        // Configure the table
-        JTable table = new JTable(data, columnNames);
-        table.setBackground(new Color(248, 249, 250));
-        table.setFillsViewportHeight(true);
-        JScrollPane scrollPane = new JScrollPane(table);
+		// Insert data into the table
+		populateTableData(products, data);
 
-        // Add the scroll panel to the window
-        getContentPane().add(scrollPane);
-    }
+		// Configure the table
+		JTable table = new JTable(data, columnNames);
+		table.setBackground(new Color(248, 249, 250));
+		table.setFillsViewportHeight(true);
+		JScrollPane scrollPane = new JScrollPane(table);
 
-    /**
-     * Populates the table with product data.
-     */
-    private void populateTableData(List<Product> products, Object[][] data) {
-        for (int i = 0; i < products.size(); i++) {
-            Product product = products.get(i);
-            data[i][0] = product.getId();
-            data[i][1] = product.getName();
-            data[i][2] = product.getPublicPrice();
-            data[i][3] = product.getWholesalerPrice();
-            data[i][4] = product.getStock();
-        }
-    }
+		// Add the scroll panel to the window
+		getContentPane().add(scrollPane);
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Action handling logic can be implemented here
-    }
+	/**
+	 * Populates the table with product data.
+	 */
+	private void populateTableData(List<Product> products, Object[][] data) {
+		for (int i = 0; i < products.size(); i++) {
+			Product product = products.get(i);
+			data[i][0] = product.getId();
+			data[i][1] = product.getName();
+			data[i][2] = product.getPublicPrice();
+			data[i][3] = product.getWholesalerPrice();
+			data[i][4] = product.getStock();
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// Action handling logic can be implemented here
+	}
 }
