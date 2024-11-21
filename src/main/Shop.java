@@ -27,6 +27,7 @@ import util.Constants;
 
 public class Shop {
 
+	private static Shop shop;
 	private static Scanner sc = new Scanner(System.in);
 
 	private Amount cash;
@@ -36,16 +37,24 @@ public class Shop {
 	public ArrayList<Product> inventory = new ArrayList<>();
 	private ArrayList<Sale> sales = new ArrayList<>();
 	// private Dao daoFile = new DaoImplFile();
-	private Dao daoXML = new DaoImplXML();
+	// private Dao daoXML = new DaoImplXML();
 	private Dao daoJAXB = new DaoImplJaxb();
 
 	public Shop() {
 		this.cash = new Amount(100.00);
 	}
 
+	// 
+	public static Shop getInstance() {
+		if (shop == null) {
+			shop = new Shop();
+		}
+		return shop;
+	}
+	
 	public static void main(String[] args) {
-		Shop shop = new Shop();
-		// shop.loadInventory();
+		Shop shop = getInstance();
+		shop.loadInventory();
 		shop.initSession();
 
 		int opcion = 0;

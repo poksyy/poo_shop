@@ -12,10 +12,10 @@
         <publicPrice currency="€">10.0</publicPrice>
         <stock>20</stock>
     </product>
-    <product id="3" name="Pau">
+    <product id="3" name="1231">
         <available>false</available>
-        <wholesalerPrice currency="€">20.0</wholesalerPrice>
-        <publicPrice currency="€">40.0</publicPrice>
+        <wholesalerPrice currency="€">2.0</wholesalerPrice>
+        <publicPrice currency="€">4.0</publicPrice>
         <stock>0</stock>
     </product>
 </products>

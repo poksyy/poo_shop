@@ -45,10 +45,9 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	private CashView cashView;
 
 	public ShopView() {
-		this.shop = new Shop();
+		this.shop = Shop.getInstance();
 		shopUI();
 		setFocusable(true);
-		shop.loadInventory();
 	}
 
 	@Override
@@ -180,7 +179,6 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(500, 380);
 		setLocation(calculateXPosition(), calculateYPosition());
-		shop = new Shop();
 
 		JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
