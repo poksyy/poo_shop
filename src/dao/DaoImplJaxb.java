@@ -34,16 +34,21 @@ public class DaoImplJaxb implements Dao {
 	}
 
 	// Export the inventory of products by marshalling the inventory to XML data
-	@Override
 	public boolean writeInventory(ArrayList<Product> inventory) {
 	    ProductList productList = new ProductList();
 	    productList.setProducts(inventory);
 	    
 	    JaxbMarshaller marshaller = new JaxbMarshaller();
 	    
-	    marshaller.init(productList);
-		return true;
+	    boolean success = marshaller.init(productList);
+	    
+	    if (!success) {
+	        System.out.println("Error writing inventory.");
+	    }
+	    
+	    return success;
 	}
+
 
 
 	@Override

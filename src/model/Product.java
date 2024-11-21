@@ -5,128 +5,119 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-//Annotates the class as a root element in XML serialization with the name "product"
 @XmlRootElement(name = "product")
-//Specifies the order in which the properties will appear in the XML document
 @XmlType(propOrder = {"available", "wholesalerPrice", "publicPrice", "stock"})
 public class Product {
-	private int id;
-	private String name;
-	private Amount publicPrice;
-	private Amount wholesalerPrice;
-	private boolean available;
-	private int stock;
-	private String currency;
+    private int id;
+    private String name;
+    private Amount publicPrice;
+    private Amount wholesalerPrice;
+    private boolean available;
+    private int stock;
+    private String currency;
 
-	private static int totalProducts = 0;
-	public static double EXPIRATION_RATE = 0.60;
+    // Static counter to assign unique IDs
+    private static int totalProducts;
 
-	// Constructor currently in use when creating a product
-	public Product(String name, double wholesalerPrice, boolean available, int stock) {
-		super();
-		this.id = ++totalProducts;
-		this.name = name;
-		this.wholesalerPrice = new Amount(wholesalerPrice);
-		this.publicPrice = new Amount(wholesalerPrice * 2);
-		this.available = available;
-		this.stock = stock;
-	}
+    public static double EXPIRATION_RATE = 0.60;
 
-	// Constructor currently in use for reading the product from XML SAX
-	public Product(String name) {
-		this.id = ++totalProducts;
-		this.name = name;
-	}
+    // Constructor for creating a product
+    public Product(String name, double wholesalerPrice, boolean available, int stock) {
+        this.id = ++totalProducts; 
+        this.name = name;
+        this.wholesalerPrice = new Amount(wholesalerPrice);
+        this.publicPrice = new Amount(wholesalerPrice * 2);
+        this.available = available;
+        this.stock = stock;
+    }
 
-	// Constructor currently in use for reading the product from XML JAXB
-	public Product() {
-		this.id = ++totalProducts;
-	}
+    // Constructor for reading from XML (with name only)
+    public Product(String name) {
+        this.id = ++totalProducts;
+        this.name = name;
+    }
 
-	// Override toString method
-	@Override
-	public String toString() {
-		return "\nProduct:" + "\nName\t\t\t" + name + "\nPublicPrice\t\t" + publicPrice + "\nWholesalerPrice\t\t"
-				+ wholesalerPrice + "\nStock\t\t\t" + stock + "\n";
-	}
+    // Default constructor
+    public Product() {
+        this.id = ++totalProducts;
+    }
 
-	// Getters and Setters
-	@XmlAttribute(name = "id")
-	public int getId() {
-		return id;
-	}
+    // Override toString method for better display
+    @Override
+    public String toString() {
+        return "\nProduct: " + "\nName\t\t\t" + name + "\nPublicPrice\t\t" + publicPrice + "\nWholesalerPrice\t\t"
+                + wholesalerPrice + "\nStock\t\t\t" + stock + "\n";
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    // Getters and Setters
+    @XmlAttribute(name = "id")
+    public int getId() {
+        return id;
+    }
 
-	@XmlAttribute(name = "name")
-	public String getName() {
-		return name;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @XmlAttribute(name = "name")
+    public String getName() {
+        return name;
+    }
 
-	public Amount getPublicPrice() {
-		return publicPrice;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setPublicPrice(Amount publicPrice) {
-		this.publicPrice = publicPrice;
-	}
+    public Amount getPublicPrice() {
+        return publicPrice;
+    }
 
-	// Specifies that the stock property should be marshalled/unmarshalled as an XML
-	// element named "wholesalerPrice"
-	@XmlElement(name = "wholesalerPrice")
-	public Amount getWholesalerPrice() {
-		return wholesalerPrice;
-	}
+    public void setPublicPrice(Amount publicPrice) {
+        this.publicPrice = publicPrice;
+    }
 
-	public void setWholesalerPrice(Amount wholesalerPrice) {
-		this.wholesalerPrice = wholesalerPrice;
-	}
+    @XmlElement(name = "wholesalerPrice")
+    public Amount getWholesalerPrice() {
+        return wholesalerPrice;
+    }
 
-	public boolean isAvailable() {
-		return available;
-	}
+    public void setWholesalerPrice(Amount wholesalerPrice) {
+        this.wholesalerPrice = wholesalerPrice;
+    }
 
-	public void setAvailable(boolean available) {
-		this.available = available;
-	}
+    public boolean isAvailable() {
+    	return this.stock <= 0 ? false : true;
+    }
 
-	// Specifies that the stock property should be marshalled/unmarshalled as an XML
-	// element named "stock"
-	@XmlElement(name = "stock")
-	public int getStock() {
-		return stock;
-	}
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
+    @XmlElement(name = "stock")
+    public int getStock() {
+        return stock;
+    }
 
-	public void expire() {
-		double increasedPrice = this.publicPrice.getValue() * EXPIRATION_RATE;
-		this.publicPrice.setValue(increasedPrice);
-	}
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 
-	public void calculatePublicPrice() {
-		// Check if wholesalerPrice is not null
-		if (this.wholesalerPrice != null) {
-			// Calculate the public price as double the wholesaler price
-			this.publicPrice = new Amount(this.wholesalerPrice.getValue() * 2); // Calcula como el doble del
-																				// wholesalerPrice
-		}
-	}
+    public void expire() {
+        double increasedPrice = this.publicPrice.getValue() * EXPIRATION_RATE;
+        this.publicPrice.setValue(increasedPrice);
+    }
 
-	public void setCurrency(String value) {
-		this.currency = value;
-	}
-	
-	public static int getTotalProducts() {
-	    return totalProducts;
-	}
+    public void calculatePublicPrice() {
+        if (this.wholesalerPrice != null) {
+            this.publicPrice = new Amount(this.wholesalerPrice.getValue() * 2);
+        }
+    }
 
+    public void setCurrency(String value) {
+        this.currency = value;
+    }
+
+    public static int getTotalProducts() {
+        return totalProducts;
+    }
 }

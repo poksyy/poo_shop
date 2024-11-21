@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<products>
+<products total="3">
     <product id="1" name="Apple">
-        <available>false</available>
+        <available>true</available>
         <wholesalerPrice currency="€">10.0</wholesalerPrice>
         <publicPrice currency="€">20.0</publicPrice>
         <stock>10</stock>
     </product>
     <product id="2" name="Strawberry">
-        <available>false</available>
+        <available>true</available>
         <wholesalerPrice currency="€">5.0</wholesalerPrice>
         <publicPrice currency="€">10.0</publicPrice>
         <stock>20</stock>
+    </product>
+    <product id="3" name="Pau">
+        <available>false</available>
+        <wholesalerPrice currency="€">20.0</wholesalerPrice>
+        <publicPrice currency="€">40.0</publicPrice>
+        <stock>0</stock>
     </product>
 </products>

@@ -36,7 +36,7 @@ public class Shop {
 	public ArrayList<Product> inventory = new ArrayList<>();
 	private ArrayList<Sale> sales = new ArrayList<>();
 	// private Dao daoFile = new DaoImplFile();
-	// private Dao daoXML = new DaoImplXML();
+	private Dao daoXML = new DaoImplXML();
 	private Dao daoJAXB = new DaoImplJaxb();
 
 	public Shop() {
