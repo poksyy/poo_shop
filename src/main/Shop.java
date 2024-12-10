@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import dao.Dao;
 import dao.DaoImplFile;
+import dao.DaoImplJDBC;
 import dao.DaoImplJaxb;
 //import dao.DaoImplFile;
 import dao.DaoImplXML;
@@ -36,9 +37,18 @@ public class Shop {
 
 	public ArrayList<Product> inventory = new ArrayList<>();
 	private ArrayList<Sale> sales = new ArrayList<>();
-	// private Dao daoFile = new DaoImplFile();
-	// private Dao daoXML = new DaoImplXML();
-	private Dao daoJAXB = new DaoImplJaxb();
+	// connection using Database
+	private Dao dao = new DaoImplJDBC();
+	
+	// connection using File
+	// private Dao dao = new DaoImplFile();
+	
+	//connection using Xml
+	//private Dao dao = new DaoImplXml();
+	
+	//connection using Jaxb
+	//private Dao dao = new DaoImplJaxb();
+	
 
 	public Shop() {
 		this.cash = new Amount(100.00);
@@ -130,13 +140,15 @@ public class Shop {
 	 * Load initial inventory to shop
 	 */
 	public void loadInventory() {
-		ArrayList<Product> loadedInventory = daoJAXB.getInventory();
+		dao.connect();
+		ArrayList<Product> loadedInventory = dao.getInventory();
 
 		if (loadedInventory != null && !loadedInventory.isEmpty()) {
 			setInventory(loadedInventory);
 		} else {
 			System.out.println("Empty inventory.");
 		}
+		dao.disconnect();
 	}
 
 	/**
@@ -145,7 +157,7 @@ public class Shop {
 	 * @return
 	 */
 	public boolean writeInventory() {
-		return daoJAXB.writeInventory(inventory);
+		return dao.writeInventory(inventory);
 	}
 
 	/**
