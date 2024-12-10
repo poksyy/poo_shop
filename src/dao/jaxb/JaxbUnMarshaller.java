@@ -6,6 +6,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import model.Amount;
 import model.Product;
 import model.ProductList;
 
@@ -22,7 +23,9 @@ public class JaxbUnMarshaller {
 
 			// Iterate through the products and calculate public price
 			for (Product product : products.getProducts()) {
-				product.calculatePublicPrice();
+				if (product.getWholesalerPrice() != null) {
+					product.setPublicPrice(new Amount(product.getWholesalerPrice().getValue() * 2));
+				}
 			}
 
 		} catch (JAXBException e) {

@@ -37,10 +37,22 @@ public class Product {
 		this.name = name;
 	}
 
+	// Constructor for sql db
+	public Product(int id, String name, Amount publicPrice, Amount wholesalerPrice, int stock) {
+		this.id = id;
+		this.name = name;
+	    this.publicPrice = new Amount(wholesalerPrice.getValue() * 2);
+		this.wholesalerPrice = wholesalerPrice;
+		this.stock = stock;
+		
+	}
+	
 	// Default constructor
 	public Product() {
 		this.id = ++totalProducts;
 	}
+
+
 
 	// Override toString method for better display
 	@Override
@@ -105,12 +117,6 @@ public class Product {
 	public void expire() {
 		double increasedPrice = this.publicPrice.getValue() * EXPIRATION_RATE;
 		this.publicPrice.setValue(increasedPrice);
-	}
-
-	public void calculatePublicPrice() {
-		if (this.wholesalerPrice != null) {
-			this.publicPrice = new Amount(this.wholesalerPrice.getValue() * 2);
-		}
 	}
 
 	public void setCurrency(String value) {
