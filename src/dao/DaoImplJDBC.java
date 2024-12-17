@@ -82,7 +82,7 @@ public class DaoImplJDBC implements Dao {
 	public boolean writeInventory(ArrayList<Product> inventory) {
 
 		// query to insert the product to an export table
-		String query = "INSERT INTO historical_inventory (id, name, wholesalerPrice, publicPrice, stock, created_at) "
+		String query = "INSERT INTO historical_inventory (id_product, name, wholesalerPrice, publicPrice, stock, created_at) "
 				+ "VALUES (?, ?, ?, ?, ?, NOW())";
 
 		// set in ps with the select values
