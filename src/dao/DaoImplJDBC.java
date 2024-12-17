@@ -141,15 +141,42 @@ public class DaoImplJDBC implements Dao {
 	        insertPs.setDouble(2, product.getWholesalerPrice().getValue());
 	        insertPs.setInt(3, product.getStock());
 
-	        // Execute the insert statement
+	        // execute the insert statement
 	        int rowsInserted = insertPs.executeUpdate();
 
 	        if (rowsInserted > 0) {
 	            System.out.println("Product added successfully: " + product.getName());
 	        }
 	    } catch (SQLException e) {
-	        // In case of SQL exception, print the stack trace
+	        // in case of SQL exception, print the stack trace
 	        System.err.println("Unable to add product: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	}
+
+	@Override
+	public void updateProduct(Product product) {
+		
+	    // query to update only the stock of an existing product in the database
+	    String query = "UPDATE products SET stock = ? WHERE name = ?";
+
+	    try (PreparedStatement ps = connection.prepareStatement(query)) {
+	    	
+	        // set the stock value and the product ID in the prepared statement
+	        ps.setInt(1, product.getStock());
+	        ps.setString(2, product.getName());
+
+	        // execute the update statement
+	        int rowsUpdated = ps.executeUpdate();
+
+	        if (rowsUpdated > 0) {
+	            System.out.println("Product stock updated successfully: " + product.getName());
+	        } else {
+	            System.err.println("Product with name " + product.getName() + " not found for update.");
+	        }
+	    } catch (SQLException e) {
+	        // in case of SQL exception, print the stack trace
+	        System.err.println("Unable to update product stock: " + e.getMessage());
 	        e.printStackTrace();
 	    }
 	}
@@ -157,14 +184,28 @@ public class DaoImplJDBC implements Dao {
 
 
 	@Override
-	public void updateProduct(Product product) {
-		// TODO Auto-generated method stub
+	public void deleteProduct(Product product) {
+	    
+		// query to delete a product by its name
+	    String query = "DELETE FROM products WHERE name = ?";
 
+	    try (PreparedStatement ps = connection.prepareStatement(query)) {
+	        // set the product name in the prepared statement
+	        ps.setString(1, product.getName());
+
+	        // execute the delete statement
+	        int rowsDeleted = ps.executeUpdate();
+
+	        if (rowsDeleted > 0) {
+	            System.out.println("Product deleted successfully: " +  product.getName());
+	        } else {
+	            System.err.println("Product with name " +  product.getName() + " not found for deletion.");
+	        }
+	    } catch (SQLException e) {
+	        // in case of SQL exception, print the stack trace
+	        System.err.println("Unable to delete product: " + e.getMessage());
+	        e.printStackTrace();
+	    }
 	}
 
-	@Override
-	public void deleteProduct(int productId) {
-		// TODO Auto-generated method stub
-
-	}
 }

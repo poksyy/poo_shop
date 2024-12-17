@@ -233,6 +233,9 @@ public class ProductView extends JDialog implements ActionListener {
             Product product = shop.findProduct(name);
             if (product != null) {
                 product.setStock(product.getStock() + additionalStock);
+                
+                shop.updateProduct(product);
+                
                 JOptionPane.showMessageDialog(this, "Stock added successfully.", "Information",
                         JOptionPane.INFORMATION_MESSAGE);
                 dispose();
@@ -256,6 +259,9 @@ public class ProductView extends JDialog implements ActionListener {
                     "Are you sure you want to delete the product " + name + "?", "Confirm Deletion",
                     JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
+
+            	shop.deleteProduct(product);
+
                 shop.inventory.remove(product);
                 JOptionPane.showMessageDialog(this, "Product removed successfully.", "Information",
                         JOptionPane.INFORMATION_MESSAGE);

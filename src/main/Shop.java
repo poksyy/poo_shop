@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.Dao;
-import dao.DaoImplFile;
-import dao.DaoImplJDBC;
-import dao.DaoImplJaxb;
 //import dao.DaoImplFile;
-import dao.DaoImplXML;
+import dao.DaoImplJDBC;
+//import dao.DaoImplJaxb;
+//import dao.DaoImplFile;
+//import dao.DaoImplXML;
 import model.Amount;
 import model.Client;
 import model.ClientPremium;
@@ -214,6 +214,11 @@ public class Shop {
 		}
 	}
 
+	// db option
+	public void updateProduct(Product product) {
+		dao.updateProduct(product);
+	}
+	
 	/**
 	 * 4th Option: Set a product as expired
 	 */
@@ -358,7 +363,7 @@ public class Shop {
 		String removeOption = sc.next();
 		switch (removeOption.toLowerCase()) {
 		case "yes":
-			inventory.remove(productRemove);
+			inventory.remove(productRemove);	
 			System.out.println("Product deleted successfully.");
 			break;
 		case "no":
@@ -367,6 +372,11 @@ public class Shop {
 		default:
 			System.err.println("That option does not exist.");
 		}
+	}
+	
+	// db option
+	public void deleteProduct(Product product) {
+		dao.deleteProduct(product);
 	}
 
 	/**
@@ -526,4 +536,5 @@ public class Shop {
 
 		System.out.println("Login successful. Welcome");
 	}
+
 }
