@@ -82,8 +82,8 @@ public class DaoImplJDBC implements Dao {
 	public boolean writeInventory(ArrayList<Product> inventory) {
 
 		// query to insert the product to an export table
-		String query = "INSERT INTO historical_inventory (id_product, name, wholesalerPrice, publicPrice, stock, created_at) "
-				+ "VALUES (?, ?, ?, ?, ?, NOW())";
+		String query = "INSERT INTO historical_inventory (id_product, name, wholesalerPrice, stock, created_at) "
+				+ "VALUES (?, ?, ?, ?, NOW())";
 
 		// set in ps with the select values
 		try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -91,8 +91,7 @@ public class DaoImplJDBC implements Dao {
 				ps.setInt(1, product.getId());
 				ps.setString(2, product.getName());
 				ps.setDouble(3, product.getWholesalerPrice().getValue());
-				ps.setDouble(4, product.getPublicPrice().getValue());
-				ps.setInt(5, product.getStock());
+				ps.setInt(4, product.getStock());
 				ps.addBatch();
 			}
 
