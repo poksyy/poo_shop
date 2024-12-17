@@ -429,7 +429,7 @@ public class Shop {
 	 * @param product the product to add
 	 */
 	public void addProduct(Product product) {
-		inventory.add(product);
+		dao.addProduct(product);
 	}
 
 	/**

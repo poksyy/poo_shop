@@ -20,6 +20,7 @@ public class InventoryView extends JDialog implements ActionListener {
 	 */
 	public InventoryView(Shop shop) {
 		this.shop = shop;
+        shop.loadInventory();
 		initializeUI();
 	}
 
