@@ -37,6 +37,7 @@ public class Shop {
 
 	public ArrayList<Product> inventory = new ArrayList<>();
 	private ArrayList<Sale> sales = new ArrayList<>();
+	
 	// connection using Database
 	private Dao dao = new DaoImplJDBC();
 	
@@ -148,7 +149,6 @@ public class Shop {
 		} else {
 			System.out.println("Empty inventory.");
 		}
-		dao.disconnect();
 	}
 
 	/**
@@ -195,7 +195,7 @@ public class Shop {
 	 * 3rd Option: Add stock for a specific product
 	 */
 	public void addStock() {
-		System.out.print("Select a product name: ");
+		System.out.println("Select a product name: ");
 		String name = sc.next();
 		Product product = findProduct(name);
 

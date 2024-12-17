@@ -74,42 +74,77 @@ public class DaoImplJDBC implements Dao {
     // Product management
     @Override
     public Product getProduct(int id) {
-        Product product = null;
-
-        // Query to select product from the database
-        String query = "SELECT * FROM products WHERE id = ?";
-
-        // Set a prepared statement with the select values
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    product = new Product(
-                        rs.getString("name"),
-                        rs.getDouble("wholesalerPrice"),
-                        rs.getBoolean("available"),
-                        rs.getInt("stock")
-                    );
-                    product.setId(rs.getInt("id"));
-                    product.setPublicPrice(new Amount(rs.getDouble("publicPrice")));
-                }
-            }
-            // In case of SQL exception, print the stack trace
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return product;
-    }
-
-    @Override
-    public ArrayList<Product> getInventory() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean writeInventory(ArrayList<Product> inventory) {
-        // TODO Auto-generated method stub
-        return false;
+        
+    	// query to insert the product to an export table
+        String query = "INSERT INTO historical_inventory (id, name, wholesaler_price, public_price, stock, created_at) "
+                + "VALUES (?, ?, ?, ?, ?, NOW())";
+        
+        // set in ps with the select values
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            for (Product product : inventory) {
+                ps.setInt(1, product.getId());
+                ps.setString(2, product.getName());
+                ps.setDouble(3, product.getWholesalerPrice().getValue());
+                ps.setDouble(4, product.getPublicPrice().getValue());
+                ps.setInt(5, product.getStock());
+                ps.addBatch();
+            }
+
+            // if the registration succeeds, display a message
+            int[] result = ps.executeBatch();
+            System.out.println("Inventory exported successfully: " + result.length + " products inserted.");
+
+            return true;
+        } catch (SQLException e) {
+            // in case of SQL exception, print the stack trace
+            System.err.println("Unable to export inventory to file: " + e.getMessage());
+            return false;
+        }
     }
+
+    @Override
+    public ArrayList<Product> getInventory() {
+        ArrayList<Product> products = new ArrayList<>();
+
+        // query to select the products from the db and add them to the array products
+        String query = "SELECT * FROM products";
+
+        // set in ps with the select values
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    products.add(new Product(rs.getInt(1), rs.getString(2), new Amount(rs.getDouble(3)),
+                            new Amount(rs.getDouble(3)), rs.getInt(5)));
+                }
+            }
+        } catch (SQLException e) {
+            // in case of SQL exception, print the stack trace
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+	@Override
+	public void addProduct(Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateProduct(Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteProduct(int productId) {
+		// TODO Auto-generated method stub
+		
+	}
 }
