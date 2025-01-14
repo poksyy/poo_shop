@@ -144,7 +144,7 @@ public class DaoImplJDBC implements Dao {
 	        int rowsInserted = insertPs.executeUpdate();
 
 	        if (rowsInserted > 0) {
-	            System.out.println("Product added successfully: " + product.getName());
+	        	System.out.println("Product added successfully (Name: " + product.getName() + ").");
 	        }
 	    } catch (SQLException e) {
 	        // in case of SQL exception, print the stack trace
@@ -157,21 +157,21 @@ public class DaoImplJDBC implements Dao {
 	public void updateProduct(Product product) {
 		
 	    // query to update only the stock of an existing product in the database
-	    String query = "UPDATE products SET stock = ? WHERE name = ?";
+	    String query = "UPDATE products SET stock = ? WHERE id = ?";
 
 	    try (PreparedStatement ps = connection.prepareStatement(query)) {
 	    	
 	        // set the stock value and the product ID in the prepared statement
 	        ps.setInt(1, product.getStock());
-	        ps.setString(2, product.getName());
+	        ps.setInt(2, product.getId());
 
 	        // execute the update statement
 	        int rowsUpdated = ps.executeUpdate();
 
 	        if (rowsUpdated > 0) {
-	            System.out.println("Product stock updated successfully: " + product.getName());
+	            System.out.println("Product updated successfully (ID: " + product.getId() + ", Name: " + product.getName() + ").");
 	        } else {
-	            System.err.println("Product with name " + product.getName() + " not found for update.");
+	            System.err.println("Error: Product not found for update (ID: " + product.getId() + ", Name: " + product.getName() + ").");
 	        }
 	    } catch (SQLException e) {
 	        // in case of SQL exception, print the stack trace
@@ -179,8 +179,6 @@ public class DaoImplJDBC implements Dao {
 	        e.printStackTrace();
 	    }
 	}
-
-
 
 	@Override
 	public void deleteProduct(Product product) {
@@ -196,9 +194,9 @@ public class DaoImplJDBC implements Dao {
 	        int rowsDeleted = ps.executeUpdate();
 
 	        if (rowsDeleted > 0) {
-	            System.out.println("Product (id: " + product.getId() + ") deleted successfully: " +  product.getName());
+	            System.out.println("Product deleted successfully (ID: " + product.getId() + ", Name: " + product.getName() + ").");
 	        } else {
-	            System.err.println("Product with name " +  product.getName() + " and " + product.getId() + "not found for deletion.");
+	            System.err.println("Error: Product not found for deletion (ID: " + product.getId() + ", Name: " + product.getName() + ").");
 	        }
 	    } catch (SQLException e) {
 	        // in case of SQL exception, print the stack trace
