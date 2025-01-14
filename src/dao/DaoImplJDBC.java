@@ -185,20 +185,20 @@ public class DaoImplJDBC implements Dao {
 	@Override
 	public void deleteProduct(Product product) {
 	    
-		// query to delete a product by its name
-	    String query = "DELETE FROM products WHERE name = ?";
+		// query to delete a product by its id
+	    String query = "DELETE FROM products WHERE id = ?";
 
 	    try (PreparedStatement ps = connection.prepareStatement(query)) {
-	        // set the product name in the prepared statement
-	        ps.setString(1, product.getName());
+	        // set the product id in the prepared statement
+	        ps.setInt(1, product.getId());
 
 	        // execute the delete statement
 	        int rowsDeleted = ps.executeUpdate();
 
 	        if (rowsDeleted > 0) {
-	            System.out.println("Product deleted successfully: " +  product.getName());
+	            System.out.println("Product (id: " + product.getId() + ") deleted successfully: " +  product.getName());
 	        } else {
-	            System.err.println("Product with name " +  product.getName() + " not found for deletion.");
+	            System.err.println("Product with name " +  product.getName() + " and " + product.getId() + "not found for deletion.");
 	        }
 	    } catch (SQLException e) {
 	        // in case of SQL exception, print the stack trace
