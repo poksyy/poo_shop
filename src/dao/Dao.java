@@ -19,9 +19,9 @@ public interface Dao {
 
 	// Product management
 	public Product getProduct(int id);
-    void addProduct(Product product);
-    void updateProduct(Product product);
-    void deleteProduct(Product product);
+	public void addProduct(Product product);
+	public void updateProduct(Product product);
+	public void deleteProduct(Product product);
 
-}
-	
+}	
+		
