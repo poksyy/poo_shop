@@ -24,9 +24,8 @@
         <property name="hibernate.current_session_context_class">thread</property>
 
         <property name="hibernate.transaction.coordinator_class">org.hibernate.transaction.JDBCTransactionFactory</property>
-        
+                
         <mapping class="model.Product"/>
-    	<mapping class="model.ProductHistory"/>
     
     </session-factory>
     

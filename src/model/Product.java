@@ -1,27 +1,49 @@
 package model;
 
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.persistence.*;
 
-@XmlRootElement(name = "product")
-@XmlType(propOrder = { "available", "wholesalerPrice", "publicPrice", "stock" })
+@Entity
+@Table(name = "products")
 public class Product {
-	private int id;
-	private String name;
-	private Amount publicPrice;
-	private Amount wholesalerPrice;
-	private boolean available;
-	private int stock;
-	private String currency;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
+    @Column(name = "name", nullable = false)
+    private String name;
+    
+    @Transient
+    private Amount publicPrice;
+    
+    @Transient
+    private Amount wholesalerPrice;
+    
+    @Column(name = "price") // New field that stores the integer value from wholesalerPrice
+    private double price;
 
-	// Static counter to assign unique IDs
-	private static int totalProducts;
+    @Column(name = "stock")
+    private int stock;
+    
+    @Transient // This field is not stored in the database
+    private boolean available;
+    
+    @Transient
+    private String currency;
 
-	public static double EXPIRATION_RATE = 0.60;
+    // Static counter to assign unique IDs (not stored in the database)
+    @Transient
+    private static int totalProducts;
 
-	// Constructor for creating a product
+    @Transient
+    public static double EXPIRATION_RATE = 0.60;
+
+    // Default constructor
+    public Product() {
+        this.id = ++totalProducts;
+    }
+    
+    // Constructor to create a product
 	public Product(String name, double wholesalerPrice, boolean available, int stock) {
 		this.id = ++totalProducts;
 		this.name = name;
@@ -31,13 +53,7 @@ public class Product {
 		this.stock = stock;
 	}
 
-	// Constructor for reading from XML (with name only)
-	public Product(String name) {
-		this.id = ++totalProducts;
-		this.name = name;
-	}
-
-	// Constructor for sql db
+    // Constructor for SQL database
 	public Product(int id, String name, Amount publicPrice, Amount wholesalerPrice, int stock) {
 		this.id = id;
 		this.name = name;
@@ -47,83 +63,83 @@ public class Product {
 		
 	}
 	
-	// Default constructor
-	public Product() {
+	// Constructor for reading from XML (with name only)
+	public Product(String name) {
 		this.id = ++totalProducts;
-	}
-
-
-
-	// Override toString method for better display
-	@Override
-	public String toString() {
-		return "\nProduct: " + "\nName\t\t\t" + name + "\nPublicPrice\t\t" + publicPrice + "\nWholesalerPrice\t\t"
-				+ wholesalerPrice + "\nStock\t\t\t" + stock + "\n";
-	}
-
-	// Getters and Setters
-	@XmlAttribute(name = "id")
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	@XmlAttribute(name = "name")
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
 		this.name = name;
 	}
+    
 
-	public Amount getPublicPrice() {
-		return publicPrice;
-	}
+    @Override
+    public String toString() {
+        return "\nProduct: " + "\nName\t\t\t" + name + "\nPublicPrice\t\t" + publicPrice +
+               "\nWholesalerPrice\t\t" + wholesalerPrice + "\nPrice\t\t\t" + price + "\nStock\t\t\t" + stock + "\n";
+    }
 
-	public void setPublicPrice(Amount publicPrice) {
-		this.publicPrice = publicPrice;
-	}
+    // Getters and setters
+    public int getId() {
+        return id;
+    }
 
-	@XmlElement(name = "wholesalerPrice")
-	public Amount getWholesalerPrice() {
-		return wholesalerPrice;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setWholesalerPrice(Amount wholesalerPrice) {
-		this.wholesalerPrice = wholesalerPrice;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public boolean isAvailable() {
-		return this.stock > 0;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setAvailable(boolean available) {
-		this.available = available;
-	}
+    public Amount getPublicPrice() {
+        return publicPrice;
+    }
 
-	@XmlElement(name = "stock")
-	public int getStock() {
-		return stock;
-	}
+    public void setPublicPrice(Amount publicPrice) {
+        this.publicPrice = publicPrice;
+    }
 
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
+    public Amount getWholesalerPrice() {
+        return wholesalerPrice;
+    }
 
-	public void expire() {
-		double increasedPrice = this.publicPrice.getValue() * EXPIRATION_RATE;
-		this.publicPrice.setValue(increasedPrice);
-	}
+    public void setWholesalerPrice(Amount wholesalerPrice) {
+        this.wholesalerPrice = wholesalerPrice;
+        this.price = wholesalerPrice.getValue(); // Update price when wholesalerPrice changes
+    }
 
-	public void setCurrency(String value) {
-		this.currency = value;
-	}
+    public double getPrice() {
+        return price;
+    }
 
-	public static int getTotalProducts() {
-		return totalProducts;
-	}
+    public boolean isAvailable() {
+        return this.stock > 0;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public void expire() {
+        double increasedPrice = this.publicPrice.getValue() * EXPIRATION_RATE;
+        this.publicPrice.setValue(increasedPrice);
+    }
+
+    public void setCurrency(String value) {
+        this.currency = value;
+    }
+
+    public static int getTotalProducts() {
+        return totalProducts;
+    }
 }

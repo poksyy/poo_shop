@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.Dao;
+import dao.DaoImplHibernate;
 //import dao.DaoImplFile;
 import dao.DaoImplJDBC;
 //import dao.DaoImplJaxb;
@@ -39,7 +40,10 @@ public class Shop {
 	private ArrayList<Sale> sales = new ArrayList<>();
 	
 	// connection using Database
-	private Dao dao = new DaoImplJDBC();
+	private Dao dao = new DaoImplHibernate();
+	
+	// connection using Database
+	// private Dao dao = new DaoImplJDBC();
 	
 	// connection using File
 	// private Dao dao = new DaoImplFile();
