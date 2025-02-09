@@ -22,7 +22,7 @@ public class Product {
     @Column(name = "available")
     private boolean available;
     
-    @Column(name = "price") // New field that stores the integer value from wholesalerPrice
+    @Column(name = "price")
     private double price;
 
     @Column(name = "stock")
