@@ -112,8 +112,21 @@ public class DaoImplHibernate implements Dao {
 
     @Override
     public void updateProduct(Product product) {
-
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.update(product);            
+            transaction.commit();
+            System.out.println("Product updated successfully: " + product);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.err.println("Error updating product: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     public void deleteProduct(Product product) {

@@ -143,4 +143,16 @@ public class Product {
     public static int getTotalProducts() {
         return totalProducts;
     }
+    
+    // publicPrice and wholesalerPrice fields are recalculated when the product is loaded from the database.
+    @PostLoad
+    private void initializePrices() {
+        if (this.wholesalerPrice == null && this.price > 0) {
+            this.wholesalerPrice = new Amount(this.price);
+        }
+        if (this.publicPrice == null && this.price > 0) {
+            this.publicPrice = new Amount(this.price * 2);
+        }
+    }
+
 }
