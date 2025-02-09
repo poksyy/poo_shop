@@ -14,6 +14,6 @@
         <property name="hibernate.transaction.coordinator_class">jdbc</property>
 
         <mapping class="model.Product"/>
-       <!-- <mapping class="model.ProductHistory"/> -->
+        <mapping class="model.ProductHistory"/>
     </session-factory>
 </hibernate-configuration>

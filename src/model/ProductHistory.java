@@ -2,6 +2,8 @@ package model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,16 +12,19 @@ import javax.persistence.Table;
 public class ProductHistory {
 
     @Id
-    @Column(name = "idProduct")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id; 
+    
+    @Column(name = "id_product")
     private int idProduct;
     
     @Column(name = "name")
     private String name;
     
-    @Column(name = "wholesalerPrice")
+    @Column(name = "wholesaler_price")
     private double wholesalerPrice;
     
-    @Column(name = "publicPrice")
+    @Column(name = "public_price")
     private double publicPrice;
     
     @Column(name = "stock")
