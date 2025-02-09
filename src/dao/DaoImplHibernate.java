@@ -80,18 +80,6 @@ public class DaoImplHibernate implements Dao {
 //        }
     	return false;
     }
-    
-    @Override
-    public Employee getEmployee(int id, String password) {
-
-        return null;
-    }
-
-    @Override
-    public Product getProduct(int id) {
-
-        return null;
-    }
 
     @Override
     public void addProduct(Product product) {
@@ -130,6 +118,30 @@ public class DaoImplHibernate implements Dao {
 
     @Override
     public void deleteProduct(Product product) {
-    	
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.delete(product); 
+            transaction.commit();
+            System.out.println("Product deleted successfully");
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            System.err.println("Error deleting product: " + e.getMessage());
+        }
+    }
+    
+    @Override
+    public Employee getEmployee(int id, String password) {
+
+        return null;
+    }
+
+    @Override
+    public Product getProduct(int id) {
+
+        return null;
     }
 }
