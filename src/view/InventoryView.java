@@ -43,7 +43,8 @@ public class InventoryView extends JDialog implements ActionListener {
 		}
 
 		// Create the table
-		String[] columnNames = { "Id", "Name", "Public Price", "Wholesaler Price", "Stock" };
+		//String[] columnNames = { "Id", "Name", "Public Price", "Wholesaler Price", "Stock" };
+		String[] columnNames = { "Id", "Name", "Price", "Available", "Stock" };
 		Object[][] data = new Object[products.size()][columnNames.length];
 
 		// Insert data into the table
@@ -67,8 +68,8 @@ public class InventoryView extends JDialog implements ActionListener {
 			Product product = products.get(i);
 			data[i][0] = product.getId();
 			data[i][1] = product.getName();
-			data[i][2] = product.getPublicPrice();
-			data[i][3] = product.getWholesalerPrice();
+			data[i][2] = product.getPrice();
+			data[i][3] = product.isAvailable();
 			data[i][4] = product.getStock();
 		}
 	}

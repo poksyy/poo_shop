@@ -19,14 +19,14 @@ public class Product {
     @Transient
     private Amount wholesalerPrice;
     
+    @Column(name = "available")
+    private boolean available;
+    
     @Column(name = "price") // New field that stores the integer value from wholesalerPrice
     private double price;
 
     @Column(name = "stock")
     private int stock;
-    
-    @Transient // This field is not stored in the database
-    private boolean available;
     
     @Transient
     private String currency;
