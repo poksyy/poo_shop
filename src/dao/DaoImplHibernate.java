@@ -25,7 +25,6 @@ public class DaoImplHibernate implements Dao {
 
     @Override
     public void connect() {
-        // Ya se inicializó sessionFactory en el constructor, no es necesario aquí.
     }
 
     @Override
@@ -96,7 +95,19 @@ public class DaoImplHibernate implements Dao {
 
     @Override
     public void addProduct(Product product) {
-
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.save(product);
+            transaction.commit();
+            System.out.println("Product added successfully: " + product);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.err.println("Error adding product: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override

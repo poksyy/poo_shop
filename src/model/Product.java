@@ -49,6 +49,7 @@ public class Product {
 		this.name = name;
 		this.wholesalerPrice = new Amount(wholesalerPrice);
 		this.publicPrice = new Amount(wholesalerPrice * 2);
+		this.price = wholesalerPrice;
 		this.available = available;
 		this.stock = stock;
 	}
@@ -107,7 +108,7 @@ public class Product {
 
     public void setWholesalerPrice(Amount wholesalerPrice) {
         this.wholesalerPrice = wholesalerPrice;
-        this.price = wholesalerPrice.getValue(); // Update price when wholesalerPrice changes
+        this.price = wholesalerPrice.getValue();
     }
 
     public double getPrice() {
