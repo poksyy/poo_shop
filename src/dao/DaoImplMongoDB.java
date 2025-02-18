@@ -1,11 +1,17 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import org.bson.Document;
+
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import model.Amount;
 import model.Employee;
 import model.Product;
 
@@ -29,6 +35,7 @@ public class DaoImplMongoDB implements Dao{
             System.err.println("Error connecting to the database: " + e.getMessage());
         }
     }
+    
     @Override
     public void disconnect() {
         if (mongoClient != null) {
@@ -36,11 +43,45 @@ public class DaoImplMongoDB implements Dao{
         }
     }
 
-	@Override
-	public ArrayList<Product> getInventory() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public ArrayList<Product> getInventory() {
+        ArrayList<Product> inventory = new ArrayList<>();
+        
+        try {
+            MongoCollection<Document> collection = database.getCollection("inventory");
+            FindIterable<Document> documents = collection.find();
+            
+            for (Document doc : documents) {
+                Document wholesalerPriceDoc = (Document) doc.get("wholesalerPrice");
+                Amount wholesalerPrice = null;
+                if (wholesalerPriceDoc != null) {
+                    wholesalerPrice = new Amount(wholesalerPriceDoc.getDouble("value"), wholesalerPriceDoc.getString("currency"));
+                }
+
+                int id = doc.getInteger("id", 0);
+
+                boolean available = doc.getBoolean("available", false);
+                int stock = doc.getInteger("stock", 0);
+                Date createdAt = doc.getDate("created_at");
+
+                Product product = new Product(
+                    id, 
+                    doc.getString("name"),
+                    wholesalerPrice,
+                    available,
+                    stock,
+                    createdAt
+                );
+                
+                inventory.add(product);
+            }
+        } catch (Exception e) {
+            System.err.println("Error retrieving inventory: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return inventory;
+    }
 
 	@Override
 	public boolean writeInventory(ArrayList<Product> inventory) {
@@ -48,11 +89,30 @@ public class DaoImplMongoDB implements Dao{
 		return false;
 	}
 
-	@Override
-	public Employee getEmployee(int id, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Employee getEmployee(int id, String password) {
+        Employee employee = null;
+
+        try {
+            MongoCollection<Document> collection = database.getCollection("employees");
+
+            Document query = new Document("id", id)
+                                .append("password", password);
+
+            FindIterable<Document> documents = collection.find(query);
+
+            for (Document doc : documents) {
+                employee = new Employee(doc.getInteger("id"), doc.getString("password"));
+                break;
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error retrieving employee: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return employee;
+    }
 
 	@Override
 	public Product getProduct(int id) {

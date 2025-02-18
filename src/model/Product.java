@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity
@@ -30,6 +32,8 @@ public class Product {
     
     @Transient
     private String currency;
+    
+    private Date createdAt;
 
     // Static counter to assign unique IDs (not stored in the database)
     @Transient
@@ -69,7 +73,16 @@ public class Product {
 		this.id = ++totalProducts;
 		this.name = name;
 	}
-    
+	
+    // Constructor for NoSQL MongoDB
+	public Product(int id, String name, Amount wholesalerPrice, boolean available, int stock, Date createdAt) {
+		this.id = id;
+	    this.name = name;
+	    this.wholesalerPrice = wholesalerPrice;
+	    this.available = available;
+	    this.stock = stock;
+	    this.createdAt = createdAt;
+	}
 
     @Override
     public String toString() {

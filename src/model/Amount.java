@@ -15,6 +15,11 @@ public class Amount {
 		this.value = newValue;
 	}
 
+    public Amount(double value, String currency) {
+        this.value = value;
+        this.currency = currency;
+    }
+	
 	public Amount(Amount totalAmount) {
 		if (totalAmount != null) {
 			this.value = totalAmount.getValue();

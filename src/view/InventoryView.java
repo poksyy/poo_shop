@@ -68,7 +68,7 @@ public class InventoryView extends JDialog implements ActionListener {
 			Product product = products.get(i);
 			data[i][0] = product.getId();
 			data[i][1] = product.getName();
-			data[i][2] = product.getPrice();
+			data[i][2] = product.getWholesalerPrice();
 			data[i][3] = product.isAvailable();
 			data[i][4] = product.getStock();
 		}
