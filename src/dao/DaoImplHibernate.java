@@ -62,8 +62,7 @@ public class DaoImplHibernate implements Dao {
                 ProductHistory history = new ProductHistory();
                 history.setIdProduct(product.getId());
                 history.setName(product.getName());
-                history.setWholesalerPrice(product.getWholesalerPrice().getValue());
-                history.setPublicPrice(product.getPublicPrice().getValue());
+                history.setPrice(product.getPrice());
                 history.setStock(product.getStock());
                 
                 session.persist(history);
