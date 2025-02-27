@@ -59,14 +59,14 @@ public class DaoImplMongoDB implements Dao{
                 }
 
                 int id = doc.getInteger("id", 0);
-
+                String name = doc.getString("name");
                 boolean available = doc.getBoolean("available", false);
                 int stock = doc.getInteger("stock", 0);
                 Date createdAt = doc.getDate("created_at");
 
                 Product product = new Product(
                     id, 
-                    doc.getString("name"),
+                    name,
                     wholesalerPrice,
                     available,
                     stock,
