@@ -143,8 +143,27 @@ public class DaoImplMongoDB implements Dao{
 
 	@Override
 	public void updateProduct(Product product) {
-		// TODO Auto-generated method stub
-		
+	    try {
+	        MongoCollection<Document> collection = database.getCollection("inventory");
+
+	        Document query = new Document("id", product.getId());
+
+	        Document updateFields = new Document()
+	                .append("name", product.getName())
+	                .append("wholesalerPrice", new Document("value", product.getWholesalerPrice().getValue())
+	                                             .append("currency", "€"))
+	                .append("stock", product.getStock())
+	                .append("available", product.isAvailable());
+
+	        Document updateOperation = new Document("$set", updateFields);
+
+	        collection.updateOne(query, updateOperation);
+	        System.out.println("Product updated successfully (ID: " + product.getId() + ").");
+
+	    } catch (Exception e) {
+	        System.err.println("Unable to update product: " + e.getMessage());
+	        e.printStackTrace();
+	    }
 	}
 
 	@Override
