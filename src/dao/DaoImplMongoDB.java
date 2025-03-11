@@ -166,10 +166,21 @@ public class DaoImplMongoDB implements Dao{
 	    }
 	}
 
+
 	@Override
 	public void deleteProduct(Product product) {
-		// TODO Auto-generated method stub
-		
+	    try {
+	        MongoCollection<Document> collection = database.getCollection("inventory");
+
+	        Document query = new Document("id", product.getId());
+
+	        collection.deleteOne(query);
+	        System.out.println("Product deleted successfully (ID: " + product.getId() + ").");
+
+	    } catch (Exception e) {
+	        System.err.println("Unable to delete product: " + e.getMessage());
+	        e.printStackTrace();
+	    }
 	}
 
 }
