@@ -85,8 +85,34 @@ public class DaoImplMongoDB implements Dao{
 
 	@Override
 	public boolean writeInventory(ArrayList<Product> inventory) {
-		// TODO Auto-generated method stub
-		return false;
+        try {
+            MongoCollection<Document> collection = database.getCollection("historical_inventory");
+
+            ArrayList<Document> historyDocuments = new ArrayList<>();
+
+            for (Product product : inventory) {
+                Document historyDoc = new Document()
+                        .append("idProduct", product.getId())
+                        .append("name", product.getName())
+                        .append("price", product.getPrice())
+                        .append("stock", product.getStock())
+                        .append("timestamp", new Date());
+
+                historyDocuments.add(historyDoc);
+            }
+
+            if (!historyDocuments.isEmpty()) {
+                collection.insertMany(historyDocuments);
+                System.out.println("Inventory history successfully exported: " + inventory.size() + " products inserted.");
+                return true;
+            }
+
+        } catch (Exception e) {
+            System.err.println("Unable to export inventory history: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return false;
 	}
 
     @Override
