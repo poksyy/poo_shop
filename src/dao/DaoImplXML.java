@@ -13,8 +13,14 @@ import org.xml.sax.SAXException;
 import dao.xml.DomWriter;
 import model.Employee;
 import model.Product;
+import model.Sale;
 
 public class DaoImplXML implements Dao {
+
+	@Override
+	public Employee getEmployee(int id, String password) {
+		return null;
+	}
 
 	/**
 	 * Retrieves the product inventory from an XML file. Uses SAX parser to read XML
@@ -64,45 +70,32 @@ public class DaoImplXML implements Dao {
 	}
 
 	@Override
-	public Employee getEmployee(int id, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Product getProduct(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void connect() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void disconnect() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void addProduct(Product product) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void updateProduct(Product product) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void deleteProduct(Product product) {
-		// TODO Auto-generated method stub
-		
+	}
+
+	@Override
+	public void addSale(Sale sale) {
 	}
 
 }

@@ -75,10 +75,11 @@ public class Product {
 	}
 	
     // Constructor for NoSQL MongoDB
-	public Product(int id, String name, Amount wholesalerPrice, boolean available, int stock, Date createdAt) {
+	public Product(int id, String name, Amount wholesalerPrice, Amount publicPrice, boolean available, int stock, Date createdAt) {
 		this.id = id;
 	    this.name = name;
 	    this.wholesalerPrice = wholesalerPrice;
+	    this.publicPrice = new Amount(wholesalerPrice.getValue() * 2);
 	    this.available = available;
 	    this.stock = stock;
 	    this.createdAt = createdAt;

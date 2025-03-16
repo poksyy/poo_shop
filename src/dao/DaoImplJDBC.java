@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import model.Amount;
 import model.Employee;
 import model.Product;
+import model.Sale;
 
 public class DaoImplJDBC implements Dao {
 
@@ -18,7 +19,6 @@ public class DaoImplJDBC implements Dao {
 	public DaoImplJDBC() {
 	}
 
-	// Connection management
 	@Override
 	public void connect() {
 		// Database connection
@@ -46,7 +46,6 @@ public class DaoImplJDBC implements Dao {
 		}
 	}
 
-	// Employee management
 	@Override
 	public Employee getEmployee(int id, String password) {
 		Employee employee = null;
@@ -69,13 +68,6 @@ public class DaoImplJDBC implements Dao {
 			e.printStackTrace();
 		}
 		return employee;
-	}
-
-	// Product management
-	@Override
-	public Product getProduct(int id) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -130,79 +122,92 @@ public class DaoImplJDBC implements Dao {
 	}
 
 	@Override
+	public Product getProduct(int id) {
+		return null;
+	}
+
+	@Override
 	public void addProduct(Product product) {
-	    
+
 		// query to insert a new product into the database
-	    String insertQuery = "INSERT INTO products (name, wholesalerPrice, stock) VALUES (?, ?, ?)";
+		String insertQuery = "INSERT INTO products (name, wholesalerPrice, stock) VALUES (?, ?, ?)";
 
-	    try (PreparedStatement insertPs = connection.prepareStatement(insertQuery)) {
-	        insertPs.setString(1, product.getName());
-	        insertPs.setDouble(2, product.getWholesalerPrice().getValue());
-	        insertPs.setInt(3, product.getStock());
+		try (PreparedStatement insertPs = connection.prepareStatement(insertQuery)) {
+			insertPs.setString(1, product.getName());
+			insertPs.setDouble(2, product.getWholesalerPrice().getValue());
+			insertPs.setInt(3, product.getStock());
 
-	        // execute the insert statement
-	        int rowsInserted = insertPs.executeUpdate();
+			// execute the insert statement
+			int rowsInserted = insertPs.executeUpdate();
 
-	        if (rowsInserted > 0) {
-	        	System.out.println("Product added successfully (Name: " + product.getName() + ").");
-	        }
-	    } catch (SQLException e) {
-	        // in case of SQL exception, print the stack trace
-	        System.err.println("Unable to add product: " + e.getMessage());
-	        e.printStackTrace();
-	    }
+			if (rowsInserted > 0) {
+				System.out.println("Product added successfully (Name: " + product.getName() + ").");
+			}
+		} catch (SQLException e) {
+			// in case of SQL exception, print the stack trace
+			System.err.println("Unable to add product: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void updateProduct(Product product) {
-		
-	    // query to update only the stock of an existing product in the database
-	    String query = "UPDATE products SET stock = ? WHERE id = ?";
 
-	    try (PreparedStatement ps = connection.prepareStatement(query)) {
-	    	
-	        // set the stock value and the product ID in the prepared statement
-	        ps.setInt(1, product.getStock());
-	        ps.setInt(2, product.getId());
+		// query to update only the stock of an existing product in the database
+		String query = "UPDATE products SET stock = ? WHERE id = ?";
 
-	        // execute the update statement
-	        int rowsUpdated = ps.executeUpdate();
+		try (PreparedStatement ps = connection.prepareStatement(query)) {
 
-	        if (rowsUpdated > 0) {
-	            System.out.println("Product updated successfully (ID: " + product.getId() + ", Name: " + product.getName() + ").");
-	        } else {
-	            System.err.println("Error: Product not found for update (ID: " + product.getId() + ", Name: " + product.getName() + ").");
-	        }
-	    } catch (SQLException e) {
-	        // in case of SQL exception, print the stack trace
-	        System.err.println("Unable to update product stock: " + e.getMessage());
-	        e.printStackTrace();
-	    }
+			// set the stock value and the product ID in the prepared statement
+			ps.setInt(1, product.getStock());
+			ps.setInt(2, product.getId());
+
+			// execute the update statement
+			int rowsUpdated = ps.executeUpdate();
+
+			if (rowsUpdated > 0) {
+				System.out.println(
+						"Product updated successfully (ID: " + product.getId() + ", Name: " + product.getName() + ").");
+			} else {
+				System.err.println("Error: Product not found for update (ID: " + product.getId() + ", Name: "
+						+ product.getName() + ").");
+			}
+		} catch (SQLException e) {
+			// in case of SQL exception, print the stack trace
+			System.err.println("Unable to update product stock: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void deleteProduct(Product product) {
-	    
+
 		// query to delete a product by its id
-	    String query = "DELETE FROM products WHERE id = ?";
+		String query = "DELETE FROM products WHERE id = ?";
 
-	    try (PreparedStatement ps = connection.prepareStatement(query)) {
-	        // set the product id in the prepared statement
-	        ps.setInt(1, product.getId());
+		try (PreparedStatement ps = connection.prepareStatement(query)) {
+			// set the product id in the prepared statement
+			ps.setInt(1, product.getId());
 
-	        // execute the delete statement
-	        int rowsDeleted = ps.executeUpdate();
+			// execute the delete statement
+			int rowsDeleted = ps.executeUpdate();
 
-	        if (rowsDeleted > 0) {
-	            System.out.println("Product deleted successfully (ID: " + product.getId() + ", Name: " + product.getName() + ").");
-	        } else {
-	            System.err.println("Error: Product not found for deletion (ID: " + product.getId() + ", Name: " + product.getName() + ").");
-	        }
-	    } catch (SQLException e) {
-	        // in case of SQL exception, print the stack trace
-	        System.err.println("Unable to delete product: " + e.getMessage());
-	        e.printStackTrace();
-	    }
+			if (rowsDeleted > 0) {
+				System.out.println(
+						"Product deleted successfully (ID: " + product.getId() + ", Name: " + product.getName() + ").");
+			} else {
+				System.err.println("Error: Product not found for deletion (ID: " + product.getId() + ", Name: "
+						+ product.getName() + ").");
+			}
+		} catch (SQLException e) {
+			// in case of SQL exception, print the stack trace
+			System.err.println("Unable to delete product: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void addSale(Sale sale) {
 	}
 
 }

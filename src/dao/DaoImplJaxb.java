@@ -8,22 +8,23 @@ import dao.jaxb.JaxbUnMarshaller;
 import model.Employee;
 import model.Product;
 import model.ProductList;
+import model.Sale;
 
 public class DaoImplJaxb implements Dao {
 
 	@Override
 	public void connect() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void disconnect() {
-		// TODO Auto-generated method stub
-
 	}
 
-	// Get the inventory of products by unmarshalling the XML data
+	@Override
+	public Employee getEmployee(int id, String password) {
+		return null;
+	}
+
 	@Override
 	public ArrayList<Product> getInventory() {
 		// Initialize the product list by unmarshalling the XML data
@@ -50,33 +51,24 @@ public class DaoImplJaxb implements Dao {
 	}
 
 	@Override
-	public Employee getEmployee(int id, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Product getProduct(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void addProduct(Product product) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void updateProduct(Product product) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void deleteProduct(Product product) {
-		// TODO Auto-generated method stub
-		
+	}
+
+	@Override
+	public void addSale(Sale sale) {
 	}
 
 }

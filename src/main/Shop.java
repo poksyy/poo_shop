@@ -257,9 +257,20 @@ public class Shop {
 	}
 
 	/**
+	 * Add a sale to database.
+	 * 
+	 * @param sale the sale to add
+	 */
+	public void addSale(Sale sale) {
+		System.out.println("Before calling addSale");
+		dao.addSale(sale);
+	}
+
+	/**
 	 * 6th Option: Make a sale of products to a client
 	 */
 	public void sale() {
+		
 		String date = getCurrentDateTimeFormatted();
 		ArrayList<Product> products = new ArrayList<>();
 		int saleId = saleIdCounter++;
@@ -331,6 +342,8 @@ public class Shop {
 			}
 
 			Sale sale = new Sale(saleId, name, products, totalAmount, date);
+			addSale(sale);
+
 			sales.add(sale);
 		} else {
 			System.err.println("Sale canceled.");
